@@ -40,11 +40,14 @@ ENDIF()
 
 # Declare Headers
 SET(${PROJECT_NAME}_HEADERS
+  include/hpp/manipulation/srdf/parser.hh
   )
 
-#ADD_REQUIRED_DEPENDENCY("hpp-util >= 3")
+ADD_REQUIRED_DEPENDENCY("tinyxml2 >= 0.26")
+ADD_REQUIRED_DEPENDENCY("hpp-util")
 
 ADD_SUBDIRECTORY(src)
+ADD_SUBDIRECTORY(tests)
 
 SETUP_PROJECT_FINALIZE()
 SETUP_PROJECT_CPACK()

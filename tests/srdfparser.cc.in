@@ -1,0 +1,97 @@
+// Copyright (c) 2014, LAAS-CNRS
+// Authors: Joseph Mirabel (joseph.mirabel@laas.fr)
+//
+// This file is part of hpp-manipulation-urdf.
+// hpp-manipulation-urdf is free software: you can redistribute it
+// and/or modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation, either version
+// 3 of the License, or (at your option) any later version.
+//
+// hpp-manipulation-urdf is distributed in the hope that it will be
+// useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+// of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// General Lesser Public License for more details.  You should have
+// received a copy of the GNU Lesser General Public License along with
+// hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
+
+#define BOOST_TEST_MODULE Parser
+#include <boost/test/included/unit_test.hpp>
+
+#include <hpp/util/debug.hh>
+#include "hpp/manipulation/srdf/parser.hh"
+
+using namespace hpp::manipulation::srdf;
+
+class Test {
+  public:
+    int i;
+    double d;
+    std::string name;
+};
+
+class TestFactory : public ObjectFactory {
+  public:
+    static ObjectFactory* create (ObjectFactory* parent = NULL, const XMLElement* element = NULL)
+    {
+      return new TestFactory (parent, element);
+    }
+
+    /// Called for each attribute
+    virtual void setAttribute (const std::string attName)
+    {
+      if (attName == "name")
+        obj_.name = std::string (XMLelement ()->FindAttribute ("name")->Value ());
+    }
+
+    Test* object ()
+    {
+      return &obj_;
+    }
+
+  protected:
+    TestFactory (ObjectFactory* parent, const XMLElement* element) :
+          ObjectFactory (parent, element) {}
+
+  private:
+    Test obj_;
+};
+
+class TestDFactory : public ObjectFactory {
+  public:
+    static ObjectFactory* create (ObjectFactory* parent = NULL, const XMLElement* element = NULL)
+    {
+      return new TestDFactory (parent, element);
+    }
+
+    /// Called when the object is created.
+    /// It should create a new object;
+    virtual void init () 
+    {
+      if (!hasParent ())
+        throw std::logic_error ("Parent cannot be null.");
+    }
+
+    /// Add Text child.
+    virtual void addTextChild (const XMLText* text)
+    {
+      TestFactory* tf = dynamic_cast <TestFactory*> (parent ());
+      double* d = &(tf->object ()->d);
+      if (!XMLUtil::ToDouble( text->Value (), d )) {
+        hppDout (error, "Unable to cast TAG1 to double");
+      }
+    }
+
+  protected:
+    TestDFactory (ObjectFactory* parent, const XMLElement* element) :
+          ObjectFactory (parent, element) {}
+};
+
+BOOST_AUTO_TEST_CASE (srdfparser)
+{
+  Parser p;
+  p.addObjectFactory ("test", TestFactory::create);
+  p.addObjectFactory ("tag1", TestDFactory::create);
+  p.parseFile ("@CMAKE_SOURCE_DIR@/tests/ressources/basic.srdf");
+  
+  std::cout << p;
+}

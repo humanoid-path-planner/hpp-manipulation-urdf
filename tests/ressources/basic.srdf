@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<robot name="box">
+  <test name="handle">
+    <tag1>0</tag1>
+    <tag2 name="base_link"/>
+  </test>
+  <test name="handle2">
+    <tag1>0.54326 </tag1>
+    <tag2 name="test"/>
+  </test>
+</robot>
