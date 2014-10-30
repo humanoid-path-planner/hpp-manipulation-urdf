@@ -22,6 +22,7 @@
 #include <hpp/manipulation/axial-handle.hh>
 
 #include <hpp/model/device.hh>
+#include <hpp/model/gripper.hh>
 
 namespace hpp {
   namespace manipulation {
@@ -51,10 +52,6 @@ namespace hpp {
         return p_;
       }
 
-      void HandleFactory::impl_setAttribute (const XMLAttribute*)
-      {
-      }
-
       void HandleFactory::finishTags ()
       {
         std::list <ObjectFactory*> factories = getChildrenOfType ("local_position");
@@ -70,7 +67,7 @@ namespace hpp {
           return;
         }
         linkName_ = factories.front ()->name ();
-        
+
         /// We have now all the information to build the handle.
         if (!root ()->device ()) {
           hppDout (error, "Failed to create handle");
@@ -83,6 +80,48 @@ namespace hpp {
       HandlePtr_t HandleFactory::handle () const
       {
         return handle_;
+      }
+
+      void GripperFactory::finishTags ()
+      {
+        ObjectFactoryList factories = getChildrenOfType ("local_position_in_joint");
+        if (factories.size () != 1) {
+          hppDout (error, "handle should have exactly one <local_position_in_joint>");
+          return;
+        }
+        PositionFactory* pf = factories.front ()->as <PositionFactory> ();
+        localPosition_ = pf->position ();
+
+        factories = getChildrenOfType ("link");
+        if (factories.size () != 1) {
+          hppDout (error, "handle should have exactly one <local_position>");
+          return;
+        }
+        linkName_ = factories.front ()->name ();
+
+        factories = getChildrenOfType ("disable_collision");
+        for (ObjectFactoryList::const_iterator it = factories.begin ();
+            it != factories.end (); it++)
+          collisionLinks_.push_back ((*it)->getAttribute ("link"));
+
+        /// We have now all the information to build the handle.
+        if (!root ()->device ()) {
+          hppDout (error, "Failed to create handle");
+          return;
+        }
+        model::JointVector_t joints;
+        for (std::list <std::string>::const_iterator it = collisionLinks_.begin ();
+            it != collisionLinks_.end (); it++) {
+          joints.push_back (root ()->device ()->getJointByBodyName (*it));
+        }
+        JointPtr_t joint = root ()->device ()->getJointByBodyName (linkName_);
+        gripper_ = model::Gripper::create (name (), joint, localPosition_, joints);
+        root ()->device ()->addGripper (gripper_);
+      }
+
+      GripperPtr_t GripperFactory::gripper () const
+      {
+        return gripper_;
       }
     } // namespace srdf
   } // namespace manipulation

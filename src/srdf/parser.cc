@@ -260,7 +260,18 @@ namespace hpp {
             id_ = (int)v;
           }
         }
+        attrMap_ [n] = attr->Value ();
         impl_setAttribute (attr);
+      }
+
+      std::string ObjectFactory::getAttribute (const std::string& attr) const
+      {
+        AttributeMap::const_iterator it = attrMap_.find (attr);
+        if (it == attrMap_.end ()) {
+          hppDout (error, "Asking for attribute " << attr);
+          return std::string ();
+        }
+        return it->second;
       }
 
       RootFactory::RootFactory (const model::DevicePtr_t dev) :

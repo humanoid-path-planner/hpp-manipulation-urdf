@@ -14,38 +14,52 @@
 // received a copy of the GNU Lesser General Public License along with
 // hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HPP_MANIPULATION_SRDF_UTIL_HH
-# define HPP_MANIPULATION_SRDF_UTIL_HH
-
-# include <hpp/model/urdf/util.hh>
+#include "hpp/manipulation/srdf/util.hh"
 
 namespace hpp {
   namespace manipulation {
     namespace srdf {
-      /// \note This function reads the following files:
-      /// \li
-      /// package://${modelName}_description/urdf/${modelName}${urdfSuffix}.urdf
-      /// \li
-      /// package://${modelName}_description/srdf/${modelName}${srdfSuffix}.srdf
-      void loadObjectModel (const DevicePtr_t& robot,
+      void loadObjectModel (const ObjectPtr_t& robot,
           const std::string& rootJointType,
           const std::string& package,
           const std::string& modelName,
           const std::string& urdfSuffix,
-          const std::string& srdfSuffix);
+          const std::string& srdfSuffix)
+      {
+        hpp::model::urdf::loadRobotModel (robot, rootJointType, package, modelName, urdfSuffix, srdfSuffix);
 
-      /// \note This function reads the following files:
-      /// \li
-      /// package://${modelName}_description/urdf/${modelName}${urdfSuffix}.urdf
-      /// \li
-      /// package://${modelName}_description/srdf/${modelName}${srdfSuffix}.srdf
+        std::string srdfPath = "package://" + package + "/srdf/"
+          + modelName + srdfSuffix + ".srdf";
+
+        // Build robot model from URDF.
+        Parser handleParser();
+        handleParser.addObjectFactory ("handle", create <HandleFactory>);
+        handleParser.addObjectFactory ("local_position", create <PositionFactory>);
+
+        handleParser.parse ();
+        hppDout (notice, "Finished parsing handles.");
+      }
+
       void loadRobotModel (const DevicePtr_t& robot,
           const std::string& rootJointType,
           const std::string& package,
           const std::string& modelName,
           const std::string& urdfSuffix,
-          const std::string& srdfSuffix);
+          const std::string& srdfSuffix)
+      {
+        hpp::model::urdf::loadRobotModel (robot, rootJointType, package, modelName, urdfSuffix, srdfSuffix);
+
+        std::string srdfPath = "package://" + package + "/srdf/"
+          + modelName + srdfSuffix + ".srdf";
+
+        // Build robot model from URDF.
+        Parser gripperParser();
+        gripperParser.addObjectFactory ("gripper", create <GripperFactory>);
+        gripperParser.addObjectFactory ("handle_position_in_joint", create <PositionFactory>);
+
+        gripperParser.parse ();
+        hppDout (notice, "Finished parsing grippers.");
+      }
     } // namespace srdf
   } // namespace manipulation
 } // namespace hpp
-#endif // HPP_MANIPULATION_SRDF_UTIL_HH

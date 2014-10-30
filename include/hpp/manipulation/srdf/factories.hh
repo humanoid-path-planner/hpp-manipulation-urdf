@@ -38,13 +38,28 @@ namespace hpp {
           Transform3f p_;
       };
 
+      class GripperFactory : public ObjectFactory {
+        public:
+          GripperFactory (ObjectFactory* parent, const XMLElement* element) :
+            ObjectFactory (parent, element) {}
+
+          virtual void finishTags ();
+
+          GripperPtr_t gripper () const;
+
+        protected:
+          GripperPtr_t gripper_;
+
+          /// The element required to build the gripper.
+          Transform3f localPosition_;
+          std::string linkName_;
+          std::list <std::string> collisionLinks_;
+      };
+
       class HandleFactory : public ObjectFactory {
         public:
           HandleFactory (ObjectFactory* parent, const XMLElement* element) :
             ObjectFactory (parent, element) {}
-
-          /// Called for each attribute
-          virtual void impl_setAttribute (const XMLAttribute* attr);
 
           virtual void finishTags ();
 

@@ -83,6 +83,8 @@ namespace hpp {
           /// See name(const std::string&)
           void name (const char* n);
 
+          std::string getAttribute (const std::string& attr) const;
+
           /// Cast this class to any child class.
           template <typename T> T* as ()
           {
@@ -90,6 +92,8 @@ namespace hpp {
           }
 
         protected:
+          typedef std::list <ObjectFactory*> ObjectFactoryList;
+
           ObjectFactory (RootFactory* root);
 
           ObjectFactory* parent ();
@@ -104,19 +108,20 @@ namespace hpp {
 
           void addChild (ObjectFactory* child);
 
-          std::list <ObjectFactory*> getChildrenOfType (std::string type);
+          ObjectFactoryList getChildrenOfType (std::string type);
 
           virtual std::ostream& print (std::ostream& os) const;
 
         private:
           ObjectFactory* parent_;
           RootFactory* root_;
-          typedef std::list <ObjectFactory*> ObjectFactoryList;
           typedef std::map <std::string, ObjectFactoryList > ChildrenMap;
           ChildrenMap children_;
 
           const XMLElement* element_;
 
+          typedef std::map <std::string, std::string> AttributeMap;
+          AttributeMap attrMap_;
           std::string name_;
           int id_;
 
