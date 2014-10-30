@@ -19,6 +19,7 @@
 
 #include <hpp/util/debug.hh>
 #include "hpp/manipulation/srdf/parser.hh"
+#include "hpp/manipulation/srdf/factories.hh"
 
 using namespace hpp::manipulation::srdf;
 
@@ -37,7 +38,7 @@ class TestFactory : public ObjectFactory {
     }
 
     /// Called for each attribute
-    virtual void setAttribute (const std::string attName)
+    virtual void impl_setAttribute (const std::string attName)
     {
       if (attName == "name")
         obj_.name = std::string (XMLelement ()->FindAttribute ("name")->Value ());
@@ -86,12 +87,22 @@ class TestDFactory : public ObjectFactory {
           ObjectFactory (parent, element) {}
 };
 
-BOOST_AUTO_TEST_CASE (srdfparser)
+BOOST_AUTO_TEST_CASE (testparser)
 {
   Parser p;
   p.addObjectFactory ("test", TestFactory::create);
   p.addObjectFactory ("tag1", TestDFactory::create);
   p.parseFile ("@CMAKE_SOURCE_DIR@/tests/ressources/basic.srdf");
   
+  std::cout << p;
+}
+
+BOOST_AUTO_TEST_CASE (srdfparser)
+{
+  Parser p;
+  p.addObjectFactory ("handle", create <HandleFactory>);
+  p.addObjectFactory ("local_position", create <PositionFactory>);
+  p.parseFile ("@CMAKE_SOURCE_DIR@/tests/ressources/box.srdf");
+
   std::cout << p;
 }

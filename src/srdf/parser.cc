@@ -17,6 +17,7 @@
 #include <stdexcept>
 
 #include <hpp/util/debug.hh>
+#include <resource_retriever/retriever.h>
 
 #include "hpp/manipulation/srdf/parser.hh"
 
@@ -26,17 +27,54 @@ namespace hpp {
       Parser::Parser ()
       {}
 
+      void Parser::parse (const std::string& semanticResourceName,
+		     model::DevicePtr_t robot)
+      {
+        device_ = robot;
+
+	resource_retriever::Retriever resourceRetriever;
+
+	resource_retriever::MemoryResource semanticResource =
+	  resourceRetriever.get(semanticResourceName);
+	char* semanticDescription = new char[semanticResource.size];
+        //semanticDescription.resize(semanticResource.size);
+	for (unsigned i = 0; i < semanticResource.size; ++i)
+	  semanticDescription[i] = semanticResource.data.get()[i];
+
+        loadString (semanticDescription);
+        parse ();
+        delete semanticDescription;
+      }
+
       void Parser::parseFile (const char* filename)
+      {
+        loadFile (filename);
+        parse ();
+      }
+
+      void Parser::loadFile (const char* filename)
       {
         doc_.LoadFile (filename);
         if (doc_.Error ()) {
           doc_.PrintError ();
           return;
         }
+      }
+
+      void Parser::loadString (const char* xmlstring)
+      {
+        doc_.Parse (xmlstring);
+        if (doc_.Error ()) {
+          doc_.PrintError ();
+        }
+      }
+
+      void Parser::parse ()
+      {
         const XMLElement* el = doc_.FirstChildElement ();
-        root_ = ObjectFactory::create (NULL, NULL);
+        root_ = RootFactory (device_);
         while (el != NULL) {
-          parseElement (el, NULL);
+          parseElement (el, &root_);
           el = el->NextSiblingElement ();
         }
         for (ObjectFactoryList::iterator it = objectFactories_.begin ();
@@ -62,7 +100,7 @@ namespace hpp {
         if (it != objFactoryMap_.end ()) {
           o = it->second (parent, element);
         } else {
-          o = DefaultFactory::create (parent, element);
+          o = create <DefaultFactory> (parent, element);
         }
         objectFactories_.push_back (o);
         o->init ();
@@ -74,33 +112,164 @@ namespace hpp {
         o->finishAttributes ();
 
         /// Loop over is child tags
-        if (o != NULL) {
-          const XMLNode* el = element->FirstChild ();
-          while (el != NULL) {
-            if (el->ToElement () != NULL) {
-              parseElement (el->ToElement (), o);
-            } else if (el->ToUnknown () != NULL) {
-              hppDout (warning, "Unknown Node in XML file: " << el->Value ());
-            } else if (el->ToText () != NULL) {
-              o->addTextChild (el->ToText ());
-            } else if (el->ToComment () != NULL) {
-            }
-
-            el = el->NextSibling ();
+        const XMLNode* el = element->FirstChild ();
+        while (el != NULL) {
+          if (el->ToElement () != NULL) {
+            parseElement (el->ToElement (), o);
+          } else if (el->ToUnknown () != NULL) {
+            hppDout (warning, "Unknown Node in XML file: " << el->Value ());
+          } else if (el->ToText () != NULL) {
+            o->addTextChild (el->ToText ());
+          } else if (el->ToComment () != NULL) {
           }
-          o->finishTags ();
-        } else {
-          const XMLElement* el = element->FirstChildElement ();
-          while (el != NULL) {
-            parseElement (el, o);
-            el = el->NextSiblingElement ();
-          }
+          el = el->NextSibling ();
         }
+        o->finishTags ();
       }
 
       std::ostream& Parser::print (std::ostream& os) const
       {
-        return os << "Parser with " << objectFactories_.size () << " object." << std::endl;
+        os << "Parser with " << objectFactories_.size () << " object." << std::endl;
+        os << root_;
+        return os;
+      }
+
+      std::ostream& operator<< (std::ostream& os, const Parser& p)
+      {
+        return p.print (os);
+      }
+
+      std::ostream& operator<< (std::ostream& os, const ObjectFactory& o)
+      {
+        return o.print (os);
+      }
+
+      ObjectFactory::ObjectFactory (ObjectFactory* parent, const XMLElement* element)
+        : parent_ (parent), root_ (NULL), element_ (element), id_ (-1)
+      {
+        if (parent_ == NULL) {
+          root_ = dynamic_cast <RootFactory*> (this);
+          if (root_ == NULL)
+            throw std::logic_error ("ObjectFactory with no parent must be RootFactory");
+        }
+        else {
+          root_ = parent_->root ();
+          if (element_ != NULL)
+            parent_->addChild (this);
+        }
+      }
+
+      ObjectFactory::ObjectFactory (RootFactory* root) :
+        parent_ (NULL), root_ (root), element_ (NULL), id_ (-1)
+      {}
+
+      void ObjectFactory::init ()
+      {}
+
+      void ObjectFactory::finishAttributes ()
+      {}
+
+      void ObjectFactory::finishTags ()
+      {}
+
+      void ObjectFactory::finishFile ()
+      {}
+
+      void ObjectFactory::addTextChild (const XMLText* /* text */)
+      {}
+
+      std::string ObjectFactory::tagName () const
+      {
+        if (element_ != NULL)
+          return element_->Name ();
+        return "No element";
+      }
+
+      std::string ObjectFactory::name () const
+      {
+        return name_;
+      }
+
+      void ObjectFactory::name (const std::string& n)
+      {
+        name_ = n;
+      }
+
+      void ObjectFactory::name (const char* n)
+      {
+        name (std::string (n));
+      }
+
+      ObjectFactory* ObjectFactory::parent ()
+      {
+        return parent_;
+      }
+
+      RootFactory* ObjectFactory::root ()
+      {
+        //if (parent_ == NULL)
+        //return this;
+        return root_;
+      }
+
+      bool ObjectFactory::hasParent () const
+      {
+        return parent_ != NULL;
+      }
+
+      const XMLElement* ObjectFactory::XMLelement ()
+      {
+        return element_;
+      }
+
+      void ObjectFactory::impl_setAttribute (const XMLAttribute* /* attr */)
+      {}
+
+      void ObjectFactory::addChild (ObjectFactory* child)
+      {
+        children_ [child->tagName ()].push_back (child);
+      }
+
+      std::list <ObjectFactory*> ObjectFactory::getChildrenOfType (std::string type)
+      {
+        return children_ [type];
+      }
+
+
+      std::ostream& ObjectFactory::print (std::ostream& os) const
+      {
+        os << "ObjectFactory " << tagName () << " with name " << name () << std::endl;
+        for (ChildrenMap::const_iterator itTagName = children_.begin ();
+            itTagName != children_.end (); itTagName++)
+          for (ObjectFactoryList::const_iterator itObj = itTagName->second.begin ();
+              itObj != itTagName->second.end (); itObj++)
+            os << **itObj;
+        return os;
+      }
+
+      void ObjectFactory::setAttribute (const XMLAttribute* attr)
+      {
+        std::string n = std::string (attr->Name ());
+        if (n == "name")
+          name (attr->Value ());
+        else if (n == "id") {
+          unsigned int v;
+          if (attr->QueryUnsignedValue (&v) != tinyxml2::XML_NO_ERROR) {
+            hppDout (error, "Attribute ID " << attr->Value () << " is incorrect.");
+          } else {
+            id_ = (int)v;
+          }
+        }
+        impl_setAttribute (attr);
+      }
+
+      RootFactory::RootFactory (const model::DevicePtr_t dev) :
+        ObjectFactory (this), device_ (dev)
+      {}
+
+      model::DevicePtr_t RootFactory::device () const
+      {
+        return device_;
       }
     } // namespace srdf
   } // namespace manipulation

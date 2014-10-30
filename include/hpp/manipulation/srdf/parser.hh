@@ -23,6 +23,8 @@
 # include <iostream>
 # include <tinyxml2.h>
 
+# include <hpp/model/fwd.hh>
+
 namespace hpp {
   namespace manipulation {
     namespace srdf {
@@ -33,78 +35,111 @@ namespace hpp {
       using tinyxml2::XMLText;
       using tinyxml2::XMLUtil;
 
-      class Parser;
+      class RootFactory;
 
+      /// Class that catch XML Parser events for a specific tag and build the corresponding
+      /// Object.
+      /// Derive this class if you wish to extend the Parser.
       class ObjectFactory {
         public:
-          static ObjectFactory* create (ObjectFactory* parent = NULL, const XMLElement* element = NULL)
-          {
-            return new ObjectFactory (parent, element);
-          }
+          ObjectFactory (ObjectFactory* parent = NULL, const XMLElement* element = NULL);
 
           /// Called when the object is created.
-          /// It should create a new object;
-          virtual void init () 
-          {}
+          virtual void init ();
 
-          /// Called for each attribute
-          virtual void setAttribute (const XMLAttribute* /* attr */)
-          {}
+          /// Called for each attribute.
+          /// A few reserved name are automatocally catched. The reserved names are
+          /// "name" and "id".
+          /// "name" expects a string.
+          /// "id" expects an unsigned integer and can be use to define pointers to
+          /// elements.
+          void setAttribute (const XMLAttribute* attr);
 
           /// Called when all the attributes have been processed.
-          virtual void finishAttributes ()
-          {};
+          virtual void finishAttributes ();
 
           /// Called when all the child tags have been processed.
-          virtual void finishTags ()
-          {}
+          virtual void finishTags ();
 
           /// Called when parsing is finished.
-          virtual void finishFile ()
-          {}
+          virtual void finishFile ();
 
           /// Add Text child.
-          virtual void addTextChild (const XMLText* /* text */)
-          {}
+          virtual void addTextChild (const XMLText* /* text */);
+
+          /// Return tag name of the element is any.
+          /// Returns "No element" otherwise.
+          std::string tagName () const;
+
+          /// Return the content of the attribute name, or an
+          /// empty string.
+          std::string name () const;
+
+          /// Set the name.
+          /// The default value is the value of the attribute "name"
+          /// of the XML tag or an empty string if this does not exist.
+          void name (const std::string& n);
+
+          /// See name(const std::string&)
+          void name (const char* n);
+
+          /// Cast this class to any child class.
+          template <typename T> T* as ()
+          {
+            return static_cast <T*> (this);
+          }
 
         protected:
-          ObjectFactory (ObjectFactory* parent, const XMLElement* element)
-            : parent_ (parent), root_ (NULL), element_ (element)
-          {
-            if (parent_ == NULL)
-              root_ = NULL;
-            else
-              root_ = parent_->root ();
-          }
+          ObjectFactory (RootFactory* root);
 
-          ObjectFactory* parent ()
-          {
-            return parent_;
-          }
+          ObjectFactory* parent ();
 
-          ObjectFactory* root ()
-          {
-            if (parent_ == NULL)
-              return this;
-            return root_;
-          }
+          RootFactory* root ();
 
-          bool hasParent () const
-          {
-            return parent_ != NULL;
-          }
+          bool hasParent () const;
 
-          const XMLElement* XMLelement ()
-          {
-            return element_;
-          }
+          const XMLElement* XMLelement ();
+
+          virtual void impl_setAttribute (const XMLAttribute* /* attr */);
+
+          void addChild (ObjectFactory* child);
+
+          std::list <ObjectFactory*> getChildrenOfType (std::string type);
+
+          virtual std::ostream& print (std::ostream& os) const;
 
         private:
           ObjectFactory* parent_;
-          ObjectFactory* root_;
+          RootFactory* root_;
+          typedef std::list <ObjectFactory*> ObjectFactoryList;
+          typedef std::map <std::string, ObjectFactoryList > ChildrenMap;
+          ChildrenMap children_;
 
           const XMLElement* element_;
+
+          std::string name_;
+          int id_;
+
+          friend std::ostream& operator<< (std::ostream&, const ObjectFactory&);
       };
+
+      class RootFactory : public ObjectFactory {
+        public:
+          RootFactory (const model::DevicePtr_t dev = model::DevicePtr_t ());
+
+          model::DevicePtr_t device () const;
+
+        private:
+          model::DevicePtr_t device_;
+      };
+
+      /// To add a ObjectFactory to the Parser, use:
+      /// Parser::addObjectFactory (TagName, create <ObjectFactory>)
+      template <typename T>
+      ObjectFactory* create (ObjectFactory* parent = NULL, const XMLElement* element = NULL)
+      {
+        return new T (parent, element);
+      }
 
       class Parser {
         public:
@@ -113,13 +148,23 @@ namespace hpp {
 
           Parser ();
           
-          void parseFile (const char* filename);
+          void parse (const std::string& semanticResourceName,
+              model::DevicePtr_t robot);
 
           void addObjectFactory (const std::string& tagname, FactoryType factory);
 
+          void parseFile (const char* filename);
+
         private:
           XMLDocument doc_;
-          ObjectFactory* root_;
+          RootFactory root_;
+          model::DevicePtr_t device_;
+
+          void loadFile (const char* filename);
+
+          void loadString (const char* xmlstring);
+
+          void parse ();
 
           void parseElement (const XMLElement* element, ObjectFactory* parent);
 
@@ -131,14 +176,12 @@ namespace hpp {
           typedef std::list <ObjectFactory*> ObjectFactoryList;
           ObjectFactoryList objectFactories_;
 
-          virtual std::ostream& print (std::ostream&) const;
+          std::ostream& print (std::ostream&) const;
           friend std::ostream& operator<< (std::ostream&, const Parser&);
       };
 
-      std::ostream& operator<< (std::ostream& os, const Parser& p)
-      {
-        return p.print (os);
-      }
+      std::ostream& operator<< (std::ostream&, const ObjectFactory&);
+      std::ostream& operator<< (std::ostream&, const Parser&);
     } // namespace srdf
   } // namespace manipulation
 } // namespace hpp

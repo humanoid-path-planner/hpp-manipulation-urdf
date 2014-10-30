@@ -40,11 +40,15 @@ ENDIF()
 
 # Declare Headers
 SET(${PROJECT_NAME}_HEADERS
+  include/hpp/manipulation/srdf/tools.hh
   include/hpp/manipulation/srdf/parser.hh
+  include/hpp/manipulation/srdf/factories.hh
   )
 
 ADD_REQUIRED_DEPENDENCY("tinyxml2 >= 0.26")
 ADD_REQUIRED_DEPENDENCY("hpp-util")
+ADD_REQUIRED_DEPENDENCY("hpp-manipulation")
+ADD_REQUIRED_DEPENDENCY("resource_retriever")
 
 ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(tests)
