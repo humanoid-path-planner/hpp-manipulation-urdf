@@ -23,10 +23,8 @@ namespace hpp {
   namespace manipulation {
     namespace srdf {
       namespace String {
-        std::vector <char*> split (const char* s, const char* d) {
+        std::vector <char*> split (char* c, const char* d) {
           std::vector <char*> ret;
-          char* c = new char[strlen (s)];
-          strcpy (c, s);
           char* split = strtok (c, d);
           while (split) {
             ret.push_back (split);
