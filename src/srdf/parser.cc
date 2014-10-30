@@ -36,10 +36,10 @@ namespace hpp {
 
 	resource_retriever::MemoryResource semanticResource =
 	  resourceRetriever.get(semanticResourceName);
-	char* semanticDescription = new char[semanticResource.size];
-        //semanticDescription.resize(semanticResource.size);
+	char* semanticDescription = new char[semanticResource.size + 1];
 	for (unsigned i = 0; i < semanticResource.size; ++i)
-	  semanticDescription[i] = semanticResource.data.get()[i];
+          semanticDescription[i] = semanticResource.data.get()[i];
+        semanticDescription[semanticResource.size] = '\0';
 
         loadString (semanticDescription);
         parse ();
