@@ -17,6 +17,7 @@
 SET(LIBRARY_NAME ${PROJECT_NAME})
 
 SET(${LIBRARY_NAME}_SOURCES
+  srdf/util.cc
   srdf/parser.cc
   srdf/factories.cc
   )

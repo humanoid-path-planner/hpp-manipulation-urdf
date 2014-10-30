@@ -40,7 +40,7 @@ ENDIF()
 
 # Declare Headers
 SET(${PROJECT_NAME}_HEADERS
-  include/hpp/manipulation/srdf/tools.hh
+  include/hpp/manipulation/srdf/util.hh
   include/hpp/manipulation/srdf/parser.hh
   include/hpp/manipulation/srdf/factories.hh
   )
@@ -52,6 +52,7 @@ ADD_REQUIRED_DEPENDENCY("hpp-model-urdf")
 ADD_REQUIRED_DEPENDENCY("hpp-manipulation")
 ADD_REQUIRED_DEPENDENCY("resource_retriever")
 
+PKG_CONFIG_APPEND_LIBS (${PROJECT_NAME})
 ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(tests)
 

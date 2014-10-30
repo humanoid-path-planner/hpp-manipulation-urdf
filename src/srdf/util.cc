@@ -14,6 +14,11 @@
 // received a copy of the GNU Lesser General Public License along with
 // hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
 
+#include <hpp/model/urdf/util.hh>
+#include <hpp/manipulation/object.hh>
+
+#include "hpp/manipulation/srdf/parser.hh"
+#include "hpp/manipulation/srdf/factories.hh"
 #include "hpp/manipulation/srdf/util.hh"
 
 namespace hpp {
@@ -32,15 +37,36 @@ namespace hpp {
           + modelName + srdfSuffix + ".srdf";
 
         // Build robot model from URDF.
-        Parser handleParser();
+        Parser handleParser;
         handleParser.addObjectFactory ("handle", create <HandleFactory>);
         handleParser.addObjectFactory ("local_position", create <PositionFactory>);
 
-        handleParser.parse ();
+        handleParser.parse (srdfPath, robot);
         hppDout (notice, "Finished parsing handles.");
       }
 
-      void loadRobotModel (const DevicePtr_t& robot,
+      void loadHumanoidModel (const model::HumanoidRobotPtr_t& robot,
+          const std::string& rootJointType,
+          const std::string& package,
+          const std::string& modelName,
+          const std::string& urdfSuffix,
+          const std::string& srdfSuffix)
+      {
+        hpp::model::urdf::loadHumanoidModel (robot, rootJointType, package, modelName, urdfSuffix, srdfSuffix);
+
+        std::string srdfPath = "package://" + package + "/srdf/"
+          + modelName + srdfSuffix + ".srdf";
+
+        // Build robot model from URDF.
+        Parser gripperParser;
+        gripperParser.addObjectFactory ("gripper", create <GripperFactory>);
+        gripperParser.addObjectFactory ("handle_position_in_joint", create <PositionFactory>);
+
+        gripperParser.parse (srdfPath, robot);
+        hppDout (notice, "Finished parsing grippers.");
+      }
+
+      void loadRobotModel (const model::DevicePtr_t& robot,
           const std::string& rootJointType,
           const std::string& package,
           const std::string& modelName,
@@ -53,11 +79,11 @@ namespace hpp {
           + modelName + srdfSuffix + ".srdf";
 
         // Build robot model from URDF.
-        Parser gripperParser();
+        Parser gripperParser;
         gripperParser.addObjectFactory ("gripper", create <GripperFactory>);
         gripperParser.addObjectFactory ("handle_position_in_joint", create <PositionFactory>);
 
-        gripperParser.parse ();
+        gripperParser.parse (srdfPath, robot);
         hppDout (notice, "Finished parsing grippers.");
       }
     } // namespace srdf

@@ -152,7 +152,7 @@ namespace hpp {
           typedef ObjectFactory DefaultFactory;
 
           Parser ();
-          
+
           void parse (const std::string& semanticResourceName,
               model::DevicePtr_t robot);
 

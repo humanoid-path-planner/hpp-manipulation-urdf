@@ -17,7 +17,8 @@
 #ifndef HPP_MANIPULATION_SRDF_UTIL_HH
 # define HPP_MANIPULATION_SRDF_UTIL_HH
 
-# include <hpp/model/urdf/util.hh>
+# include <hpp/model/fwd.hh>
+# include <hpp/manipulation/fwd.hh>
 
 namespace hpp {
   namespace manipulation {
@@ -27,7 +28,7 @@ namespace hpp {
       /// package://${modelName}_description/urdf/${modelName}${urdfSuffix}.urdf
       /// \li
       /// package://${modelName}_description/srdf/${modelName}${srdfSuffix}.srdf
-      void loadObjectModel (const DevicePtr_t& robot,
+      void loadObjectModel (const manipulation::ObjectPtr_t& robot,
           const std::string& rootJointType,
           const std::string& package,
           const std::string& modelName,
@@ -39,7 +40,19 @@ namespace hpp {
       /// package://${modelName}_description/urdf/${modelName}${urdfSuffix}.urdf
       /// \li
       /// package://${modelName}_description/srdf/${modelName}${srdfSuffix}.srdf
-      void loadRobotModel (const DevicePtr_t& robot,
+      void loadHumanoidModel (const model::HumanoidRobotPtr_t& robot,
+          const std::string& rootJointType,
+          const std::string& package,
+          const std::string& modelName,
+          const std::string& urdfSuffix,
+          const std::string& srdfSuffix);
+
+      /// \note This function reads the following files:
+      /// \li
+      /// package://${modelName}_description/urdf/${modelName}${urdfSuffix}.urdf
+      /// \li
+      /// package://${modelName}_description/srdf/${modelName}${srdfSuffix}.srdf
+      void loadRobotModel (const model::DevicePtr_t& robot,
           const std::string& rootJointType,
           const std::string& package,
           const std::string& modelName,
