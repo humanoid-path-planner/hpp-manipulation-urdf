@@ -18,11 +18,13 @@
 #include "hpp/manipulation/srdf/tools.hh"
 
 #include <hpp/util/debug.hh>
+#include <hpp/util/pointer.hh>
 #include <hpp/manipulation/handle.hh>
 #include <hpp/manipulation/axial-handle.hh>
 
 #include <hpp/model/device.hh>
 #include <hpp/model/gripper.hh>
+#include <hpp/manipulation/object.hh>
 
 namespace hpp {
   namespace manipulation {
@@ -43,8 +45,6 @@ namespace hpp {
 
         p_ = Transform3f (fcl::Quaternion3f (v[3], v[4], v[5], v[6]),
             fcl::Vec3f (v[0], v[1], v[2]));
-        for (size_t i = 0; i < 7; i++)
-          std::cout << v[i] << std::endl;
       }
 
       Transform3f PositionFactory::position () const
@@ -63,18 +63,20 @@ namespace hpp {
         localPosition_ = pf->position ();
         factories = getChildrenOfType ("link");
         if (factories.size () != 1) {
-          hppDout (error, "handle should have exactly one <local_position>");
+          hppDout (error, "handle should have exactly one <link>");
           return;
         }
         linkName_ = factories.front ()->name ();
 
         /// We have now all the information to build the handle.
-        if (!root ()->device ()) {
+        ObjectPtr_t o = HPP_DYNAMIC_PTR_CAST (Object, root ()->device ());
+        if (!o) {
           hppDout (error, "Failed to create handle");
           return;
         }
         JointPtr_t joint = root ()->device ()->getJointByBodyName (linkName_);
         handle_ = Handle::create (name (), localPosition_, joint);
+        o->addHandle (handle_);
       }
 
       HandlePtr_t HandleFactory::handle () const
@@ -84,9 +86,9 @@ namespace hpp {
 
       void GripperFactory::finishTags ()
       {
-        ObjectFactoryList factories = getChildrenOfType ("local_position_in_joint");
+        ObjectFactoryList factories = getChildrenOfType ("handle_position_in_joint");
         if (factories.size () != 1) {
-          hppDout (error, "handle should have exactly one <local_position_in_joint>");
+          hppDout (error, "gripper should have exactly one <handle_position_in_joint>");
           return;
         }
         PositionFactory* pf = factories.front ()->as <PositionFactory> ();
@@ -94,7 +96,7 @@ namespace hpp {
 
         factories = getChildrenOfType ("link");
         if (factories.size () != 1) {
-          hppDout (error, "handle should have exactly one <local_position>");
+          hppDout (error, "gripper should have exactly one <link>");
           return;
         }
         linkName_ = factories.front ()->name ();
@@ -106,7 +108,7 @@ namespace hpp {
 
         /// We have now all the information to build the handle.
         if (!root ()->device ()) {
-          hppDout (error, "Failed to create handle");
+          hppDout (error, "Failed to create gripper");
           return;
         }
         model::JointVector_t joints;
