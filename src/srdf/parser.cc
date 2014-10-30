@@ -27,6 +27,13 @@ namespace hpp {
       Parser::Parser ()
       {}
 
+      Parser::~Parser ()
+      {
+        for (ObjectFactoryList::iterator it = objectFactories_.begin ();
+            it != objectFactories_.end (); it++)
+          delete *it;
+      }
+
       void Parser::parse (const std::string& semanticResourceName,
 		     model::DevicePtr_t robot)
       {
