@@ -31,15 +31,22 @@ namespace hpp {
     namespace srdf {
       void PositionFactory::addTextChild (const XMLText* text)
       {
-        char* c = new char[strlen (text->Value ()) + 1];
-        strcpy (c, text->Value ());
-        std::vector <char*> values = String::split (c, " ");
+        std::stringstream t(text->Value ());
+        std::string segment;
+        std::vector<std::string> values;
+
+        while(std::getline(t, segment, ' '))
+        {
+          if (segment.empty ())
+            continue;
+          values.push_back(segment);
+        }
         if (values.size () != 7) {
           throw std::invalid_argument ("Position string must match (\\s*[+-]?[0-9]+(\\.[0-9]*)?\\s*){7}");
         }
         value_type v[7];
         for (size_t i = 0; i < 7; i++) {
-          if (!XMLUtil::ToDouble (values[i], &(v[i]))) {
+          if (!XMLUtil::ToDouble (values[i].c_str (), &(v[i]))) {
             v[i] = 0;
             hppDout (error, "Position is not properly set.");
           }
@@ -47,7 +54,6 @@ namespace hpp {
 
         p_ = Transform3f (fcl::Quaternion3f (v[3], v[4], v[5], v[6]),
             fcl::Vec3f (v[0], v[1], v[2]));
-        delete[] c;
       }
 
       Transform3f PositionFactory::position () const
