@@ -15,7 +15,6 @@
 // hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
 
 #include "hpp/manipulation/srdf/factories.hh"
-#include "hpp/manipulation/srdf/tools.hh"
 
 #include <hpp/util/debug.hh>
 #include <hpp/util/pointer.hh>
