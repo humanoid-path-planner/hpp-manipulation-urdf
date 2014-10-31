@@ -66,10 +66,11 @@ class TestDFactory : public ObjectFactory {
 
     /// Called when the object is created.
     /// It should create a new object;
-    virtual void init () 
+    virtual bool init ()
     {
       if (!hasParent ())
         throw std::logic_error ("Parent cannot be null.");
+      return true;
     }
 
     /// Add Text child.
