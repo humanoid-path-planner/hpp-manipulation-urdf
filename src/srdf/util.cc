@@ -40,6 +40,8 @@ namespace hpp {
         Parser handleParser;
         handleParser.addObjectFactory ("robot", create <RobotFactory>);
         handleParser.addObjectFactory ("handle", create <HandleFactory>);
+        handleParser.addObjectFactory ("position", create <PositionFactory>);
+        // For backward compatibility
         handleParser.addObjectFactory ("local_position", create <PositionFactory>);
 
         handleParser.parse (srdfPath, robot);
@@ -62,6 +64,8 @@ namespace hpp {
         Parser gripperParser;
         gripperParser.addObjectFactory ("robot", create <RobotFactory>);
         gripperParser.addObjectFactory ("gripper", create <GripperFactory>);
+        gripperParser.addObjectFactory ("position", create <PositionFactory>);
+        // For backward compatibility
         gripperParser.addObjectFactory ("handle_position_in_joint", create <PositionFactory>);
 
         gripperParser.parse (srdfPath, robot);
@@ -84,6 +88,8 @@ namespace hpp {
         Parser gripperParser;
         gripperParser.addObjectFactory ("robot", create <RobotFactory>);
         gripperParser.addObjectFactory ("gripper", create <GripperFactory>);
+        gripperParser.addObjectFactory ("position", create <PositionFactory>);
+        // For backward compatibility
         gripperParser.addObjectFactory ("handle_position_in_joint", create <PositionFactory>);
 
         gripperParser.parse (srdfPath, robot);

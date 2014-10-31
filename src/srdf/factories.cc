@@ -114,9 +114,13 @@ namespace hpp {
 
       void HandleFactory::finishTags ()
       {
-        std::list <ObjectFactory*> factories = getChildrenOfType ("local_position");
+        std::list <ObjectFactory*> factories = getChildrenOfType ("position");
+        if (factories.empty ()) {
+          std::list <ObjectFactory*> factories = getChildrenOfType ("local_position");
+          hppDout (warning, "Use tag position instead of local_position");
+        }
         if (factories.size () != 1) {
-          hppDout (error, "handle should have exactly one <local_position>");
+          hppDout (error, "handle should have exactly one <position>");
           return;
         }
         PositionFactory* pf = factories.front ()->as <PositionFactory> ();
