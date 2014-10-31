@@ -37,23 +37,40 @@ namespace hpp {
           bool finishAttributes ();
       };
 
+      template <typename ValueType>
+      class SequenceFactory : public ObjectFactory {
+        public:
+          SequenceFactory (ObjectFactory* parent, const XMLElement* element, const unsigned int nbValue = 0) :
+            ObjectFactory (parent, element), size_ (nbValue)
+        {
+          if (size_ > 0)
+            values_.resize (size_);
+        }
+
+          virtual void addTextChild (const XMLText* text);
+
+          std::vector <ValueType> values () const
+          {
+            return values_;
+          }
+
+        private:
+          std::vector <ValueType> values_;
+          unsigned int size_;
+      };
+
       /// \brief Build a fcl::Transform.
       ///
       /// The sequence of number in the XML text must:
       /// \li be of length 7;
       /// \li begin with the translation (3 coordinates);
       /// \li end with a quaternion (4 coordinates).
-      class PositionFactory : public ObjectFactory {
+      class PositionFactory : public SequenceFactory <float> {
         public:
           PositionFactory (ObjectFactory* parent, const XMLElement* element) :
-            ObjectFactory (parent, element) {}
-
-          virtual void addTextChild (const XMLText* text);
+            SequenceFactory <float> (parent, element, 7) {}
 
           Transform3f position () const;
-
-        private:
-          Transform3f p_;
       };
 
       /// \brief Build an object of type hpp::model::Gripper.

@@ -41,36 +41,75 @@ namespace hpp {
         return true;
       }
 
-      void PositionFactory::addTextChild (const XMLText* text)
+      template <typename ValueType> bool cast (const std::string& str, ValueType* val)
+      {
+        hppDout (error, "Unkown type.");
+        return false;
+      }
+
+      template <> bool cast <int> (const std::string& str, int* val)
+      {
+        return XMLUtil::ToInt (str.c_str (), val);
+      }
+
+      template <> bool cast <unsigned int> (const std::string& str, unsigned int* val)
+      {
+        return XMLUtil::ToUnsigned (str.c_str (), val);
+      }
+
+      template <> bool cast <double> (const std::string& str, double* val)
+      {
+        return XMLUtil::ToDouble (str.c_str (), val);
+      }
+
+      template <> bool cast <float> (const std::string& str, float* val)
+      {
+        return XMLUtil::ToFloat (str.c_str (), val);
+      }
+
+      template <> bool cast <bool> (const std::string& str, bool* val)
+      {
+        return XMLUtil::ToBool (str.c_str (), val);
+      }
+
+      template <typename ValueType>
+      void SequenceFactory<ValueType>::addTextChild (const XMLText* text)
       {
         std::stringstream t(text->Value ());
         std::string segment;
         std::vector<std::string> values;
 
-        while(std::getline(t, segment, ' '))
-        {
+        while(std::getline(t, segment, ' ')) {
           if (segment.empty ())
             continue;
           values.push_back(segment);
         }
-        if (values.size () != 7) {
-          throw std::invalid_argument ("Position string must match (\\s*[+-]?[0-9]+(\\.[0-9]*)?\\s*){7}");
-        }
-        value_type v[7];
-        for (size_t i = 0; i < 7; i++) {
-          if (!XMLUtil::ToDouble (values[i].c_str (), &(v[i]))) {
-            v[i] = 0;
-            hppDout (error, "Position is not properly set.");
-          }
+        if (size_ > 0 && values.size () != size_) {
+          throw std::invalid_argument ("Wrong sequence size");
         }
 
-        p_ = Transform3f (fcl::Quaternion3f (v[3], v[4], v[5], v[6]),
-            fcl::Vec3f (v[0], v[1], v[2]));
+        ValueType v;
+        for (size_t i = 0; i < 7; i++) {
+          if (!cast <ValueType> (values[i], &v)) {
+            v = 0;
+            hppDout (error, "could not parse value "<< values[i]);
+          }
+          values_.push_back (v);
+        }
       }
+
+      template class SequenceFactory <bool>;
+      template class SequenceFactory <int>;
+      template class SequenceFactory <unsigned int>;
+      template class SequenceFactory <double>;
+      template class SequenceFactory <float>;
 
       Transform3f PositionFactory::position () const
       {
-        return p_;
+        std::vector <float> v = values ();
+        Transform3f p = Transform3f (fcl::Quaternion3f (v[3], v[4], v[5], v[6]),
+            fcl::Vec3f (v[0], v[1], v[2]));
+        return p;
       }
 
       void HandleFactory::finishTags ()
@@ -107,7 +146,11 @@ namespace hpp {
 
       void GripperFactory::finishTags ()
       {
-        ObjectFactoryList factories = getChildrenOfType ("handle_position_in_joint");
+        ObjectFactoryList factories = getChildrenOfType ("position");
+        if (factories.empty ()) {
+          std::list <ObjectFactory*> factories = getChildrenOfType ("handle_position_in_joint");
+          hppDout (warning, "Use tag position instead of handle_position_in_joint");
+        }
         if (factories.size () != 1) {
           hppDout (error, "gripper should have exactly one <handle_position_in_joint>");
           return;
