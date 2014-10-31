@@ -110,13 +110,13 @@ namespace hpp {
           o = create <DefaultFactory> (parent, element);
         }
         objectFactories_.push_back (o);
-        o->init ();
+        if (!o->init ()) return;
         const XMLAttribute* attr = element->FirstAttribute (); 
         while (attr != NULL) {
           o->setAttribute (attr);
           attr = attr->Next ();
         }
-        o->finishAttributes ();
+        if (!o->finishAttributes ()) return;
 
         /// Loop over is child tags
         const XMLNode* el = element->FirstChild ();
@@ -170,11 +170,15 @@ namespace hpp {
         parent_ (NULL), root_ (root), element_ (NULL), id_ (-1)
       {}
 
-      void ObjectFactory::init ()
-      {}
+      bool ObjectFactory::init ()
+      {
+        return true;
+      }
 
-      void ObjectFactory::finishAttributes ()
-      {}
+      bool ObjectFactory::finishAttributes ()
+      {
+        return true;
+      }
 
       void ObjectFactory::finishTags ()
       {}

@@ -45,7 +45,8 @@ namespace hpp {
           ObjectFactory (ObjectFactory* parent = NULL, const XMLElement* element = NULL);
 
           /// Called when the object is created.
-          virtual void init ();
+          /// \return True to continue parsing this tag, False otherwise.
+          virtual bool init ();
 
           /// Called for each attribute.
           /// A few reserved name are automatocally catched. The reserved names are
@@ -56,16 +57,17 @@ namespace hpp {
           void setAttribute (const XMLAttribute* attr);
 
           /// Called when all the attributes have been processed.
-          virtual void finishAttributes ();
+          /// \return True to continue parsing this tag, False otherwise.
+          virtual bool finishAttributes ();
+
+          /// Add Text child.
+          virtual void addTextChild (const XMLText* text);
 
           /// Called when all the child tags have been processed.
           virtual void finishTags ();
 
           /// Called when parsing is finished.
           virtual void finishFile ();
-
-          /// Add Text child.
-          virtual void addTextChild (const XMLText* /* text */);
 
           /// Return tag name of the element is any.
           /// Returns "No element" otherwise.
