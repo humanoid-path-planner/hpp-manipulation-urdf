@@ -37,9 +37,17 @@ namespace hpp {
 
       class RootFactory;
 
-      /// Class that catch XML Parser events for a specific tag and build the corresponding
+      /// \brief Class that catch XML Parser events for a specific tag and build the corresponding
       /// Object.
+      ///
       /// Derive this class if you wish to extend the Parser.
+      /// \note The derived class must have the following construtor
+      /// DerivedFactory (ObjectFactory* parent, const XMLElement* element) :
+      ///       ObjectFactory (parent, element)
+      /// \par
+      /// Keep in mind that it might be more convenient
+      /// to build objects in a event callback, when all the needed information
+      /// are already parsed.
       class ObjectFactory {
         public:
           ObjectFactory (ObjectFactory* parent = NULL, const XMLElement* element = NULL);
@@ -130,6 +138,7 @@ namespace hpp {
           friend std::ostream& operator<< (std::ostream&, const ObjectFactory&);
       };
 
+      /// Represent a XML document.
       class RootFactory : public ObjectFactory {
         public:
           RootFactory (const model::DevicePtr_t dev = model::DevicePtr_t ());
@@ -148,6 +157,11 @@ namespace hpp {
         return new T (parent, element);
       }
 
+      /// \brief Parse an XML document
+      ///
+      /// This class uses the tinyXML library and derived classes of ObjectFactory
+      /// to build object from an XML document.
+      /// To extend its capabilities, see ObjectFactory.
       class Parser {
         public:
           typedef ObjectFactory* (*FactoryType) (ObjectFactory*, const XMLElement*);

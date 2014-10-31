@@ -25,6 +25,8 @@
 namespace hpp {
   namespace manipulation {
     namespace srdf {
+      /// This class only check if the robot name and
+      /// the attribute "name" of tag "robot" are the same.
       class RobotFactory : public ObjectFactory {
         public:
           RobotFactory (ObjectFactory* parent, const XMLElement* element) :
@@ -35,6 +37,12 @@ namespace hpp {
           bool finishAttributes ();
       };
 
+      /// \brief Build a fcl::Transform.
+      ///
+      /// The sequence of number in the XML text must:
+      /// <li> be of length 7;
+      /// <li> begin with the translation (3 coordinates);
+      /// <li> end with a quaternion (4 coordinates);
       class PositionFactory : public ObjectFactory {
         public:
           PositionFactory (ObjectFactory* parent, const XMLElement* element) :
@@ -48,6 +56,7 @@ namespace hpp {
           Transform3f p_;
       };
 
+      /// \brief Build an object of type hpp::model::Gripper.
       class GripperFactory : public ObjectFactory {
         public:
           GripperFactory (ObjectFactory* parent, const XMLElement* element) :
@@ -66,6 +75,7 @@ namespace hpp {
           std::list <std::string> collisionLinks_;
       };
 
+      /// \brief Build an object of type hpp::manipulation::Handle.
       class HandleFactory : public ObjectFactory {
         public:
           HandleFactory (ObjectFactory* parent, const XMLElement* element) :
