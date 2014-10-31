@@ -25,6 +25,16 @@
 namespace hpp {
   namespace manipulation {
     namespace srdf {
+      class RobotFactory : public ObjectFactory {
+        public:
+          RobotFactory (ObjectFactory* parent, const XMLElement* element) :
+            ObjectFactory (parent, element) {}
+
+          /// \return true iif the robot name and
+          /// the attribute "name" of tag "robot" are equal.
+          bool finishAttributes ();
+      };
+
       class PositionFactory : public ObjectFactory {
         public:
           PositionFactory (ObjectFactory* parent, const XMLElement* element) :

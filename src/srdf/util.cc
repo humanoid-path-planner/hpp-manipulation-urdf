@@ -38,6 +38,7 @@ namespace hpp {
 
         // Build robot model from URDF.
         Parser handleParser;
+        handleParser.addObjectFactory ("robot", create <RobotFactory>);
         handleParser.addObjectFactory ("handle", create <HandleFactory>);
         handleParser.addObjectFactory ("local_position", create <PositionFactory>);
 
@@ -59,6 +60,7 @@ namespace hpp {
 
         // Build robot model from URDF.
         Parser gripperParser;
+        gripperParser.addObjectFactory ("robot", create <RobotFactory>);
         gripperParser.addObjectFactory ("gripper", create <GripperFactory>);
         gripperParser.addObjectFactory ("handle_position_in_joint", create <PositionFactory>);
 
@@ -80,6 +82,7 @@ namespace hpp {
 
         // Build robot model from URDF.
         Parser gripperParser;
+        gripperParser.addObjectFactory ("robot", create <RobotFactory>);
         gripperParser.addObjectFactory ("gripper", create <GripperFactory>);
         gripperParser.addObjectFactory ("handle_position_in_joint", create <PositionFactory>);
 

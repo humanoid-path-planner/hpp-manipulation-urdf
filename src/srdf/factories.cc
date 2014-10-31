@@ -28,6 +28,19 @@
 namespace hpp {
   namespace manipulation {
     namespace srdf {
+      bool RobotFactory::finishAttributes ()
+      {
+        if (!root ()->device ()) {
+          hppDout (error, "There is no Device");
+          return false;
+        }
+        if (!root ()->device ()->name ().compare (name ()) != 0) {
+          hppDout (error, "Device and XML robot tag have different names.");
+          return false;
+        }
+        return true;
+      }
+
       void PositionFactory::addTextChild (const XMLText* text)
       {
         std::stringstream t(text->Value ());
