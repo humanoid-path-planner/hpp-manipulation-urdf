@@ -27,9 +27,6 @@ SET(PROJECT_NAME hpp-manipulation-urdf)
 SET(PROJECT_DESCRIPTION "")
 SET(PROJECT_URL "")
 
-# Where to compile shared objects
-SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
-
 SETUP_PROJECT()
 
 # Activate hpp-util logging if requested

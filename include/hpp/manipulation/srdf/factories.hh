@@ -40,9 +40,9 @@ namespace hpp {
       /// \brief Build a fcl::Transform.
       ///
       /// The sequence of number in the XML text must:
-      /// <li> be of length 7;
-      /// <li> begin with the translation (3 coordinates);
-      /// <li> end with a quaternion (4 coordinates);
+      /// \li be of length 7;
+      /// \li begin with the translation (3 coordinates);
+      /// \li end with a quaternion (4 coordinates).
       class PositionFactory : public ObjectFactory {
         public:
           PositionFactory (ObjectFactory* parent, const XMLElement* element) :

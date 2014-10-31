@@ -42,12 +42,17 @@ namespace hpp {
       ///
       /// Derive this class if you wish to extend the Parser.
       /// \note The derived class must have the following construtor
+      /// \code
       /// DerivedFactory (ObjectFactory* parent, const XMLElement* element) :
       ///       ObjectFactory (parent, element)
-      /// \par
-      /// Keep in mind that it might be more convenient
-      /// to build objects in a event callback, when all the needed information
-      /// are already parsed.
+      /// {
+      ///   /*
+      ///    * Keep in mind that it might be more convenient
+      ///    * to build objects in a event callback, when all the needed information
+      ///    * are already parsed.
+      ///    */
+      /// }
+      /// \endcode
       class ObjectFactory {
         public:
           ObjectFactory (ObjectFactory* parent = NULL, const XMLElement* element = NULL);
