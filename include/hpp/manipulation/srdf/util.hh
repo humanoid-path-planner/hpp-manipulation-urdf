@@ -28,6 +28,17 @@ namespace hpp {
       /// package://${modelName}_description/urdf/${modelName}${urdfSuffix}.urdf
       /// \li
       /// package://${modelName}_description/srdf/${modelName}${srdfSuffix}.srdf
+      void loadEnvironmentModel (const ObjectPtr_t& robot,
+          const std::string& package,
+          const std::string& modelName,
+          const std::string& urdfSuffix,
+          const std::string& srdfSuffix);
+
+      /// \note This function reads the following files:
+      /// \li
+      /// package://${modelName}_description/urdf/${modelName}${urdfSuffix}.urdf
+      /// \li
+      /// package://${modelName}_description/srdf/${modelName}${srdfSuffix}.srdf
       void loadObjectModel (const manipulation::ObjectPtr_t& robot,
           const std::string& rootJointType,
           const std::string& package,

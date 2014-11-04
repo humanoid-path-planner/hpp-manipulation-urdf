@@ -24,6 +24,33 @@
 namespace hpp {
   namespace manipulation {
     namespace srdf {
+      void loadEnvironmentModel (const ObjectPtr_t& robot,
+          const std::string& package,
+          const std::string& modelName,
+          const std::string& urdfSuffix,
+          const std::string& srdfSuffix)
+      {
+        hpp::model::urdf::loadUrdfModel (robot, "anchor", package, modelName + urdfSuffix);
+
+        std::string srdfPath = "package://" + package + "/srdf/"
+          + modelName + srdfSuffix + ".srdf";
+
+        // Build robot model from URDF.
+        Parser handleParser;
+        handleParser.addObjectFactory ("robot", create <RobotFactory>);
+
+        handleParser.addObjectFactory ("handle", create <HandleFactory>);
+        handleParser.addObjectFactory ("position", create <PositionFactory>);
+        handleParser.addObjectFactory ("contact", create <ContactFactory>);
+        handleParser.addObjectFactory ("point", create <ContactFactory::PointFactory>);
+        handleParser.addObjectFactory ("triangle", create <ContactFactory::TriangleFactory>);
+        // For backward compatibility
+        handleParser.addObjectFactory ("local_position", create <PositionFactory>);
+
+        handleParser.parse (srdfPath, robot);
+        hppDout (notice, "Finished parsing handles.");
+      }
+
       void loadObjectModel (const ObjectPtr_t& robot,
           const std::string& rootJointType,
           const std::string& package,
@@ -39,8 +66,12 @@ namespace hpp {
         // Build robot model from URDF.
         Parser handleParser;
         handleParser.addObjectFactory ("robot", create <RobotFactory>);
+
         handleParser.addObjectFactory ("handle", create <HandleFactory>);
         handleParser.addObjectFactory ("position", create <PositionFactory>);
+        handleParser.addObjectFactory ("contact", create <ContactFactory>);
+        handleParser.addObjectFactory ("point", create <ContactFactory::PointFactory>);
+        handleParser.addObjectFactory ("triangle", create <ContactFactory::TriangleFactory>);
         // For backward compatibility
         handleParser.addObjectFactory ("local_position", create <PositionFactory>);
 
