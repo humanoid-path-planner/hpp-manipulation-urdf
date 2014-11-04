@@ -125,7 +125,7 @@ namespace hpp {
 
       void HandleFactory::finishTags ()
       {
-        std::list <ObjectFactory*> factories = getChildrenOfType ("position");
+        ObjectFactoryList factories = getChildrenOfType ("position");
         if (factories.empty ()) {
           std::list <ObjectFactory*> factories = getChildrenOfType ("local_position");
           hppDout (warning, "Use tag position instead of local_position");
@@ -224,11 +224,11 @@ namespace hpp {
       {
         ObjectFactoryList factories = getChildrenOfType ("position");
         if (factories.empty ()) {
-          std::list <ObjectFactory*> factories = getChildrenOfType ("handle_position_in_joint");
+          factories = getChildrenOfType ("handle_position_in_joint");
           hppDout (warning, "Use tag position instead of handle_position_in_joint");
         }
         if (factories.size () != 1) {
-          hppDout (error, "gripper should have exactly one <handle_position_in_joint>");
+          hppDout (error, "gripper should have exactly one <position>");
           return;
         }
         PositionFactory* pf = factories.front ()->as <PositionFactory> ();
