@@ -40,16 +40,14 @@ namespace hpp {
       template <typename ValueType>
       class SequenceFactory : public ObjectFactory {
         public:
+          typedef std::vector <ValueType> OutType;
           SequenceFactory (ObjectFactory* parent, const XMLElement* element, const unsigned int nbValue = 0) :
             ObjectFactory (parent, element), size_ (nbValue)
-        {
-          if (size_ > 0)
-            values_.resize (size_);
-        }
+        {}
 
           virtual void addTextChild (const XMLText* text);
 
-          std::vector <ValueType> values () const
+          const OutType& values () const
           {
             return values_;
           }

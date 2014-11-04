@@ -25,9 +25,17 @@
 #include <hpp/model/gripper.hh>
 #include <hpp/manipulation/object.hh>
 
+#include <boost/algorithm/string.hpp>
+
 namespace hpp {
   namespace manipulation {
     namespace srdf {
+      namespace Predicate {
+        struct IsEmpty : public std::unary_function<std::string, bool>{
+          bool operator () (std::string s) const {return s.empty ();}
+        };
+      }
+
       bool RobotFactory::finishAttributes ()
       {
         if (!root ()->device ()) {
@@ -75,24 +83,25 @@ namespace hpp {
       template <typename ValueType>
       void SequenceFactory<ValueType>::addTextChild (const XMLText* text)
       {
-        std::stringstream t(text->Value ());
-        std::string segment;
-        std::vector<std::string> values;
+        values_.clear ();
+        std::string t(text->Value ());
+        typedef std::list<std::string> StringList;
+        StringList values;
 
-        while(std::getline(t, segment, ' ')) {
-          if (segment.empty ())
-            continue;
-          values.push_back(segment);
-        }
+        boost::algorithm::split (values, t,
+            boost::algorithm::is_any_of (" \n\t\r"),
+            boost::algorithm::token_compress_on);
+        values.remove_if (Predicate::IsEmpty());
         if (size_ > 0 && values.size () != size_) {
           throw std::invalid_argument ("Wrong sequence size");
         }
 
         ValueType v;
-        for (size_t i = 0; i < 7; i++) {
-          if (!cast <ValueType> (values[i], &v)) {
+        for (StringList::const_iterator it = values.begin ();
+            it != values.end (); it++) {
+          if (!cast <ValueType> (*it, &v)) {
             v = 0;
-            hppDout (error, "could not parse value "<< values[i]);
+            hppDout (error, "could not parse value "<< *it);
           }
           values_.push_back (v);
         }
