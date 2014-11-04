@@ -44,7 +44,7 @@ namespace hpp {
           hppDout (error, "There is no Device");
           return false;
         }
-        if (!root ()->device ()->name ().compare (name ()) != 0) {
+        if (root ()->device ()->name ().compare (name ()) != 0) {
           hppDout (error, "Device and XML robot tag have different names.");
           return false;
         }
