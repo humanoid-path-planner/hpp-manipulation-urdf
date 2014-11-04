@@ -20,6 +20,8 @@
 # include <hpp/manipulation/fwd.hh>
 # include <hpp/model/fwd.hh>
 # include <fcl/math/transform.h>
+# include <fcl/shape/geometric_shapes.h>
+
 # include "hpp/manipulation/srdf/parser.hh"
 
 namespace hpp {
@@ -106,6 +108,21 @@ namespace hpp {
           /// The element required to build the handle
           Transform3f localPosition_;
           std::string linkName_;
+      };
+
+      class ContactFactory : public ObjectFactory {
+        public:
+          typedef SequenceFactory <value_type> PointFactory;
+          typedef SequenceFactory <unsigned int> TriangleFactory;
+
+          ContactFactory (ObjectFactory* parent, const XMLElement* element) :
+            ObjectFactory (parent, element) {}
+
+          virtual void finishTags ();
+
+        private:
+          std::list < Triangle > triangles_;
+          std::string linkName_, objectName_;
       };
     } // namespace srdf
   } // namespace manipulation
