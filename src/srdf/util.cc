@@ -48,7 +48,7 @@ namespace hpp {
         handleParser.addObjectFactory ("local_position", create <PositionFactory>);
 
         handleParser.parse (srdfPath, robot);
-        hppDout (notice, "Finished parsing handles.");
+        hppDout (notice, "Finished parsing environment contacts.");
       }
 
       void loadObjectModel (const ObjectPtr_t& robot,

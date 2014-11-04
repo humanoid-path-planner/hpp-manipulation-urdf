@@ -108,6 +108,7 @@ namespace hpp {
           o = it->second (parent, element);
         } else {
           o = create <DefaultFactory> (parent, element);
+          hppDout (warning, "I have no factory for tag " << o->tagName ());
         }
         objectFactories_.push_back (o);
         if (!o->init ()) return;

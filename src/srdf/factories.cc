@@ -183,7 +183,7 @@ namespace hpp {
             }
           }
           if (!found) {
-            hppDout (error, "Body " << objectName_ << " not found.");
+            hppDout (error, "Body " << objectName_ << " not found in link " << linkName_);
           }
         }
 
