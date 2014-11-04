@@ -246,6 +246,20 @@ namespace hpp {
         return children_ [type];
       }
 
+      bool ObjectFactory::getChildOfType (std::string type, ObjectFactory*& o)
+      {
+        ObjectFactoryList l = getChildrenOfType (type);
+        if (l.empty ()) {
+          throw std::invalid_argument ("Tag " + tagName () + " has several children of type " + type);
+        }
+        o = l.front ();
+        if (l.size () != 1) {
+          hppDout (warning, "Tag " << tagName () << " has several children of type " << type
+              << ". All but the first will be ignored.");
+          return false;
+        }
+        return true;
+      }
 
       std::ostream& ObjectFactory::print (std::ostream& os) const
       {
@@ -273,6 +287,11 @@ namespace hpp {
         }
         attrMap_ [n] = attr->Value ();
         impl_setAttribute (attr);
+      }
+
+      bool ObjectFactory::hasAttribute (const std::string& attr) const
+      {
+        return attrMap_.find (attr) != attrMap_.end ();
       }
 
       std::string ObjectFactory::getAttribute (const std::string& attr) const

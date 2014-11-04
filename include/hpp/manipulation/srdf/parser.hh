@@ -55,6 +55,8 @@ namespace hpp {
       /// \endcode
       class ObjectFactory {
         public:
+          typedef std::list <ObjectFactory*> ObjectFactoryList;
+
           ObjectFactory (ObjectFactory* parent = NULL, const XMLElement* element = NULL);
 
           /// Called when the object is created.
@@ -98,6 +100,8 @@ namespace hpp {
           /// See name(const std::string&)
           void name (const char* n);
 
+          bool hasAttribute (const std::string& attr) const;
+
           std::string getAttribute (const std::string& attr) const;
 
           /// Cast this class to any child class.
@@ -106,9 +110,11 @@ namespace hpp {
             return static_cast <T*> (this);
           }
 
-        protected:
-          typedef std::list <ObjectFactory*> ObjectFactoryList;
+          ObjectFactoryList getChildrenOfType (std::string type);
 
+          bool getChildOfType (std::string type, ObjectFactory*& o);
+
+        protected:
           ObjectFactory (RootFactory* root);
 
           ObjectFactory* parent ();
@@ -122,8 +128,6 @@ namespace hpp {
           virtual void impl_setAttribute (const XMLAttribute* /* attr */);
 
           void addChild (ObjectFactory* child);
-
-          ObjectFactoryList getChildrenOfType (std::string type);
 
           virtual std::ostream& print (std::ostream& os) const;
 
