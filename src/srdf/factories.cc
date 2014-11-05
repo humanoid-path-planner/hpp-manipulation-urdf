@@ -45,8 +45,7 @@ namespace hpp {
           return false;
         }
         if (root ()->device ()->name ().compare (name ()) != 0) {
-          hppDout (error, "Device and XML robot tag have different names.");
-          return false;
+          hppDout (warning, "Device and XML robot tag have different names.");
         }
         return true;
       }
