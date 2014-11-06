@@ -20,12 +20,30 @@
 #include <resource_retriever/retriever.h>
 
 #include "hpp/manipulation/srdf/parser.hh"
+#include "hpp/manipulation/srdf/factories.hh"
 
 namespace hpp {
   namespace manipulation {
     namespace srdf {
-      Parser::Parser ()
-      {}
+      Parser::Parser (bool fillWithDefaultFactories, FactoryType defaultFactory)
+        : defaultFactory_ (defaultFactory)
+      {
+        if (fillWithDefaultFactories) {
+          addObjectFactory ("robot", create <RobotFactory>);
+          addObjectFactory ("handle", create <HandleFactory>);
+          addObjectFactory ("gripper", create <GripperFactory>);
+          addObjectFactory ("position", create <PositionFactory>);
+          addObjectFactory ("contact", create <ContactFactory>);
+          addObjectFactory ("point", create <ContactFactory::PointFactory>);
+          addObjectFactory ("triangle", create <ContactFactory::TriangleFactory>);
+
+          /// This removes warnings
+          addObjectFactory ("link", create <ObjectFactory>);
+          addObjectFactory ("disable_collisions", create <ObjectFactory>);
+          addObjectFactory ("material", create <IgnoreTagFactory>);
+          addObjectFactory ("texture", create <IgnoreTagFactory>);
+        }
+      }
 
       Parser::~Parser ()
       {
@@ -107,7 +125,7 @@ namespace hpp {
         if (it != objFactoryMap_.end ()) {
           o = it->second (parent, element);
         } else {
-          o = create <DefaultFactory> (parent, element);
+          o = defaultFactory_ (parent, element);
           hppDout (warning, "I have no factory for tag " << o->tagName ());
         }
         objectFactories_.push_back (o);

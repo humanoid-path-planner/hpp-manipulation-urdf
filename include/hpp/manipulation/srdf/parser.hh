@@ -174,9 +174,12 @@ namespace hpp {
       class Parser {
         public:
           typedef ObjectFactory* (*FactoryType) (ObjectFactory*, const XMLElement*);
-          typedef ObjectFactory DefaultFactory;
 
-          Parser ();
+          /// Constructor
+          /// \param fillWithDefaultFactories Set to true if you want to insert the default
+          ///        factories. If set to false, the created instance will have no factories.
+          /// \param defaultFactory The factory used when a tag is not know.
+          Parser (bool fillWithDefaultFactories = true, FactoryType defaultFactory = create <ObjectFactory>);
 
           ~Parser ();
 
@@ -204,6 +207,7 @@ namespace hpp {
           typedef std::pair <std::string, FactoryType> ObjectFactoryPair;
           typedef std::pair <ObjectFactoryMap::iterator, bool> ObjectFactoryInsertRet;
           ObjectFactoryMap objFactoryMap_;
+          FactoryType defaultFactory_;
 
           typedef std::list <ObjectFactory*> ObjectFactoryList;
           ObjectFactoryList objectFactories_;
