@@ -124,6 +124,20 @@ namespace hpp {
           std::list < Triangle > triangles_;
           std::string linkName_, objectName_;
       };
+
+      /// Class used to ignore a tag.
+      /// If the parser knows it should ignore a tag, no warning will be
+      /// printed in the logs. Moreover, its children won't be parsed.
+      class IgnoreTagFactory : public ObjectFactory {
+        public:
+          IgnoreTagFactory (ObjectFactory* parent, const XMLElement* element) :
+            ObjectFactory (parent, element) {}
+
+          bool init ()
+          {
+            return false;
+          }
+      };
     } // namespace srdf
   } // namespace manipulation
 } // namespace hpp
