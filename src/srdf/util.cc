@@ -37,13 +37,6 @@ namespace hpp {
 
         // Build robot model from URDF.
         Parser handleParser;
-        handleParser.addObjectFactory ("robot", create <RobotFactory>);
-
-        handleParser.addObjectFactory ("handle", create <HandleFactory>);
-        handleParser.addObjectFactory ("position", create <PositionFactory>);
-        handleParser.addObjectFactory ("contact", create <ContactFactory>);
-        handleParser.addObjectFactory ("point", create <ContactFactory::PointFactory>);
-        handleParser.addObjectFactory ("triangle", create <ContactFactory::TriangleFactory>);
         // For backward compatibility
         handleParser.addObjectFactory ("local_position", create <PositionFactory>);
 
@@ -65,13 +58,6 @@ namespace hpp {
 
         // Build robot model from URDF.
         Parser handleParser;
-        handleParser.addObjectFactory ("robot", create <RobotFactory>);
-
-        handleParser.addObjectFactory ("handle", create <HandleFactory>);
-        handleParser.addObjectFactory ("position", create <PositionFactory>);
-        handleParser.addObjectFactory ("contact", create <ContactFactory>);
-        handleParser.addObjectFactory ("point", create <ContactFactory::PointFactory>);
-        handleParser.addObjectFactory ("triangle", create <ContactFactory::TriangleFactory>);
         // For backward compatibility
         handleParser.addObjectFactory ("local_position", create <PositionFactory>);
 
@@ -93,9 +79,6 @@ namespace hpp {
 
         // Build robot model from URDF.
         Parser gripperParser;
-        gripperParser.addObjectFactory ("robot", create <RobotFactory>);
-        gripperParser.addObjectFactory ("gripper", create <GripperFactory>);
-        gripperParser.addObjectFactory ("position", create <PositionFactory>);
         // For backward compatibility
         gripperParser.addObjectFactory ("handle_position_in_joint", create <PositionFactory>);
 
@@ -117,9 +100,6 @@ namespace hpp {
 
         // Build robot model from URDF.
         Parser gripperParser;
-        gripperParser.addObjectFactory ("robot", create <RobotFactory>);
-        gripperParser.addObjectFactory ("gripper", create <GripperFactory>);
-        gripperParser.addObjectFactory ("position", create <PositionFactory>);
         // For backward compatibility
         gripperParser.addObjectFactory ("handle_position_in_joint", create <PositionFactory>);
 
