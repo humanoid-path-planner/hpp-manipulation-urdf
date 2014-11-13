@@ -90,7 +90,7 @@ class TestDFactory : public ObjectFactory {
 
 BOOST_AUTO_TEST_CASE (testparser)
 {
-  Parser p;
+  Parser p (false);
   p.addObjectFactory ("test", TestFactory::create);
   p.addObjectFactory ("tag1", TestDFactory::create);
   p.parseFile ("@CMAKE_SOURCE_DIR@/tests/ressources/basic.srdf");
@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE (testparser)
 
 BOOST_AUTO_TEST_CASE (srdfparser)
 {
-  Parser p;
+  Parser p (false);
   p.addObjectFactory ("handle", create <HandleFactory>);
   p.addObjectFactory ("local_position", create <PositionFactory>);
   p.parseFile ("@CMAKE_SOURCE_DIR@/tests/ressources/box.srdf");
