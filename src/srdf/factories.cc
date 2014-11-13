@@ -173,7 +173,7 @@ namespace hpp {
           /// In this case, coordinates are expressed in the body frame.
           bool found = false;
           for (model::ObjectVector_t::const_iterator it = objVector.begin ();
-              it != objVector.end (); it++) {
+              it != objVector.end (); ++it) {
             if ((*it)->name ().compare (objectName_) == 0) {
               M = (*it)->positionInJointFrame ()
                 * object->getJointByBodyName (linkName_)->currentTransformation ();
@@ -242,7 +242,7 @@ namespace hpp {
 
         factories = getChildrenOfType ("disable_collision");
         for (ObjectFactoryList::const_iterator it = factories.begin ();
-            it != factories.end (); it++)
+            it != factories.end (); ++it)
           collisionLinks_.push_back ((*it)->getAttribute ("link"));
 
         /// We have now all the information to build the handle.
@@ -252,7 +252,7 @@ namespace hpp {
         }
         model::JointVector_t joints;
         for (std::list <std::string>::const_iterator it = collisionLinks_.begin ();
-            it != collisionLinks_.end (); it++) {
+            it != collisionLinks_.end (); ++it) {
           joints.push_back (root ()->device ()->getJointByBodyName (*it));
         }
         JointPtr_t joint = root ()->device ()->getJointByBodyName (linkName_);

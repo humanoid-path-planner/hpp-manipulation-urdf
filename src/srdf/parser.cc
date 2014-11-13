@@ -48,7 +48,7 @@ namespace hpp {
       Parser::~Parser ()
       {
         for (ObjectFactoryList::iterator it = objectFactories_.begin ();
-            it != objectFactories_.end (); it++)
+            it != objectFactories_.end (); ++it)
           delete *it;
       }
 
@@ -68,7 +68,7 @@ namespace hpp {
 
         loadString (semanticDescription);
         parse ();
-        delete semanticDescription;
+        delete[] semanticDescription;
       }
 
       void Parser::parseFile (const char* filename)
@@ -103,7 +103,7 @@ namespace hpp {
           el = el->NextSiblingElement ();
         }
         for (ObjectFactoryList::iterator it = objectFactories_.begin ();
-            it != objectFactories_.end (); it++)
+            it != objectFactories_.end (); ++it)
           (*it)->finishFile ();
       }
 
@@ -284,9 +284,9 @@ namespace hpp {
       {
         os << "ObjectFactory " << tagName () << " with name " << name () << std::endl;
         for (ChildrenMap::const_iterator itTagName = children_.begin ();
-            itTagName != children_.end (); itTagName++)
+            itTagName != children_.end (); ++itTagName)
           for (ObjectFactoryList::const_iterator itObj = itTagName->second.begin ();
-              itObj != itTagName->second.end (); itObj++)
+              itObj != itTagName->second.end (); ++itObj)
             os << **itObj;
         return os;
       }
