@@ -126,7 +126,7 @@ namespace hpp {
       {
         ObjectFactoryList factories = getChildrenOfType ("position");
         if (factories.empty ()) {
-          std::list <ObjectFactory*> factories = getChildrenOfType ("local_position");
+          factories = getChildrenOfType ("local_position");
           hppDout (warning, "Use tag position instead of local_position");
         }
         if (factories.size () != 1) {
