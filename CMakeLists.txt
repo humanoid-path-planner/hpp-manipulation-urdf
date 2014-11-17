@@ -24,8 +24,8 @@ INCLUDE(cmake/base.cmake)
 INCLUDE(cmake/cpack.cmake)
 
 SET(PROJECT_NAME hpp-manipulation-urdf)
-SET(PROJECT_DESCRIPTION "")
-SET(PROJECT_URL "")
+SET(PROJECT_DESCRIPTION "Implementation of a parser for hpp-manipulation.")
+SET(PROJECT_URL "https://github.com/billx09/hpp-manipulation-urdf")
 
 SETUP_PROJECT()
 
