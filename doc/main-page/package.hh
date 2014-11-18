@@ -14,7 +14,66 @@
 // received a copy of the GNU Lesser General Public License along with
 // hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
 
-/// \mainpage
-/// \section intro_sec Basic use
-/// \section extend_sec Extend the parser
-/// To extend the parser, you can use the following 
+namespace hpp {
+  namespace manipulation {
+    namespace srdf {
+/**
+
+ \mainpage
+
+ \section intro_sec Basic use
+
+ The library contains parser for SRDF describing robot gripper, object handle,
+ object and environment contact surfaces.
+
+ In order to load HRP2 from a pair of URDF and SRDF
+ files, one can do:
+ \code
+   #include <hpp/model/device.hh>
+   #include <hpp/manipulation/srdf/util.hh>
+
+   int main (int argc, char** argv) {
+     DevicePtr_t robot = Device::create ("hrp-2");
+     loadRobotModel (robot, "freeflyer", "hrp2_14_description", "hrp2_14", "", "");
+   }
+
+ \endcode
+
+ \section srdf_syntac SRDF syntax
+
+ \subsection Handle
+    \include handle.xml
+
+ \subsection Gripper
+    \include gripper.xml
+
+ \subsection Contact
+    \include contact.xml
+
+ \section extend_sec Extend the parser
+
+ To extend the parser, you must write a class that inherits from ObjectFactory.
+ Some factories such as SequenceFactory might be usefull.
+ Once your factory is written, you must declare it to the parser:
+ \code
+ #include <hpp/manipulation/srdf/parser.hh>
+
+ // See ObjectFactory documentation for more details.
+ class YourFactory : public hpp::manipulation::srdf::ObjectFactory {
+   YourFactory (ObjectFactory* parent, const XMLElement* element) :
+         ObjectFactory (parent, element)
+   {}
+ };
+
+ int main (int argc, char** argv) {
+   // Parameter false tells the constructor not to include default factories.
+   hpp::manipulation::srdf::Parser p (false);
+   p.addObjectFactory ("tagname", hpp::manipulation::srdf::create <YourFactory>);
+ }
+ \endcode
+ \see ObjectFactory
+
+**/
+    }
+  }
+}

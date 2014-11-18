@@ -41,6 +41,14 @@ namespace hpp {
       /// Object.
       ///
       /// Derive this class if you wish to extend the Parser.
+      /// The event will be called in the following order:
+      /// \li ObjectFactory::init after having created the object.
+      /// \li ObjectFactory::setAttribute for each attribute of the tag.
+      /// \li ObjectFactory::finishAttributes after having processed every attribute.
+      /// \li ObjectFactory::addTextChild when a child is a text element.
+      /// \li ObjectFactory::finishTags when all the children have been parsed.
+      /// \li ObjectFactory::finishFile when the file has been fully parsed.
+      ///
       /// \note The derived class must have the following construtor
       /// \code
       /// DerivedFactory (ObjectFactory* parent, const XMLElement* element) :
@@ -59,6 +67,9 @@ namespace hpp {
 
           ObjectFactory (ObjectFactory* parent = NULL, const XMLElement* element = NULL);
 
+          /// \name Events
+          /// \{
+
           /// Called when the object is created.
           /// \return True to continue parsing this tag, False otherwise.
           virtual bool init ();
@@ -71,18 +82,23 @@ namespace hpp {
           /// elements.
           void setAttribute (const XMLAttribute* attr);
 
+          /// Add Text child.
+          virtual void addTextChild (const XMLText* text);
+
           /// Called when all the attributes have been processed.
           /// \return True to continue parsing this tag, False otherwise.
           virtual bool finishAttributes ();
-
-          /// Add Text child.
-          virtual void addTextChild (const XMLText* text);
 
           /// Called when all the child tags have been processed.
           virtual void finishTags ();
 
           /// Called when parsing is finished.
           virtual void finishFile ();
+
+          /// \}
+
+          /// \name Accessors
+          /// \{
 
           /// Return tag name of the element is any.
           /// Returns "No element" otherwise.
@@ -92,6 +108,23 @@ namespace hpp {
           /// empty string.
           std::string name () const;
 
+          /// Check if an attribute was set.
+          bool hasAttribute (const std::string& attr) const;
+
+          /// Return a given attributes.
+          std::string getAttribute (const std::string& attr) const;
+
+          /// Get a list of ObjectFactory whose tag name is type.
+          ObjectFactoryList getChildrenOfType (std::string type);
+
+          /// Get the ObjectFactory whose tag name is type.
+          /// \param[out] o Set to the first element of the requested type.
+          /// \return true if there was only element of the requested type. false if there are more than one.
+          /// \throws std::invalid_argument if no ObjectFactory of the requested type exists.
+          bool getChildOfType (std::string type, ObjectFactory*& o);
+
+          /// \}
+
           /// Set the name.
           /// The default value is the value of the attribute "name"
           /// of the XML tag or an empty string if this does not exist.
@@ -100,19 +133,11 @@ namespace hpp {
           /// See name(const std::string&)
           void name (const char* n);
 
-          bool hasAttribute (const std::string& attr) const;
-
-          std::string getAttribute (const std::string& attr) const;
-
           /// Cast this class to any child class.
           template <typename T> T* as ()
           {
             return static_cast <T*> (this);
           }
-
-          ObjectFactoryList getChildrenOfType (std::string type);
-
-          bool getChildOfType (std::string type, ObjectFactory*& o);
 
         protected:
           ObjectFactory (RootFactory* root);

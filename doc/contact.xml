@@ -1,0 +1,23 @@
+<contact name="name">
+  <!-- Exactly 1 of -->
+  <!-- Set the link used to build the reference frame
+       In the first case, the contact surfaces are mobile and the following coordinates are
+       expressed in the frame of the joint of "link_name". Use this to describe object contact
+       surfaces.
+       
+       In the second case, the contact surfaces are static and the following coordinates are
+       expressed in the frame of the object. As an object can be present in two links, a link
+       name must be provided. If the link has only one object, the link name must still be
+       provided.
+       -->
+    <link name="link_name" />
+    <link name="link_name" object="object_name" />
+
+  <!-- Exactly 1 -->
+    <!-- Sequence of 3D points expressed in the frame defined above -->
+    <point>-0.025 -0.025 -0.025   -0.025 0.025 -0.025   -0.025 -0.025 0.025   -0.025 0.025 0.025 </point>
+    <!-- Sequence of triangles, where a triangle is 3 point indexes in the above list of points
+         WARNING: Triangle 0 1 2 and 0 2 1 are different because their respective orientations are opposites
+         01 ^ 02 points outside the object -->
+    <triangle> 0 2 1 2 1 3</triangle>
+</contact>

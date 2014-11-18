@@ -269,7 +269,7 @@ namespace hpp {
       {
         ObjectFactoryList l = getChildrenOfType (type);
         if (l.empty ()) {
-          throw std::invalid_argument ("Tag " + tagName () + " has several children of type " + type);
+          throw std::invalid_argument ("Tag " + tagName () + " has no child of type " + type);
         }
         o = l.front ();
         if (l.size () != 1) {
