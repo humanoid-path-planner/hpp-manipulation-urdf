@@ -42,7 +42,7 @@ SET(${PROJECT_NAME}_HEADERS
   include/hpp/manipulation/srdf/factories.hh
   )
 
-ADD_REQUIRED_DEPENDENCY("tinyxml2 >= 0.26")
+ADD_REQUIRED_DEPENDENCY("tinyxml2 >= 2.2")
 ADD_REQUIRED_DEPENDENCY("hpp-util")
 ADD_REQUIRED_DEPENDENCY("hpp-model")
 ADD_REQUIRED_DEPENDENCY("hpp-model-urdf")
