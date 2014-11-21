@@ -44,6 +44,24 @@ namespace hpp {
           Transform3f localPosition_;
           std::string linkName_;
       };
+
+      /// \brief Build an object of type hpp::manipulation::AxialHandle.
+      class AxialHandleFactory : public ObjectFactory {
+        public:
+          AxialHandleFactory (ObjectFactory* parent, const XMLElement* element) :
+            ObjectFactory (parent, element) {}
+
+          virtual void finishTags ();
+
+          AxialHandlePtr_t handle () const;
+
+        protected:
+          AxialHandlePtr_t handle_;
+
+          /// The element required to build the handle
+          Transform3f localPosition_;
+          std::string linkName_;
+      };
     } // namespace srdf
   } // namespace manipulation
 } // namespace hpp

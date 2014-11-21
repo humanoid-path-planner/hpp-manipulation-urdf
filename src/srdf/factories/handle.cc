@@ -29,6 +29,42 @@
 namespace hpp {
   namespace manipulation {
     namespace srdf {
+      void AxialHandleFactory::finishTags ()
+      {
+        ObjectFactoryList factories = getChildrenOfType ("position");
+        if (factories.empty ()) {
+          factories = getChildrenOfType ("local_position");
+          hppDout (warning, "Use tag position instead of local_position");
+        }
+        if (factories.size () != 1) {
+          hppDout (error, "axial handle should have exactly one <position>");
+          return;
+        }
+        PositionFactory* pf = factories.front ()->as <PositionFactory> ();
+        localPosition_ = pf->position ();
+        factories = getChildrenOfType ("link");
+        if (factories.size () != 1) {
+          hppDout (error, "axial handle should have exactly one <link>");
+          return;
+        }
+        linkName_ = factories.front ()->name ();
+
+        /// We have now all the information to build the handle.
+        ObjectPtr_t o = HPP_DYNAMIC_PTR_CAST (Object, root ()->device ());
+        if (!o) {
+          hppDout (error, "Failed to create axial handle");
+          return;
+        }
+        JointPtr_t joint = root ()->device ()->getJointByBodyName (linkName_);
+        handle_ = AxialHandle::create (name (), localPosition_, joint);
+        o->addHandle (handle_);
+      }
+
+      AxialHandlePtr_t AxialHandleFactory::handle () const
+      {
+        return handle_;
+      }
+
       void HandleFactory::finishTags ()
       {
         ObjectFactoryList factories = getChildrenOfType ("position");
