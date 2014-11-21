@@ -18,7 +18,7 @@
 #include <hpp/manipulation/object.hh>
 
 #include "hpp/manipulation/srdf/parser.hh"
-#include "hpp/manipulation/srdf/factories.hh"
+#include "hpp/manipulation/srdf/factories/position.hh"
 #include "hpp/manipulation/srdf/util.hh"
 
 namespace hpp {

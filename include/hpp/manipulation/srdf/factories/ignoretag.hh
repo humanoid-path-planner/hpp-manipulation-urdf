@@ -14,10 +14,29 @@
 // received a copy of the GNU Lesser General Public License along with
 // hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
 
-#include "hpp/manipulation/srdf/factories/handle.hh"
-#include "hpp/manipulation/srdf/factories/gripper.hh"
-#include "hpp/manipulation/srdf/factories/position.hh"
-#include "hpp/manipulation/srdf/factories/sequence.hh"
-#include "hpp/manipulation/srdf/factories/ignoretag.hh"
-#include "hpp/manipulation/srdf/factories/robot.hh"
-#include "hpp/manipulation/srdf/factories/contact.hh"
+#ifndef HPP_MANIPULATION_SRDF_FACTORIES_IGNORETAG_HH
+# define HPP_MANIPULATION_SRDF_FACTORIES_IGNORETAG_HH
+
+# include "hpp/manipulation/srdf/parser.hh"
+
+namespace hpp {
+  namespace manipulation {
+    namespace srdf {
+      /// Class used to ignore a tag.
+      /// If the parser knows it should ignore a tag, no warning will be
+      /// printed in the logs. Moreover, its children won't be parsed.
+      class IgnoreTagFactory : public ObjectFactory {
+        public:
+          IgnoreTagFactory (ObjectFactory* parent, const XMLElement* element) :
+            ObjectFactory (parent, element) {}
+
+          bool init ()
+          {
+            return false;
+          }
+      };
+    } // namespace srdf
+  } // namespace manipulation
+} // namespace hpp
+
+#endif // HPP_MANIPULATION_SRDF_FACTORIES_IGNORETAG_HH

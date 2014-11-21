@@ -14,10 +14,20 @@
 // received a copy of the GNU Lesser General Public License along with
 // hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
 
-#include "hpp/manipulation/srdf/factories/handle.hh"
-#include "hpp/manipulation/srdf/factories/gripper.hh"
+#include <fcl/math/transform.h>
+
 #include "hpp/manipulation/srdf/factories/position.hh"
-#include "hpp/manipulation/srdf/factories/sequence.hh"
-#include "hpp/manipulation/srdf/factories/ignoretag.hh"
-#include "hpp/manipulation/srdf/factories/robot.hh"
-#include "hpp/manipulation/srdf/factories/contact.hh"
+
+namespace hpp {
+  namespace manipulation {
+    namespace srdf {
+      Transform3f PositionFactory::position () const
+      {
+        std::vector <float> v = values ();
+        Transform3f p = Transform3f (fcl::Quaternion3f (v[3], v[4], v[5], v[6]),
+            fcl::Vec3f (v[0], v[1], v[2]));
+        return p;
+      }
+    } // namespace srdf
+  } // namespace manipulation
+} // namespace hpp

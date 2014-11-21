@@ -14,10 +14,23 @@
 // received a copy of the GNU Lesser General Public License along with
 // hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
 
-#include "hpp/manipulation/srdf/factories/handle.hh"
-#include "hpp/manipulation/srdf/factories/gripper.hh"
-#include "hpp/manipulation/srdf/factories/position.hh"
-#include "hpp/manipulation/srdf/factories/sequence.hh"
-#include "hpp/manipulation/srdf/factories/ignoretag.hh"
+#include <hpp/model/device.hh>
 #include "hpp/manipulation/srdf/factories/robot.hh"
-#include "hpp/manipulation/srdf/factories/contact.hh"
+
+namespace hpp {
+  namespace manipulation {
+    namespace srdf {
+      bool RobotFactory::finishAttributes ()
+      {
+        if (!root ()->device ()) {
+          hppDout (error, "There is no Device");
+          return false;
+        }
+        if (root ()->device ()->name ().compare (name ()) != 0) {
+          hppDout (warning, "Device and XML robot tag have different names.");
+        }
+        return true;
+      }
+    } // namespace srdf
+  } // namespace manipulation
+} // namespace hpp

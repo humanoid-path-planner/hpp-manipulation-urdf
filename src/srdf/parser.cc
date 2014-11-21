@@ -31,6 +31,7 @@ namespace hpp {
         if (fillWithDefaultFactories) {
           addObjectFactory ("robot", create <RobotFactory>);
           addObjectFactory ("handle", create <HandleFactory>);
+          addObjectFactory ("axial_handle", create <AxialHandleFactory>);
           addObjectFactory ("gripper", create <GripperFactory>);
           addObjectFactory ("position", create <PositionFactory>);
           addObjectFactory ("contact", create <ContactFactory>);

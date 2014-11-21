@@ -40,6 +40,13 @@ SET(${PROJECT_NAME}_HEADERS
   include/hpp/manipulation/srdf/util.hh
   include/hpp/manipulation/srdf/parser.hh
   include/hpp/manipulation/srdf/factories.hh
+  include/hpp/manipulation/srdf/factories/contact.hh
+  include/hpp/manipulation/srdf/factories/gripper.hh
+  include/hpp/manipulation/srdf/factories/handle.hh
+  include/hpp/manipulation/srdf/factories/sequence.hh
+  include/hpp/manipulation/srdf/factories/position.hh
+  include/hpp/manipulation/srdf/factories/robot.hh
+  include/hpp/manipulation/srdf/factories/ignoretag.hh
   )
 
 ADD_REQUIRED_DEPENDENCY("tinyxml2 >= 2.2")
