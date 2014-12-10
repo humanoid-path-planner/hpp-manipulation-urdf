@@ -14,10 +14,15 @@
 // received a copy of the GNU Lesser General Public License along with
 // hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
 
-#include "hpp/manipulation/srdf/factories/handle.hh"
-#include "hpp/manipulation/srdf/factories/gripper.hh"
-#include "hpp/manipulation/srdf/factories/position.hh"
-#include "hpp/manipulation/srdf/factories/sequence.hh"
-#include "hpp/manipulation/srdf/factories/ignoretag.hh"
-#include "hpp/manipulation/srdf/factories/robot.hh"
-#include "hpp/manipulation/srdf/factories/contact.hh"
+#ifndef HPP_MANIPULATION_SRDF_FACTORIES_HH
+# define HPP_MANIPULATION_SRDF_FACTORIES_HH
+
+# include "hpp/manipulation/srdf/factories/handle.hh"
+# include "hpp/manipulation/srdf/factories/gripper.hh"
+# include "hpp/manipulation/srdf/factories/position.hh"
+# include "hpp/manipulation/srdf/factories/sequence.hh"
+# include "hpp/manipulation/srdf/factories/ignoretag.hh"
+# include "hpp/manipulation/srdf/factories/robot.hh"
+# include "hpp/manipulation/srdf/factories/contact.hh"
+
+#endif // HPP_MANIPULATION_SRDF_FACTORIES_HH
