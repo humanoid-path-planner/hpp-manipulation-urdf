@@ -14,7 +14,7 @@
 // received a copy of the GNU Lesser General Public License along with
 // hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
 
-#include <fcl/math/transform.h>
+#include <hpp/fcl/math/transform.h>
 
 #include "hpp/manipulation/srdf/factories/position.hh"
 
