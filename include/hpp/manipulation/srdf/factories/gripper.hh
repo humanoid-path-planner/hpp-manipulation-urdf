@@ -22,15 +22,15 @@
 # include <hpp/fcl/math/transform.h>
 # include <hpp/fcl/shape/geometric_shapes.h>
 
-# include "hpp/manipulation/srdf/parser.hh"
+# include "hpp/manipulation/parser/parser.hh"
 
 namespace hpp {
   namespace manipulation {
     namespace srdf {
       /// \brief Build an object of type hpp::model::Gripper.
-      class GripperFactory : public ObjectFactory {
+      class GripperFactory : public parser::ObjectFactory {
         public:
-          GripperFactory (ObjectFactory* parent, const XMLElement* element) :
+          GripperFactory (ObjectFactory* parent, const tinyxml2::XMLElement* element) :
             ObjectFactory (parent, element) {}
 
           virtual void finishTags ();

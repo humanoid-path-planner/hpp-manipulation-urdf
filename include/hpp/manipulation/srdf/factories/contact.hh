@@ -21,18 +21,18 @@
 # include <hpp/fcl/math/transform.h>
 # include <hpp/fcl/shape/geometric_shapes.h>
 
-# include "hpp/manipulation/srdf/parser.hh"
-# include "hpp/manipulation/srdf/factories/sequence.hh"
+# include "hpp/manipulation/parser/parser.hh"
+# include "hpp/manipulation/parser/factories/sequence.hh"
 
 namespace hpp {
   namespace manipulation {
     namespace srdf {
-      class ContactFactory : public ObjectFactory {
+      class ContactFactory : public parser::ObjectFactory {
         public:
-          typedef SequenceFactory <value_type> PointFactory;
-          typedef SequenceFactory <unsigned int> TriangleFactory;
+          typedef parser::SequenceFactory <value_type> PointFactory;
+          typedef parser::SequenceFactory <unsigned int> TriangleFactory;
 
-          ContactFactory (ObjectFactory* parent, const XMLElement* element) :
+          ContactFactory (ObjectFactory* parent, const tinyxml2::XMLElement* element) :
             ObjectFactory (parent, element) {}
 
           virtual void finishTags ();

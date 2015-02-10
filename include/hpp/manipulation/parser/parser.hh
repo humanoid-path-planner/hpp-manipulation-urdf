@@ -14,8 +14,8 @@
 // received a copy of the GNU Lesser General Public License along with
 // hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HPP_MANIPULATION_SRDF_PARSER_HH
-# define HPP_MANIPULATION_SRDF_PARSER_HH
+#ifndef HPP_MANIPULATION_PARSER_HH
+# define HPP_MANIPULATION_PARSER_HH
 
 # include <map>
 # include <list>
@@ -27,7 +27,7 @@
 
 namespace hpp {
   namespace manipulation {
-    namespace srdf {
+    namespace parser {
       using tinyxml2::XMLElement;
       using tinyxml2::XMLDocument;
       using tinyxml2::XMLAttribute;
@@ -243,8 +243,8 @@ namespace hpp {
 
       std::ostream& operator<< (std::ostream&, const ObjectFactory&);
       std::ostream& operator<< (std::ostream&, const Parser&);
-    } // namespace srdf
+    } // namespace parser
   } // namespace manipulation
 } // namespace hpp
 
-#endif //  HPP_MANIPULATION_SRDF_PARSER_HH
+#endif //  HPP_MANIPULATION_PARSER_HH

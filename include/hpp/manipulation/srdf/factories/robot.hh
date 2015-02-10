@@ -22,11 +22,20 @@
 # include <hpp/fcl/math/transform.h>
 # include <hpp/fcl/shape/geometric_shapes.h>
 
-# include "hpp/manipulation/srdf/parser.hh"
+# include "hpp/manipulation/parser/parser.hh"
 
 namespace hpp {
   namespace manipulation {
     namespace srdf {
+      using parser::ObjectFactory;
+      using tinyxml2::XMLElement;
+      using tinyxml2::XMLElement;
+      using tinyxml2::XMLDocument;
+      using tinyxml2::XMLAttribute;
+      using tinyxml2::XMLNode;
+      using tinyxml2::XMLText;
+      using tinyxml2::XMLUtil;
+
       /// This class only check if the robot name and
       /// the attribute "name" of tag "robot" are the same.
       class RobotFactory : public ObjectFactory {

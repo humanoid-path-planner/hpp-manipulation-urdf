@@ -17,7 +17,7 @@
 #include <hpp/model/urdf/util.hh>
 #include <hpp/manipulation/object.hh>
 
-#include "hpp/manipulation/srdf/parser.hh"
+#include "hpp/manipulation/parser/parser.hh"
 #include "hpp/manipulation/srdf/factories/position.hh"
 #include "hpp/manipulation/srdf/util.hh"
 
@@ -36,9 +36,9 @@ namespace hpp {
           + modelName + srdfSuffix + ".srdf";
 
         // Build robot model from URDF.
-        Parser handleParser;
+        parser::Parser handleParser;
         // For backward compatibility
-        handleParser.addObjectFactory ("local_position", create <PositionFactory>);
+        handleParser.addObjectFactory ("local_position", parser::create <PositionFactory>);
 
         handleParser.parse (srdfPath, robot);
         hppDout (notice, "Finished parsing environment contacts.");
@@ -57,9 +57,9 @@ namespace hpp {
           + modelName + srdfSuffix + ".srdf";
 
         // Build robot model from URDF.
-        Parser handleParser;
+        parser::Parser handleParser;
         // For backward compatibility
-        handleParser.addObjectFactory ("local_position", create <PositionFactory>);
+        handleParser.addObjectFactory ("local_position", parser::create <PositionFactory>);
 
         handleParser.parse (srdfPath, robot);
         hppDout (notice, "Finished parsing handles.");
@@ -78,9 +78,9 @@ namespace hpp {
           + modelName + srdfSuffix + ".srdf";
 
         // Build robot model from URDF.
-        Parser gripperParser;
+        parser::Parser gripperParser;
         // For backward compatibility
-        gripperParser.addObjectFactory ("handle_position_in_joint", create <PositionFactory>);
+        gripperParser.addObjectFactory ("handle_position_in_joint", parser::create <PositionFactory>);
 
         gripperParser.parse (srdfPath, robot);
         hppDout (notice, "Finished parsing grippers.");
@@ -99,9 +99,9 @@ namespace hpp {
           + modelName + srdfSuffix + ".srdf";
 
         // Build robot model from URDF.
-        Parser gripperParser;
+        parser::Parser gripperParser;
         // For backward compatibility
-        gripperParser.addObjectFactory ("handle_position_in_joint", create <PositionFactory>);
+        gripperParser.addObjectFactory ("handle_position_in_joint", parser::create <PositionFactory>);
 
         gripperParser.parse (srdfPath, robot);
         hppDout (notice, "Finished parsing grippers.");

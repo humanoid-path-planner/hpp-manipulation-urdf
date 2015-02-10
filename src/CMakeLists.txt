@@ -17,12 +17,13 @@
 SET(LIBRARY_NAME ${PROJECT_NAME})
 
 SET(${LIBRARY_NAME}_SOURCES
+  parser/parser.cc
+  parser/factories/sequence.cc
+
   srdf/util.cc
-  srdf/parser.cc
   srdf/factories/handle.cc
   srdf/factories/gripper.cc
   srdf/factories/contact.cc
-  srdf/factories/sequence.cc
   srdf/factories/position.cc
   srdf/factories/robot.cc
   )

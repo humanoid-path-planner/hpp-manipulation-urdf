@@ -19,7 +19,7 @@
 
 # include <hpp/manipulation/fwd.hh>
 
-# include "hpp/manipulation/srdf/factories/sequence.hh"
+# include "hpp/manipulation/parser/factories/sequence.hh"
 
 namespace hpp {
   namespace manipulation {
@@ -30,9 +30,9 @@ namespace hpp {
       /// \li be of length 7;
       /// \li begin with the translation (3 coordinates);
       /// \li end with a quaternion (4 coordinates).
-      class PositionFactory : public SequenceFactory <float> {
+      class PositionFactory : public parser::SequenceFactory <float> {
         public:
-          PositionFactory (ObjectFactory* parent, const XMLElement* element) :
+          PositionFactory (ObjectFactory* parent, const tinyxml2::XMLElement* element) :
             SequenceFactory <float> (parent, element, 7) {}
 
           Transform3f position () const;

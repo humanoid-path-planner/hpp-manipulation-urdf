@@ -20,8 +20,8 @@
 # include "hpp/manipulation/srdf/factories/handle.hh"
 # include "hpp/manipulation/srdf/factories/gripper.hh"
 # include "hpp/manipulation/srdf/factories/position.hh"
-# include "hpp/manipulation/srdf/factories/sequence.hh"
-# include "hpp/manipulation/srdf/factories/ignoretag.hh"
+# include "hpp/manipulation/parser/factories/sequence.hh"
+# include "hpp/manipulation/parser/factories/ignoretag.hh"
 # include "hpp/manipulation/srdf/factories/robot.hh"
 # include "hpp/manipulation/srdf/factories/contact.hh"
 

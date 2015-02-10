@@ -22,11 +22,19 @@
 # include <hpp/fcl/math/transform.h>
 # include <hpp/fcl/shape/geometric_shapes.h>
 
-# include "hpp/manipulation/srdf/parser.hh"
+# include "hpp/manipulation/parser/parser.hh"
 
 namespace hpp {
   namespace manipulation {
     namespace srdf {
+      using parser::ObjectFactory;
+      using tinyxml2::XMLElement;
+      using tinyxml2::XMLDocument;
+      using tinyxml2::XMLAttribute;
+      using tinyxml2::XMLNode;
+      using tinyxml2::XMLText;
+      using tinyxml2::XMLUtil;
+
       /// \brief Build an object of type hpp::manipulation::Handle.
       class HandleFactory : public ObjectFactory {
         public:

@@ -14,14 +14,22 @@
 // received a copy of the GNU Lesser General Public License along with
 // hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HPP_MANIPULATION_SRDF_FACTORIES_SEQUENCE_HH
-# define HPP_MANIPULATION_SRDF_FACTORIES_SEQUENCE_HH
+#ifndef HPP_MANIPULATION_PARSER_FACTORIES_SEQUENCE_HH
+# define HPP_MANIPULATION_PARSER_FACTORIES_SEQUENCE_HH
 
-# include "hpp/manipulation/srdf/parser.hh"
+# include "hpp/manipulation/parser/parser.hh"
 
 namespace hpp {
   namespace manipulation {
-    namespace srdf {
+    namespace parser {
+      using parser::ObjectFactory;
+      using tinyxml2::XMLElement;
+      using tinyxml2::XMLDocument;
+      using tinyxml2::XMLAttribute;
+      using tinyxml2::XMLNode;
+      using tinyxml2::XMLText;
+      using tinyxml2::XMLUtil;
+
       template <typename ValueType>
       class SequenceFactory : public ObjectFactory {
         public:
@@ -41,8 +49,8 @@ namespace hpp {
           std::vector <ValueType> values_;
           unsigned int size_;
       };
-    } // namespace srdf
+    } // namespace parser
   } // namespace manipulation
 } // namespace hpp
 
-#endif // HPP_MANIPULATION_SRDF_FACTORIES_SEQUENCE_HH
+#endif // HPP_MANIPULATION_PARSER_FACTORIES_SEQUENCE_HH

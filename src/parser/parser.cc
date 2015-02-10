@@ -19,24 +19,24 @@
 #include <hpp/util/debug.hh>
 #include <resource_retriever/retriever.h>
 
-#include "hpp/manipulation/srdf/parser.hh"
+#include "hpp/manipulation/parser/parser.hh"
 #include "hpp/manipulation/srdf/factories.hh"
 
 namespace hpp {
   namespace manipulation {
-    namespace srdf {
+    namespace parser {
       Parser::Parser (bool fillWithDefaultFactories, FactoryType defaultFactory)
         : defaultFactory_ (defaultFactory)
       {
         if (fillWithDefaultFactories) {
-          addObjectFactory ("robot", create <RobotFactory>);
-          addObjectFactory ("handle", create <HandleFactory>);
-          addObjectFactory ("axial_handle", create <AxialHandleFactory>);
-          addObjectFactory ("gripper", create <GripperFactory>);
-          addObjectFactory ("position", create <PositionFactory>);
-          addObjectFactory ("contact", create <ContactFactory>);
-          addObjectFactory ("point", create <ContactFactory::PointFactory>);
-          addObjectFactory ("triangle", create <ContactFactory::TriangleFactory>);
+          addObjectFactory ("robot", create <srdf::RobotFactory>);
+          addObjectFactory ("handle", create <srdf::HandleFactory>);
+          addObjectFactory ("axial_handle", create <srdf::AxialHandleFactory>);
+          addObjectFactory ("gripper", create <srdf::GripperFactory>);
+          addObjectFactory ("position", create <srdf::PositionFactory>);
+          addObjectFactory ("contact", create <srdf::ContactFactory>);
+          addObjectFactory ("point", create <srdf::ContactFactory::PointFactory>);
+          addObjectFactory ("triangle", create <srdf::ContactFactory::TriangleFactory>);
 
           /// This removes warnings
           addObjectFactory ("link", create <ObjectFactory>);

@@ -14,14 +14,14 @@
 // received a copy of the GNU Lesser General Public License along with
 // hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HPP_MANIPULATION_SRDF_FACTORIES_IGNORETAG_HH
-# define HPP_MANIPULATION_SRDF_FACTORIES_IGNORETAG_HH
+#ifndef HPP_MANIPULATION_PARSER_FACTORIES_IGNORETAG_HH
+# define HPP_MANIPULATION_PARSER_FACTORIES_IGNORETAG_HH
 
-# include "hpp/manipulation/srdf/parser.hh"
+# include "hpp/manipulation/parser/parser.hh"
 
 namespace hpp {
   namespace manipulation {
-    namespace srdf {
+    namespace parser {
       /// Class used to ignore a tag.
       /// If the parser knows it should ignore a tag, no warning will be
       /// printed in the logs. Moreover, its children won't be parsed.
@@ -35,8 +35,8 @@ namespace hpp {
             return false;
           }
       };
-    } // namespace srdf
+    } // namespace parser
   } // namespace manipulation
 } // namespace hpp
 
-#endif // HPP_MANIPULATION_SRDF_FACTORIES_IGNORETAG_HH
+#endif // HPP_MANIPULATION_PARSER_FACTORIES_IGNORETAG_HH

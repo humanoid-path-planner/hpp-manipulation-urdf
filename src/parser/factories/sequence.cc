@@ -18,11 +18,11 @@
 
 #include <boost/algorithm/string.hpp>
 
-#include "hpp/manipulation/srdf/factories/sequence.hh"
+#include "hpp/manipulation/parser/factories/sequence.hh"
 
 namespace hpp {
   namespace manipulation {
-    namespace srdf {
+    namespace parser {
       namespace Predicate {
         struct IsEmpty : public std::unary_function<std::string, bool>{
           bool operator () (std::string s) const {return s.empty ();}
@@ -92,6 +92,6 @@ namespace hpp {
       template class SequenceFactory <unsigned int>;
       template class SequenceFactory <double>;
       template class SequenceFactory <float>;
-    } // namespace srdf
+    } // namespace parser
   } // namespace manipulation
 } // namespace hpp

@@ -18,10 +18,11 @@
 #include <boost/test/included/unit_test.hpp>
 
 #include <hpp/util/debug.hh>
-#include "hpp/manipulation/srdf/parser.hh"
+#include "hpp/manipulation/parser/parser.hh"
 #include "hpp/manipulation/srdf/factories.hh"
 
 using namespace hpp::manipulation::srdf;
+using namespace hpp::manipulation::parser;
 
 class Test {
   public:
