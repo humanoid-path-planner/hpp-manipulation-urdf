@@ -17,11 +17,10 @@
 #include <hpp/util/debug.hh>
 #include <hpp/util/pointer.hh>
 
-#include <hpp/model/device.hh>
 #include <hpp/model/joint.hh>
 #include <hpp/model/body.hh>
 #include <hpp/model/collision-object.hh>
-#include <hpp/manipulation/object.hh>
+#include <hpp/manipulation/device.hh>
 
 #include "hpp/manipulation/srdf/factories/contact.hh"
 
@@ -30,8 +29,8 @@ namespace hpp {
     namespace srdf {
       void ContactFactory::finishTags ()
       {
-        ObjectPtr_t object = HPP_DYNAMIC_PTR_CAST (Object, root ()->device ());
-        if (!object) {
+        DevicePtr_t device = HPP_DYNAMIC_PTR_CAST (Device, root ()->device ());
+        if (!device) {
           hppDout (error, "Failed to create contacts");
           return;
         }
@@ -39,9 +38,9 @@ namespace hpp {
         /// Get the link
         ObjectFactory* o = NULL;
         getChildOfType ("link", o);
-        linkName_ = o->name ();
-        const model::ObjectVector_t& objVector =
-          object->getJointByBodyName (linkName_)->linkedBody ()->innerObjects (model::COLLISION);
+        linkName_ = root ()->prependPrefix (o->name ());
+        const model::ObjectVector_t& objVector = device->getJointByBodyName
+          (linkName_) ->linkedBody ()->innerObjects (model::COLLISION);
         Transform3f M; M.setIdentity ();
         if (o->hasAttribute ("object")) {
           objectName_ = o->getAttribute ("object");
@@ -49,9 +48,10 @@ namespace hpp {
           bool found = false;
           for (model::ObjectVector_t::const_iterator it = objVector.begin ();
               it != objVector.end (); ++it) {
-            if ((*it)->name ().compare (objectName_) == 0) {
-              M = (*it)->positionInJointFrame ()
-                * object->getJointByBodyName (linkName_)->currentTransformation ();
+            if (root ()->prependPrefix ((*it)->name ())
+                .compare (objectName_) == 0) {
+              M = (*it)->positionInJointFrame () * device->getJointByBodyName
+                (linkName_)->currentTransformation ();
               found = true;
               break;
             }
@@ -86,7 +86,7 @@ namespace hpp {
           triangles_.push_back (t);
         }
 
-        object->addContactTriangle (name (), triangles_);
+        device->add (root ()->prependPrefix (name ()), triangles_);
       }
     } // namespace srdf
   } // namespace manipulation

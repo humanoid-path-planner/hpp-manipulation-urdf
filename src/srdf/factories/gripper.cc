@@ -17,9 +17,9 @@
 #include <hpp/util/debug.hh>
 #include <hpp/util/pointer.hh>
 
-#include <hpp/model/device.hh>
 #include <hpp/model/gripper.hh>
 
+#include <hpp/manipulation/device.hh>
 #include "hpp/manipulation/srdf/factories/position.hh"
 #include "hpp/manipulation/srdf/factories/gripper.hh"
 
@@ -45,12 +45,13 @@ namespace hpp {
           hppDout (error, "gripper should have exactly one <link>");
           return;
         }
-        linkName_ = factories.front ()->name ();
+        linkName_ = root ()->prependPrefix (factories.front ()->name ());
 
         factories = getChildrenOfType ("disable_collision");
         for (ObjectFactoryList::const_iterator it = factories.begin ();
             it != factories.end (); ++it)
-          collisionLinks_.push_back ((*it)->getAttribute ("link"));
+          collisionLinks_.push_back (
+              root ()->prependPrefix ((*it)->getAttribute ("link")));
 
         /// We have now all the information to build the handle.
         if (!root ()->device ()) {
@@ -63,8 +64,9 @@ namespace hpp {
           joints.push_back (root ()->device ()->getJointByBodyName (*it));
         }
         JointPtr_t joint = root ()->device ()->getJointByBodyName (linkName_);
-        gripper_ = model::Gripper::create (name (), joint, localPosition_, joints);
-        root ()->device ()->addGripper (gripper_);
+        gripper_ = model::Gripper::create (
+            root ()->prependPrefix (name ()), joint, localPosition_, joints);
+        root ()->device ()->add (gripper_->name (), gripper_);
       }
 
       GripperPtr_t GripperFactory::gripper () const

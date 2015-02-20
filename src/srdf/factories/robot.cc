@@ -14,8 +14,8 @@
 // received a copy of the GNU Lesser General Public License along with
 // hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
 
-#include <hpp/model/device.hh>
 #include "hpp/manipulation/srdf/factories/robot.hh"
+#include <hpp/manipulation/device.hh>
 
 namespace hpp {
   namespace manipulation {

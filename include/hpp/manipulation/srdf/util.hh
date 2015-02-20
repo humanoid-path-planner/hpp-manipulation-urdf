@@ -28,7 +28,7 @@ namespace hpp {
       /// package://${modelName}_description/urdf/${modelName}${urdfSuffix}.urdf
       /// \li
       /// package://${modelName}_description/srdf/${modelName}${srdfSuffix}.srdf
-      void loadEnvironmentModel (const ObjectPtr_t& robot,
+      void loadEnvironmentModel (const DevicePtr_t& robot,
           const std::string& package,
           const std::string& modelName,
           const std::string& urdfSuffix,
@@ -39,7 +39,9 @@ namespace hpp {
       /// package://${modelName}_description/urdf/${modelName}${urdfSuffix}.urdf
       /// \li
       /// package://${modelName}_description/srdf/${modelName}${srdfSuffix}.srdf
-      void loadObjectModel (const manipulation::ObjectPtr_t& robot,
+      void loadObjectModel (const DevicePtr_t& robot,
+          const model::JointPtr_t& baseJoint,
+          const std::string& prefix,
           const std::string& rootJointType,
           const std::string& package,
           const std::string& modelName,
@@ -51,7 +53,9 @@ namespace hpp {
       /// package://${modelName}_description/urdf/${modelName}${urdfSuffix}.urdf
       /// \li
       /// package://${modelName}_description/srdf/${modelName}${srdfSuffix}.srdf
-      void loadHumanoidModel (const model::HumanoidRobotPtr_t& robot,
+      void loadHumanoidModel (const DevicePtr_t& robot,
+          const model::JointPtr_t& baseJoint,
+          const std::string& prefix,
           const std::string& rootJointType,
           const std::string& package,
           const std::string& modelName,
@@ -63,7 +67,9 @@ namespace hpp {
       /// package://${modelName}_description/urdf/${modelName}${urdfSuffix}.urdf
       /// \li
       /// package://${modelName}_description/srdf/${modelName}${srdfSuffix}.srdf
-      void loadRobotModel (const model::DevicePtr_t& robot,
+      void loadRobotModel (const DevicePtr_t& robot,
+          const model::JointPtr_t& baseJoint,
+          const std::string& prefix,
           const std::string& rootJointType,
           const std::string& package,
           const std::string& modelName,

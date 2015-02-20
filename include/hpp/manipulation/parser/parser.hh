@@ -23,7 +23,7 @@
 # include <iostream>
 # include <tinyxml2.h>
 
-# include <hpp/model/fwd.hh>
+# include <hpp/manipulation/fwd.hh>
 
 namespace hpp {
   namespace manipulation {
@@ -175,12 +175,32 @@ namespace hpp {
       /// Represent a XML document.
       class RootFactory : public ObjectFactory {
         public:
-          RootFactory (const model::DevicePtr_t dev = model::DevicePtr_t ());
+          RootFactory (const DevicePtr_t dev = DevicePtr_t ());
 
-          model::DevicePtr_t device () const;
+          DevicePtr_t device () const;
+
+          inline std::string prependPrefix (const std::string& in) const
+          {
+            if (prefix_.empty ()) return in;
+            return prefix_ + in;
+          }
+
+          inline std::string removePrefix (const std::string& in) const
+          {
+            if (prefix_.empty ()) return in;
+            assert (in.compare (0, prefix_.size (), prefix_) == 0);
+            return in.substr (prefix_.size ());
+          }
+
+          void prefix (const std::string& prefix)
+          {
+            if (prefix.empty ()) return;
+            prefix_ = prefix + "/";
+          }
 
         private:
-          model::DevicePtr_t device_;
+          DevicePtr_t device_;
+          std::string prefix_;
       };
 
       /// To add a ObjectFactory to the Parser, use:
@@ -208,17 +228,22 @@ namespace hpp {
 
           ~Parser ();
 
-          void parse (const std::string& semanticResourceName,
-              model::DevicePtr_t robot);
+          void parse (const std::string& semanticResourceName, DevicePtr_t robot);
 
           void addObjectFactory (const std::string& tagname, FactoryType factory);
 
           void parseFile (const char* filename);
 
+          /// Set the prefix of all joints
+          void prefix (const std::string& prefix)
+          {
+            prefix_ = prefix;
+          }
+
         private:
           XMLDocument doc_;
-          RootFactory root_;
-          model::DevicePtr_t device_;
+          RootFactory* root_;
+          DevicePtr_t device_;
 
           void loadFile (const char* filename);
 
@@ -236,6 +261,8 @@ namespace hpp {
 
           typedef std::list <ObjectFactory*> ObjectFactoryList;
           ObjectFactoryList objectFactories_;
+
+          std::string prefix_;
 
           std::ostream& print (std::ostream&) const;
           friend std::ostream& operator<< (std::ostream&, const Parser&);

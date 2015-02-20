@@ -35,36 +35,22 @@ namespace hpp {
       using tinyxml2::XMLText;
       using tinyxml2::XMLUtil;
 
-      /// \brief Build an object of type hpp::manipulation::Handle.
+      /// \brief Build an object of type HandleType
+      /// \tparam HandleType must be one of hpp::manipulation::Handle
+      /// and hpp::manipulation::AxialHandle.
+      template < typename HandleType>
       class HandleFactory : public ObjectFactory {
         public:
+          typedef typename boost::shared_ptr <HandleType> HandleTypePtr_t;
           HandleFactory (ObjectFactory* parent, const XMLElement* element) :
             ObjectFactory (parent, element) {}
 
           virtual void finishTags ();
 
-          HandlePtr_t handle () const;
+          HandleTypePtr_t handle () const;
 
         protected:
-          HandlePtr_t handle_;
-
-          /// The element required to build the handle
-          Transform3f localPosition_;
-          std::string linkName_;
-      };
-
-      /// \brief Build an object of type hpp::manipulation::AxialHandle.
-      class AxialHandleFactory : public ObjectFactory {
-        public:
-          AxialHandleFactory (ObjectFactory* parent, const XMLElement* element) :
-            ObjectFactory (parent, element) {}
-
-          virtual void finishTags ();
-
-          AxialHandlePtr_t handle () const;
-
-        protected:
-          AxialHandlePtr_t handle_;
+          HandleTypePtr_t handle_;
 
           /// The element required to build the handle
           Transform3f localPosition_;

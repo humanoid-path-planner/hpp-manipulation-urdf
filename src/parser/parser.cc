@@ -26,12 +26,13 @@ namespace hpp {
   namespace manipulation {
     namespace parser {
       Parser::Parser (bool fillWithDefaultFactories, FactoryType defaultFactory)
-        : defaultFactory_ (defaultFactory)
+        : root_ (NULL), defaultFactory_ (defaultFactory)
       {
         if (fillWithDefaultFactories) {
           addObjectFactory ("robot", create <srdf::RobotFactory>);
-          addObjectFactory ("handle", create <srdf::HandleFactory>);
-          addObjectFactory ("axial_handle", create <srdf::AxialHandleFactory>);
+          addObjectFactory ("handle", create <srdf::HandleFactory <Handle> >);
+          addObjectFactory ("axial_handle",
+              create <srdf::HandleFactory <AxialHandle> >);
           addObjectFactory ("gripper", create <srdf::GripperFactory>);
           addObjectFactory ("position", create <srdf::PositionFactory>);
           addObjectFactory ("contact", create <srdf::ContactFactory>);
@@ -51,17 +52,17 @@ namespace hpp {
         for (ObjectFactoryList::iterator it = objectFactories_.begin ();
             it != objectFactories_.end (); ++it)
           delete *it;
+        if (root_ != NULL) delete root_;
       }
 
-      void Parser::parse (const std::string& semanticResourceName,
-		     model::DevicePtr_t robot)
+      void Parser::parse (const std::string& semanticResName, DevicePtr_t robot)
       {
         device_ = robot;
 
 	resource_retriever::Retriever resourceRetriever;
 
 	resource_retriever::MemoryResource semanticResource =
-	  resourceRetriever.get(semanticResourceName);
+	  resourceRetriever.get(semanticResName);
 	char* semanticDescription = new char[semanticResource.size + 1];
 	for (unsigned i = 0; i < semanticResource.size; ++i)
           semanticDescription[i] = semanticResource.data.get()[i];
@@ -98,9 +99,10 @@ namespace hpp {
       void Parser::parse ()
       {
         const XMLElement* el = doc_.FirstChildElement ();
-        root_ = RootFactory (device_);
+        root_ = new RootFactory (device_);
+        root_->prefix (prefix_);
         while (el != NULL) {
-          parseElement (el, &root_);
+          parseElement (el, root_);
           el = el->NextSiblingElement ();
         }
         for (ObjectFactoryList::iterator it = objectFactories_.begin ();
@@ -157,7 +159,7 @@ namespace hpp {
       std::ostream& Parser::print (std::ostream& os) const
       {
         os << "Parser with " << objectFactories_.size () << " object." << std::endl;
-        os << root_;
+        if (root_ != NULL) os << root_;
         return os;
       }
 
@@ -324,11 +326,11 @@ namespace hpp {
         return it->second;
       }
 
-      RootFactory::RootFactory (const model::DevicePtr_t dev) :
-        ObjectFactory (this), device_ (dev)
+      RootFactory::RootFactory (const DevicePtr_t dev) :
+        ObjectFactory (this), device_ (dev), prefix_ ("")
       {}
 
-      model::DevicePtr_t RootFactory::device () const
+      DevicePtr_t RootFactory::device () const
       {
         return device_;
       }
