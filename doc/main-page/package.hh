@@ -23,8 +23,9 @@ namespace hpp {
 
  \section intro_sec Basic use
 
- The library contains parser for SRDF describing robot gripper, object handle,
- object and environment contact surfaces.
+ The library contains parser for SRDF describing robot \ref Gripper "grippers",
+ object \ref Handle "handles", object and environment
+ \ref Contact "contact surfaces".
 
  In order to load HRP2 from a pair of URDF and SRDF
  files, one can do:
@@ -52,14 +53,14 @@ namespace hpp {
 
  \section extend_sec Extend the parser
 
- To extend the parser, you must write a class that inherits from ObjectFactory.
- Some factories such as SequenceFactory might be usefull.
- Once your factory is written, you must declare it to the parser:
+ To extend the parser, you must write a class that inherits from
+ parser::ObjectFactory. Some factories such as parser::SequenceFactory might be
+ useful. You also have to declare the new factory to the parser:
  \code
- #include <hpp/manipulation/srdf/parser.hh>
+ #include <hpp/manipulation/parser/parser.hh>
 
  // See ObjectFactory documentation for more details.
- class YourFactory : public hpp::manipulation::srdf::ObjectFactory {
+ class YourFactory : public hpp::manipulation::parser::ObjectFactory {
    YourFactory (ObjectFactory* parent, const XMLElement* element) :
          ObjectFactory (parent, element)
    {}
@@ -67,11 +68,11 @@ namespace hpp {
 
  int main (int argc, char** argv) {
    // Parameter false tells the constructor not to include default factories.
-   hpp::manipulation::srdf::Parser p (false);
-   p.addObjectFactory ("tagname", hpp::manipulation::srdf::create <YourFactory>);
+   hpp::manipulation::parser::Parser p (false);
+   p.addObjectFactory ("tagname", hpp::manipulation::parser::create <YourFactory>);
  }
  \endcode
- \see ObjectFactory
+ \see parser::ObjectFactory
 
 **/
     }

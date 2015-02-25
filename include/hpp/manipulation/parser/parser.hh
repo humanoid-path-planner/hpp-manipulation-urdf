@@ -41,7 +41,7 @@ namespace hpp {
       /// Object.
       ///
       /// Derive this class if you wish to extend the Parser.
-      /// The event will be called in the following order:
+      /// The event callbacks are called in the following order:
       /// \li ObjectFactory::init after having created the object.
       /// \li ObjectFactory::setAttribute for each attribute of the tag.
       /// \li ObjectFactory::finishAttributes after having processed every attribute.
@@ -56,8 +56,8 @@ namespace hpp {
       /// {
       ///   /*
       ///    * Keep in mind that it might be more convenient
-      ///    * to build objects in a event callback, when all the needed information
-      ///    * are already parsed.
+      ///    * to build objects in an event callback, when some information
+      ///    * has already been parsed.
       ///    */
       /// }
       /// \endcode
