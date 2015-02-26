@@ -20,6 +20,7 @@ namespace hpp {
 /**
 
  \mainpage
+ \anchor hpp_manipulation_urdf
 
  \section intro_sec Basic use
 
@@ -30,17 +31,19 @@ namespace hpp {
  In order to load HRP2 from a pair of URDF and SRDF
  files, one can do:
  \code
-   #include <hpp/model/device.hh>
+   #include <hpp/manipulation/device.hh>
    #include <hpp/manipulation/srdf/util.hh>
 
    int main (int argc, char** argv) {
+     using hpp::manipulation::DevicePtr_t;
+     using hpp::manipulation::Device;
+     using hpp::manipulation::srdf::loadRobotModel;
      DevicePtr_t robot = Device::create ("hrp-2");
      loadRobotModel (robot, "freeflyer", "hrp2_14_description", "hrp2_14", "", "");
    }
-
  \endcode
 
- \section srdf_syntac SRDF syntax
+ \section hpp_manipulation_urdf_srdf_syntax SRDF syntax
 
  \subsection Handle
     \include handle.xml
@@ -51,19 +54,50 @@ namespace hpp {
  \subsection Contact
     \include contact.xml
 
- \section extend_sec Extend the parser
+ \section hpp_manipulation_urdf_extend_sec Extend the parser
 
  To extend the parser, you must write a class that inherits from
- parser::ObjectFactory. Some factories such as parser::SequenceFactory might be
+ parser::ObjectFactory. Some \ref factories "factories" such as parser::SequenceFactory might be
  useful. You also have to declare the new factory to the parser:
  \code
  #include <hpp/manipulation/parser/parser.hh>
 
  // See ObjectFactory documentation for more details.
+ // This factory parses something like:
+ // <tagname>
+ //   <position>0 0 0 1 0 0 0</position>
+ //   <link name="linkname"/>
+ // </tagname>
  class YourFactory : public hpp::manipulation::parser::ObjectFactory {
+ public:
    YourFactory (ObjectFactory* parent, const XMLElement* element) :
          ObjectFactory (parent, element)
    {}
+
+   void YourFactory::finishTags ()
+   {
+     ObjectFactory* o (NULL);
+     if (!getChildOfType ("position", o)) {
+       // There is more than one tag <position>
+       // o is a pointer to the first one.
+     }
+     PositionFactory* pf = o->as <PositionFactory> ();
+     Transform3f position = pf->position ();
+
+     if (!getChildOfType ("link", o)) {
+       // There is more than one tag <link>
+       // o is a pointer to the first one.
+     }
+     std::string linkName = root ()->prependPrefix (o->name ());
+
+     /// We have now all the information to build the handle.
+     if (!root ()->device ()) {
+       hppDout (error, "Device not found");
+       return;
+     }
+     root ()->device ()->yourfunction (linkName, position);
+   }
+
  };
 
  int main (int argc, char** argv) {

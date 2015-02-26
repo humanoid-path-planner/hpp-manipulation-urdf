@@ -22,6 +22,9 @@
 namespace hpp {
   namespace manipulation {
     namespace parser {
+      /// \addtogroup factories
+      /// \{
+
       /// Class used to ignore a tag.
       /// If the parser knows it should ignore a tag, no warning will be
       /// printed in the logs. Moreover, its children won't be parsed.
@@ -35,6 +38,8 @@ namespace hpp {
             return false;
           }
       };
+
+      /// \}
     } // namespace parser
   } // namespace manipulation
 } // namespace hpp

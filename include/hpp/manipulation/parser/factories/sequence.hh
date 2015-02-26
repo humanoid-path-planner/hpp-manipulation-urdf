@@ -22,6 +22,9 @@
 namespace hpp {
   namespace manipulation {
     namespace parser {
+      /// \addtogroup factories
+      /// \{
+
       using parser::ObjectFactory;
       using tinyxml2::XMLElement;
       using tinyxml2::XMLDocument;
@@ -30,6 +33,11 @@ namespace hpp {
       using tinyxml2::XMLText;
       using tinyxml2::XMLUtil;
 
+      /// \brief  Factory parsing sequence of values.
+      /// \tparam ValueType one of (bool, int, unsigned int, double, float)
+      ///
+      /// A std::vector is built from a sequence of values separeted by
+      /// white spaces.
       template <typename ValueType>
       class SequenceFactory : public ObjectFactory {
         public:
@@ -49,6 +57,8 @@ namespace hpp {
           std::vector <ValueType> values_;
           unsigned int size_;
       };
+
+      /// \}
     } // namespace parser
   } // namespace manipulation
 } // namespace hpp

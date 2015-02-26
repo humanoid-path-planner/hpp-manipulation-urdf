@@ -24,6 +24,9 @@
 namespace hpp {
   namespace manipulation {
     namespace srdf {
+      /// \addtogroup factories
+      /// \{
+
       /// \brief Build a fcl::Transform.
       ///
       /// The sequence of number in the XML text must:
@@ -37,6 +40,8 @@ namespace hpp {
 
           Transform3f position () const;
       };
+
+      /// \}
     } // namespace srdf
   } // namespace manipulation
 } // namespace hpp

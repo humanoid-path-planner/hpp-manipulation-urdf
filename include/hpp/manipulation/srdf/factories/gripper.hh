@@ -27,6 +27,9 @@
 namespace hpp {
   namespace manipulation {
     namespace srdf {
+      /// \addtogroup factories
+      /// \{
+
       /// \brief Build an object of type hpp::model::Gripper.
       class GripperFactory : public parser::ObjectFactory {
         public:
@@ -45,6 +48,8 @@ namespace hpp {
           std::string linkName_;
           std::list <std::string> collisionLinks_;
       };
+
+      /// \}
     } // namespace srdf
   } // namespace manipulation
 } // namespace hpp

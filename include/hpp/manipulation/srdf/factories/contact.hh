@@ -27,6 +27,10 @@
 namespace hpp {
   namespace manipulation {
     namespace srdf {
+      /// \addtogroup factories
+      /// \{
+
+      /// \brief  Factory building contact surfaces.
       class ContactFactory : public parser::ObjectFactory {
         public:
           typedef parser::SequenceFactory <value_type> PointFactory;
@@ -41,6 +45,8 @@ namespace hpp {
           std::list < Triangle > triangles_;
           std::string linkName_, objectName_;
       };
+
+      /// \}
     } // namespace srdf
   } // namespace manipulation
 } // namespace hpp

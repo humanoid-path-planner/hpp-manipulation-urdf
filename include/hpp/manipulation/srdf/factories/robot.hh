@@ -27,6 +27,9 @@
 namespace hpp {
   namespace manipulation {
     namespace srdf {
+      /// \addtogroup factories
+      /// \{
+
       using parser::ObjectFactory;
       using tinyxml2::XMLElement;
       using tinyxml2::XMLElement;
@@ -47,6 +50,8 @@ namespace hpp {
           /// the attribute "name" of tag "robot" are equal.
           bool finishAttributes ();
       };
+
+      /// \}
     } // namespace srdf
   } // namespace manipulation
 } // namespace hpp

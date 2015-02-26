@@ -37,6 +37,16 @@ namespace hpp {
 
       class RootFactory;
 
+      /// \defgroup factories
+      ///
+      /// \brief    Classes used to build object from XML documents.
+      ///
+      /// See section \ref hpp_manipulation_urdf_extend_sec for more information
+      /// about how to extend the parser with factories.
+
+      /// \addtogroup factories
+      /// \{
+
       /// \brief Class that catch XML Parser events for a specific tag and build the corresponding
       /// Object.
       ///
@@ -202,6 +212,8 @@ namespace hpp {
           DevicePtr_t device_;
           std::string prefix_;
       };
+
+      /// \}
 
       /// To add a ObjectFactory to the Parser, use:
       /// Parser::addObjectFactory (TagName, create <ObjectFactory>)

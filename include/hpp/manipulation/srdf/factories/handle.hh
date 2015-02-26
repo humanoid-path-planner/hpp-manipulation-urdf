@@ -27,6 +27,9 @@
 namespace hpp {
   namespace manipulation {
     namespace srdf {
+      /// \addtogroup factories
+      /// \{
+
       using parser::ObjectFactory;
       using tinyxml2::XMLElement;
       using tinyxml2::XMLDocument;
@@ -56,6 +59,8 @@ namespace hpp {
           Transform3f localPosition_;
           std::string linkName_;
       };
+
+      /// \}
     } // namespace srdf
   } // namespace manipulation
 } // namespace hpp
