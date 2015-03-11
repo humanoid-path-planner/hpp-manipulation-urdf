@@ -83,7 +83,7 @@ namespace hpp {
       {
         doc_.LoadFile (filename);
         if (doc_.Error ()) {
-          doc_.PrintError ();
+          std::cerr << doc_.ErrorDesc () << std::endl;
           return;
         }
       }
@@ -92,13 +92,13 @@ namespace hpp {
       {
         doc_.Parse (xmlstring);
         if (doc_.Error ()) {
-          doc_.PrintError ();
+          std::cerr << doc_.ErrorDesc () << std::endl;
         }
       }
 
       void Parser::parse ()
       {
-        const XMLElement* el = doc_.FirstChildElement ();
+        const XMLElement* el = doc_.RootElement ();
         root_ = new RootFactory (device_);
         root_->prefix (prefix_);
         while (el != NULL) {
@@ -124,7 +124,7 @@ namespace hpp {
 
         ObjectFactory* o = NULL;
         /// Look for this element in the map
-        ObjectFactoryMap::const_iterator it = objFactoryMap_.find (element->Name ());
+        ObjectFactoryMap::const_iterator it = objFactoryMap_.find (element->ValueStr ());
         if (it != objFactoryMap_.end ()) {
           o = it->second (parent, element);
         } else {
@@ -159,7 +159,7 @@ namespace hpp {
       std::ostream& Parser::print (std::ostream& os) const
       {
         os << "Parser with " << objectFactories_.size () << " object." << std::endl;
-        if (root_ != NULL) os << root_;
+        if (root_ != NULL) os << *root_;
         return os;
       }
 
@@ -214,7 +214,7 @@ namespace hpp {
       std::string ObjectFactory::tagName () const
       {
         if (element_ != NULL)
-          return element_->Name ();
+          return element_->ValueStr ();
         return "No element";
       }
 
@@ -298,16 +298,16 @@ namespace hpp {
       {
         std::string n = std::string (attr->Name ());
         if (n == "name")
-          name (attr->Value ());
+          name (attr->ValueStr ());
         else if (n == "id") {
-          unsigned int v;
-          if (attr->QueryUnsignedValue (&v) != tinyxml2::XML_NO_ERROR) {
+          int v;
+          if (attr->QueryIntValue (&v) != TIXML_SUCCESS) {
             hppDout (error, "Attribute ID " << attr->Value () << " is incorrect.");
           } else {
             id_ = (int)v;
           }
         }
-        attrMap_ [n] = attr->Value ();
+        attrMap_ [n] = attr->ValueStr ();
         impl_setAttribute (attr);
       }
 

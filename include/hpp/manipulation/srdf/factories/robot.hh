@@ -31,13 +31,12 @@ namespace hpp {
       /// \{
 
       using parser::ObjectFactory;
-      using tinyxml2::XMLElement;
-      using tinyxml2::XMLElement;
-      using tinyxml2::XMLDocument;
-      using tinyxml2::XMLAttribute;
-      using tinyxml2::XMLNode;
-      using tinyxml2::XMLText;
-      using tinyxml2::XMLUtil;
+      using parser::XMLElement;
+      using parser::XMLElement;
+      using parser::XMLDocument;
+      using parser::XMLAttribute;
+      using parser::XMLNode;
+      using parser::XMLText;
 
       /// This class only check if the robot name and
       /// the attribute "name" of tag "robot" are the same.

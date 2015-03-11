@@ -25,14 +25,6 @@ namespace hpp {
       /// \addtogroup factories
       /// \{
 
-      using parser::ObjectFactory;
-      using tinyxml2::XMLElement;
-      using tinyxml2::XMLDocument;
-      using tinyxml2::XMLAttribute;
-      using tinyxml2::XMLNode;
-      using tinyxml2::XMLText;
-      using tinyxml2::XMLUtil;
-
       /// \brief  Factory parsing sequence of values.
       /// \tparam ValueType one of (bool, int, unsigned int, double, float)
       ///

@@ -36,7 +36,7 @@ namespace hpp {
           typedef parser::SequenceFactory <value_type> PointFactory;
           typedef parser::SequenceFactory <unsigned int> TriangleFactory;
 
-          ContactFactory (ObjectFactory* parent, const tinyxml2::XMLElement* element) :
+          ContactFactory (ObjectFactory* parent, const parser::XMLElement* element) :
             ObjectFactory (parent, element) {}
 
           virtual void finishTags ();

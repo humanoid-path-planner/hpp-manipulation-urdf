@@ -35,7 +35,7 @@ namespace hpp {
       /// \li end with a quaternion (4 coordinates).
       class PositionFactory : public parser::SequenceFactory <float> {
         public:
-          PositionFactory (ObjectFactory* parent, const tinyxml2::XMLElement* element) :
+          PositionFactory (ObjectFactory* parent, const parser::XMLElement* element) :
             SequenceFactory <float> (parent, element, 7) {}
 
           Transform3f position () const;

@@ -15,7 +15,7 @@ hpp-manipulation-urdf needs the following package to be installed:
 * [hpp-util]
 * [ressource_retriever] is a ROS package.
 * [hpp-model-urdf] is a URDF/SRDF parser for [HPP] software.
-* [TinyXML-2] is a simple, small, efficient, C++ XML parser.
+* [TinyXML] is a simple, small, efficient, C++ XML parser.
 
 ### Installation
 
@@ -33,7 +33,7 @@ $ make install
 
 * Implement a factory for AxialHandle (See [hpp-manipulation])
 
-[TinyXML-2]:https://github.com/leethomason/tinyxml2
+[TinyXML]:http://www.grinninglizard.com/tinyxml
 [hpp-model-urdf]:https://github.com/humanoid-path-planner/hpp-model-urdf
 [HPP]:https://github.com/humanoid-path-planner/hpp-doc
 [hpp-manipulation-urdf]:https://github.com/billx09/hpp-manipulation-urdf

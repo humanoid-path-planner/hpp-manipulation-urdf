@@ -33,7 +33,7 @@ namespace hpp {
       /// \brief Build an object of type hpp::model::Gripper.
       class GripperFactory : public parser::ObjectFactory {
         public:
-          GripperFactory (ObjectFactory* parent, const tinyxml2::XMLElement* element) :
+          GripperFactory (ObjectFactory* parent, const parser::XMLElement* element) :
             ObjectFactory (parent, element) {}
 
           virtual void finishTags ();

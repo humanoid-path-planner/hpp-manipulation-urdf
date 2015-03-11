@@ -35,7 +35,7 @@ MACRO(ADD_TESTCASE NAME GENERATED)
   ENDIF()
   ADD_TEST(${NAME} ${RUNTIME_OUTPUT_DIRECTORY}/${NAME})
 
-  PKG_CONFIG_USE_DEPENDENCY(${NAME} tinyxml2)
+  PKG_CONFIG_USE_DEPENDENCY(${NAME} tinyxml)
   PKG_CONFIG_USE_DEPENDENCY(${NAME} hpp-manipulation)
 
   # Link against Boost and project library.

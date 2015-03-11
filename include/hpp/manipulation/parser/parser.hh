@@ -21,19 +21,18 @@
 # include <list>
 # include <string>
 # include <iostream>
-# include <tinyxml2.h>
+# include <tinyxml.h>
 
 # include <hpp/manipulation/fwd.hh>
 
 namespace hpp {
   namespace manipulation {
     namespace parser {
-      using tinyxml2::XMLElement;
-      using tinyxml2::XMLDocument;
-      using tinyxml2::XMLAttribute;
-      using tinyxml2::XMLNode;
-      using tinyxml2::XMLText;
-      using tinyxml2::XMLUtil;
+      typedef TiXmlElement XMLElement;
+      typedef TiXmlDocument XMLDocument;
+      typedef TiXmlAttribute XMLAttribute;
+      typedef TiXmlNode XMLNode;
+      typedef TiXmlText XMLText;
 
       class RootFactory;
 
@@ -160,7 +159,7 @@ namespace hpp {
 
           const XMLElement* XMLelement ();
 
-          virtual void impl_setAttribute (const XMLAttribute* /* attr */);
+          virtual void impl_setAttribute (const XMLAttribute* attr);
 
           void addChild (ObjectFactory* child);
 

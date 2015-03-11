@@ -31,6 +31,18 @@ class Test {
     std::string name;
 };
 
+class TestDFactory : public SequenceFactory <double> {
+  public:
+    static ObjectFactory* create (ObjectFactory* parent = NULL, const XMLElement* element = NULL)
+    {
+      return new TestDFactory (parent, element);
+    }
+
+  protected:
+    TestDFactory (ObjectFactory* parent, const XMLElement* element)
+      : SequenceFactory <double> (parent, element, 1) {}
+};
+
 class TestFactory : public ObjectFactory {
   public:
     static ObjectFactory* create (ObjectFactory* parent = NULL, const XMLElement* element = NULL)
@@ -39,10 +51,20 @@ class TestFactory : public ObjectFactory {
     }
 
     /// Called for each attribute
-    virtual void impl_setAttribute (const std::string attName)
+    virtual void impl_setAttribute (const XMLAttribute* attr)
     {
-      if (attName == "name")
-        obj_.name = std::string (XMLelement ()->FindAttribute ("name")->Value ());
+      if (strcmp (attr->Name (), "othername") == 0)
+        obj_.name = attr->ValueStr ();
+    }
+
+    virtual void finishTags () {
+     ObjectFactory* o (NULL);
+     if (!getChildOfType ("tag1", o)) {
+       // There is more than one tag <position>
+       // o is a pointer to the first one.
+     }
+     TestDFactory* sf = o->as <TestDFactory > ();
+     obj_.d = sf->values ().front ();
     }
 
     Test* object ()
@@ -56,37 +78,6 @@ class TestFactory : public ObjectFactory {
 
   private:
     Test obj_;
-};
-
-class TestDFactory : public ObjectFactory {
-  public:
-    static ObjectFactory* create (ObjectFactory* parent = NULL, const XMLElement* element = NULL)
-    {
-      return new TestDFactory (parent, element);
-    }
-
-    /// Called when the object is created.
-    /// It should create a new object;
-    virtual bool init ()
-    {
-      if (!hasParent ())
-        throw std::logic_error ("Parent cannot be null.");
-      return true;
-    }
-
-    /// Add Text child.
-    virtual void addTextChild (const XMLText* text)
-    {
-      TestFactory* tf = dynamic_cast <TestFactory*> (parent ());
-      double* d = &(tf->object ()->d);
-      if (!XMLUtil::ToDouble( text->Value (), d )) {
-        hppDout (error, "Unable to cast TAG1 to double");
-      }
-    }
-
-  protected:
-    TestDFactory (ObjectFactory* parent, const XMLElement* element) :
-          ObjectFactory (parent, element) {}
 };
 
 BOOST_AUTO_TEST_CASE (testparser)

@@ -23,41 +23,62 @@
 namespace hpp {
   namespace manipulation {
     namespace parser {
-      namespace Predicate {
-        struct IsEmpty : public std::unary_function<std::string, bool>{
+      namespace {
+        struct StringIsEmpty : public std::unary_function<std::string, bool>{
           bool operator () (std::string s) const {return s.empty ();}
         };
-      }
 
-      template <typename ValueType> bool cast (const std::string& str, ValueType* val)
-      {
-        hppDout (error, "Unkown type.");
-        return false;
-      }
+        template <typename ValueType> bool cast (const std::string& str, ValueType* val)
+        {
+          hppDout (error, "Unkown type.");
+          return false;
+        }
 
-      template <> bool cast <int> (const std::string& str, int* val)
-      {
-        return XMLUtil::ToInt (str.c_str (), val);
-      }
+        template <> bool cast <int> (const std::string& str, int* val)
+        {
+          if ( TIXML_SSCANF (str.c_str (), "%d", val) == 1 )
+            return true;
+          return false;
+        }
 
-      template <> bool cast <unsigned int> (const std::string& str, unsigned int* val)
-      {
-        return XMLUtil::ToUnsigned (str.c_str (), val);
-      }
+        template <> bool cast <unsigned int> (const std::string& str, unsigned int* val)
+        {
+          if ( TIXML_SSCANF (str.c_str (), "%u", val) == 1 )
+            return true;
+          return false;
+        }
 
-      template <> bool cast <double> (const std::string& str, double* val)
-      {
-        return XMLUtil::ToDouble (str.c_str (), val);
-      }
+        template <> bool cast <double> (const std::string& str, double* val)
+        {
+          if ( TIXML_SSCANF (str.c_str (), "%lf", val) == 1 )
+            return true;
+          return false;
+        }
 
-      template <> bool cast <float> (const std::string& str, float* val)
-      {
-        return XMLUtil::ToFloat (str.c_str (), val);
-      }
+        template <> bool cast <float> (const std::string& str, float* val)
+        {
+          if ( TIXML_SSCANF (str.c_str (), "%f", val) == 1 )
+            return true;
+          return false;
+        }
 
-      template <> bool cast <bool> (const std::string& str, bool* val)
-      {
-        return XMLUtil::ToBool (str.c_str (), val);
+        template <> bool cast <bool> (const std::string& str, bool* val)
+        {
+          int iVal;
+          if (cast <int> (str, &iVal)) {
+            *val = (iVal == 0) ? false : true;
+            return true;
+          }
+          if (str.compare ("true") == 0) {
+            *val = true;
+            return true;
+          }
+          if (str.compare ("false") == 0) {
+            *val = false;
+            return true;
+          }
+          return false;
+        }
       }
 
       template <typename ValueType>
@@ -71,7 +92,7 @@ namespace hpp {
         boost::algorithm::split (values, t,
             boost::algorithm::is_any_of (" \n\t\r"),
             boost::algorithm::token_compress_on);
-        values.remove_if (Predicate::IsEmpty());
+        values.remove_if (StringIsEmpty());
         if (size_ > 0 && values.size () != size_) {
           throw std::invalid_argument ("Wrong sequence size");
         }
