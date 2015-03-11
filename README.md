@@ -4,7 +4,7 @@ This package is part of the [HPP] software and extends the functionalities of hp
 It implements a URDF/SRDF parser for the package hpp-manipulation.
 
 ### Version
-1.0
+1.1
 
 ### Dependencies
 
