@@ -184,6 +184,7 @@ namespace hpp {
       /// Represent a XML document.
       class RootFactory : public ObjectFactory {
         public:
+	virtual ~RootFactory () {}
           RootFactory (const DevicePtr_t dev = DevicePtr_t ());
 
           DevicePtr_t device () const;
