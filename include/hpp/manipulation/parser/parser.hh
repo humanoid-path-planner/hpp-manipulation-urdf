@@ -76,6 +76,9 @@ namespace hpp {
 
           ObjectFactory (ObjectFactory* parent = NULL, const XMLElement* element = NULL);
 
+          virtual ~ObjectFactory ()
+          {}
+
           /// \name Events
           /// \{
 
