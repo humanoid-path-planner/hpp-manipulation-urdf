@@ -17,6 +17,8 @@
 #include <hpp/util/debug.hh>
 #include <hpp/util/pointer.hh>
 
+#include <hpp/model/joint.hh>
+
 #include <hpp/manipulation/handle.hh>
 #include <hpp/manipulation/axial-handle.hh>
 
@@ -70,8 +72,11 @@ namespace hpp {
           return;
         }
         JointPtr_t joint = root ()->device ()->getJointByBodyName (linkName_);
-        handle_ = HandleType::create (root ()->prependPrefix (name ()),
-            localPosition_, joint);
+	// Handle position is expressed in link frame. We need to express it in
+	// joint frame.
+	const Transform3f& linkInJointFrame (joint->linkInJointFrame ());
+	handle_ = HandleType::create (root ()->prependPrefix (name ()),
+				      linkInJointFrame * localPosition_, joint);
         handle_->clearance (clearance);
         d->add <HandlePtr_t> (handle_->name (), handle_);
       }
