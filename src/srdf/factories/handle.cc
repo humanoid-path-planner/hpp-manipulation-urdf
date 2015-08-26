@@ -49,6 +49,20 @@ namespace hpp {
         }
         linkName_ = root ()->prependPrefix (factories.front ()->name ());
 
+        /// Get the clearance
+        value_type clearance = 0;
+        if (hasAttribute ("clearance")) {
+          if (TIXML_SSCANF (
+                getAttribute ("clearance").c_str (), "%lf", &clearance
+                ) != 1 ) {
+            hppDout (error, "Could not cast attribute clearance of tag "
+                << name () << " to double");
+          }
+        } else {
+          hppDout (warning, "Missing attribute clearance of tag "
+              << name () << ". Assuming 0");
+        }
+
         /// We have now all the information to build the handle.
         DevicePtr_t d = HPP_DYNAMIC_PTR_CAST (Device, root ()->device ());
         if (!d) {
@@ -58,6 +72,7 @@ namespace hpp {
         JointPtr_t joint = root ()->device ()->getJointByBodyName (linkName_);
         handle_ = HandleType::create (root ()->prependPrefix (name ()),
             localPosition_, joint);
+        handle_->clearance (clearance);
         d->add <HandlePtr_t> (handle_->name (), handle_);
       }
 

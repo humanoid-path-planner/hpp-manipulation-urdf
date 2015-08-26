@@ -53,6 +53,20 @@ namespace hpp {
           collisionLinks_.push_back (
               root ()->prependPrefix ((*it)->getAttribute ("link")));
 
+        /// Get the clearance
+        value_type clearance = 0;
+        if (hasAttribute ("clearance")) {
+          if (TIXML_SSCANF (
+                getAttribute ("clearance").c_str (), "%lf", &clearance
+                ) != 1 ) {
+            hppDout (error, "Could not cast attribute clearance of tag "
+                << name () << " to double");
+          }
+        } else {
+          hppDout (warning, "Missing attribute clearance of tag "
+              << name () << ". Assuming 0");
+        }
+
         /// We have now all the information to build the handle.
         if (!root ()->device ()) {
           hppDout (error, "Failed to create gripper");
@@ -66,6 +80,7 @@ namespace hpp {
         JointPtr_t joint = root ()->device ()->getJointByBodyName (linkName_);
         gripper_ = model::Gripper::create (
             root ()->prependPrefix (name ()), joint, localPosition_, joints);
+        gripper_->clearance (clearance);
         root ()->device ()->add (gripper_->name (), gripper_);
       }
 
