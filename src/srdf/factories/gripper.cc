@@ -78,8 +78,12 @@ namespace hpp {
           joints.push_back (root ()->device ()->getJointByBodyName (*it));
         }
         JointPtr_t joint = root ()->device ()->getJointByBodyName (linkName_);
-        gripper_ = model::Gripper::create (
-            root ()->prependPrefix (name ()), joint, localPosition_, joints);
+	// Gripper position is expressed in link frame. We need to compute
+	// the position in joint frame.
+	const Transform3f& linkInJointFrame (joint->linkInJointFrame ());
+        gripper_ = model::Gripper::create
+	  (root ()->prependPrefix (name ()), joint,
+	   linkInJointFrame * localPosition_, joints);
         gripper_->clearance (clearance);
         root ()->device ()->add (gripper_->name (), gripper_);
       }
