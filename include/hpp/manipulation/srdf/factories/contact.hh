@@ -42,7 +42,7 @@ namespace hpp {
           virtual void finishTags ();
 
         private:
-          std::list < Triangle > triangles_;
+          JointAndTriangles_t triangles_;
           std::string linkName_, objectName_;
       };
 

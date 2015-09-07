@@ -39,11 +39,15 @@ namespace hpp {
         ObjectFactory* o = NULL;
         getChildOfType ("link", o);
         linkName_ = root ()->prependPrefix (o->name ());
-        const model::ObjectVector_t& objVector = device->getJointByBodyName
-          (linkName_) ->linkedBody ()->innerObjects (model::COLLISION);
+        JointPtr_t joint = device->getJointByBodyName (linkName_);
         Transform3f M; M.setIdentity ();
-        if (o->hasAttribute ("object")) {
-          objectName_ = o->getAttribute ("object");
+        if (o->hasAttribute ("index")) {
+          const model::ObjectVector_t& objVector =
+            joint->linkedBody ()->innerObjects (model::COLLISION);
+          if (o->hasAttribute ("index"))
+            objectName_ = linkName_ + "_" + o->getAttribute ("index");
+          else
+            objectName_ = linkName_ + "_0";
           /// In this case, coordinates are expressed in the body frame.
           bool found = false;
           for (model::ObjectVector_t::const_iterator it = objVector.begin ();
@@ -83,7 +87,7 @@ namespace hpp {
           Triangle t (points [indexes [i_tri  ]],
                       points [indexes [i_tri+1]],
                       points [indexes [i_tri+2]]);
-          triangles_.push_back (t);
+          triangles_.push_back (JointAndTriangle_t (joint, t));
         }
 
         device->add (root ()->prependPrefix (name ()), triangles_);
