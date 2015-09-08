@@ -42,6 +42,8 @@ namespace hpp {
         JointPtr_t joint = device->getJointByBodyName (linkName_);
         Transform3f M; M.setIdentity ();
         if (o->hasAttribute ("index")) {
+          // If there is an index, we consider the position are given relatively
+          // to the "index"th collision object,
           const model::ObjectVector_t& objVector =
             joint->linkedBody ()->innerObjects (model::COLLISION);
           if (o->hasAttribute ("index"))
@@ -54,8 +56,7 @@ namespace hpp {
               it != objVector.end (); ++it) {
             if (root ()->prependPrefix ((*it)->name ())
                 .compare (objectName_) == 0) {
-              M = (*it)->positionInJointFrame () * device->getJointByBodyName
-                (linkName_)->currentTransformation ();
+              M = (*it)->positionInJointFrame ();
               found = true;
               break;
             }
@@ -63,6 +64,9 @@ namespace hpp {
           if (!found) {
             hppDout (error, "Body " << objectName_ << " not found in link " << linkName_);
           }
+        } else {
+          // If there is no index, the position are relative to the link.
+          M = joint->linkInJointFrame ();
         }
 
         getChildOfType ("point", o);

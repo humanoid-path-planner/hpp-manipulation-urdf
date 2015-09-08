@@ -1,17 +1,16 @@
 <contact name="name">
   <!-- Exactly 1 of -->
   <!-- Set the link used to build the reference frame
-       In the first case, the contact surfaces are mobile and the following coordinates are
-       expressed in the frame of the joint of "link_name". Use this to describe object contact
-       surfaces.
-       
-       In the second case, the contact surfaces are static and the following coordinates are
-       expressed in the frame of the object. As an object can be present in two links, a link
-       name must be provided. If the link has only one object, the link name must still be
-       provided.
+       In the first case, the position of the points below are expressed in the
+       link frame.
+
+       In the second case, the position of the points below are expressed in the
+       frame of the "index_collision_object"th collision body in the link. If
+       you have only one body, then set it to zero. This is a convenient way of
+       of defining surfaces on a particular body.
        -->
     <link name="link_name" />
-    <link name="link_name" object="object_name" />
+    <link name="link_name" index="index_collision_object" />
 
   <!-- Exactly 1 -->
     <!-- Sequence of 3D points expressed in the frame defined above -->
