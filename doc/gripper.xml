@@ -1,4 +1,4 @@
-<gripper name="name">
+<gripper name="name" clearance="value">
   <!-- Exactly 1 -->
     <!-- position should contains 7 numbers, treated as a 3D vector (translation) and a quaternion (rotation) -->
     <position>0 0 0 1 0 0 0</position>
