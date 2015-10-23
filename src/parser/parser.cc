@@ -38,6 +38,7 @@ namespace hpp {
           addObjectFactory ("contact", create <srdf::ContactFactory>);
           addObjectFactory ("point", create <srdf::ContactFactory::PointFactory>);
           addObjectFactory ("triangle", create <srdf::ContactFactory::TriangleFactory>);
+          addObjectFactory ("shape", create <srdf::ContactFactory::ShapeFactory>);
 
           /// This removes warnings
           addObjectFactory ("link", create <ObjectFactory>);

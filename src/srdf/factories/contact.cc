@@ -14,15 +14,18 @@
 // received a copy of the GNU Lesser General Public License along with
 // hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
 
+#include "hpp/manipulation/srdf/factories/contact.hh"
+
+#include <boost/assign/list_of.hpp>
+
 #include <hpp/util/debug.hh>
 #include <hpp/util/pointer.hh>
 
 #include <hpp/model/joint.hh>
 #include <hpp/model/body.hh>
 #include <hpp/model/collision-object.hh>
-#include <hpp/manipulation/device.hh>
 
-#include "hpp/manipulation/srdf/factories/contact.hh"
+#include <hpp/manipulation/device.hh>
 
 namespace hpp {
   namespace manipulation {
@@ -73,6 +76,8 @@ namespace hpp {
         PointFactory* pts = o->as <PointFactory>();
         getChildOfType ("triangle", o);
         TriangleFactory* tri = o->as <TriangleFactory>();
+        getChildOfType ("shape", o);
+        ShapeFactory* shapes = o->as <ShapeFactory>();
 
         /// First build the sequence of points
         const PointFactory::OutType& v = pts->values();
@@ -81,6 +86,7 @@ namespace hpp {
         for (size_t i = 0; i < v.size (); i+=3)
           points.push_back (M.transform (fcl::Vec3f (v[i], v[i+1], v[i+2])));
 
+        /// Backward compatibility
         /// Group points by 3 to form triangle
         const TriangleFactory::OutType& indexes = tri->values();
         if (indexes.size() % 3 != 0) throw std::length_error ("Triangle sequence size should be a multiple of 3.");
@@ -88,13 +94,29 @@ namespace hpp {
           throw std::out_of_range ("triangle should be a sequence of unsigned integer lower than the number of points.");
         for (size_t i_tri = 0; i_tri < indexes.size (); i_tri+=3) {
           /// For each of the point indexes
-          Triangle t (points [indexes [i_tri  ]],
-                      points [indexes [i_tri+1]],
-                      points [indexes [i_tri+2]]);
-          triangles_.push_back (JointAndTriangle_t (joint, t));
+          Shape_t t = boost::assign::list_of
+            (points [indexes [i_tri  ]])
+            (points [indexes [i_tri+1]])
+            (points [indexes [i_tri+2]]);
+          shapes_.push_back (JointAndShape_t (joint, t));
         }
 
-        device->add (root ()->prependPrefix (name ()), triangles_);
+        /// Construct shapes
+        const ShapeFactory::OutType& shapeIdxs = shapes->values();
+        if (indexes.size() % 3 != 0) throw std::length_error ("Triangle sequence size should be a multiple of 3.");
+        std::size_t i_shape = 0;
+        while (i_shape < shapeIdxs.size ()) {
+          if (i_shape + shapeIdxs[i_shape] > shapeIdxs.size ())
+            throw std::out_of_range ("shape should be a sequence of unsigned "
+                "integer: N iPoints_1 ... iPoints_N M iPoints_1 ... iPoints_M");
+          Shape_t shape (shapeIdxs [i_shape]);
+          for (size_t i = 1; i < shapeIdxs [i_shape] + 1; ++i)
+            shape[i] = points [shapeIdxs [i_shape + i]];
+          i_shape += shapeIdxs[i_shape] + 1;
+          shapes_.push_back (JointAndShape_t (joint, shape));
+        }
+
+        device->add (root ()->prependPrefix (name ()), shapes_);
       }
     } // namespace srdf
   } // namespace manipulation

@@ -35,6 +35,7 @@ namespace hpp {
         public:
           typedef parser::SequenceFactory <value_type> PointFactory;
           typedef parser::SequenceFactory <unsigned int> TriangleFactory;
+          typedef parser::SequenceFactory <unsigned int> ShapeFactory;
 
           ContactFactory (ObjectFactory* parent, const parser::XMLElement* element) :
             ObjectFactory (parent, element) {}
@@ -42,7 +43,7 @@ namespace hpp {
           virtual void finishTags ();
 
         private:
-          JointAndTriangles_t triangles_;
+          JointAndShapes_t shapes_;
           std::string linkName_, objectName_;
       };
 
