@@ -95,7 +95,7 @@ namespace hpp {
                   "integer: N iPoints_1 ... iPoints_N M iPoints_1 ... iPoints_M");
             Shape_t shape (shapeIdxs [i_shape]);
             for (size_t i = 1; i < shapeIdxs [i_shape] + 1; ++i)
-              shape[i] = points [shapeIdxs [i_shape + i]];
+              shape[i-1] = points [shapeIdxs [i_shape + i]];
             i_shape += shapeIdxs[i_shape] + 1;
             shapes_.push_back (JointAndShape_t (joint, shape));
           }
