@@ -119,6 +119,26 @@ namespace hpp {
         gripperParser.parse (srdfPath, robot);
         hppDout (notice, "Finished parsing grippers.");
       }
+
+      void addRobotSRDFModel (const DevicePtr_t& robot,
+          const std::string& prefix,
+          const std::string& package,
+          const std::string& modelName,
+          const std::string& srdfSuffix)
+      {
+        std::string srdfPath = "package://" + package + "/srdf/"
+          + modelName + srdfSuffix + ".srdf";
+
+        // Build robot model from URDF.
+        parser::Parser gripperParser;
+        // For backward compatibility
+        gripperParser.addObjectFactory ("handle_position_in_joint",
+            parser::create <PositionFactory>);
+
+        gripperParser.prefix (prefix);
+        gripperParser.parse (srdfPath, robot);
+        hppDout (notice, "Finished parsing grippers.");
+      }
     } // namespace srdf
   } // namespace manipulation
 } // namespace hpp

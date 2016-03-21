@@ -75,6 +75,12 @@ namespace hpp {
           const std::string& modelName,
           const std::string& urdfSuffix,
           const std::string& srdfSuffix);
+
+      void addRobotSRDFModel (const DevicePtr_t& robot,
+          const std::string& prefix,
+          const std::string& package,
+          const std::string& modelName,
+          const std::string& srdfSuffix);
     } // namespace srdf
   } // namespace manipulation
 } // namespace hpp
