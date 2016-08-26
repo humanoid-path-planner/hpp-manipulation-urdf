@@ -17,10 +17,9 @@
 #ifndef HPP_MANIPULATION_SRDF_FACTORIES_HANDLE_HH
 # define HPP_MANIPULATION_SRDF_FACTORIES_HANDLE_HH
 
+# include <pinocchio/spatial/se3.hpp>
+
 # include <hpp/manipulation/fwd.hh>
-# include <hpp/model/fwd.hh>
-# include <hpp/fcl/math/transform.h>
-# include <hpp/fcl/shape/geometric_shapes.h>
 
 # include "hpp/manipulation/parser/parser.hh"
 

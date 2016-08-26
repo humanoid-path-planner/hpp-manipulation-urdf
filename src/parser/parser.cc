@@ -42,7 +42,7 @@ namespace hpp {
 
           /// This removes warnings
           addObjectFactory ("link", create <ObjectFactory>);
-          addObjectFactory ("disable_collisions", create <ObjectFactory>);
+          addObjectFactory ("disable_collisions", create <IgnoreTagFactory>);
           addObjectFactory ("material", create <IgnoreTagFactory>);
           addObjectFactory ("texture", create <IgnoreTagFactory>);
         }

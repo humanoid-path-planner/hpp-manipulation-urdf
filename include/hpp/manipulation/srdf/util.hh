@@ -40,7 +40,7 @@ namespace hpp {
       /// \li
       /// package://${modelName}_description/srdf/${modelName}${srdfSuffix}.srdf
       void loadObjectModel (const DevicePtr_t& robot,
-          const model::JointPtr_t& baseJoint,
+          const JointIndex& baseJoint,
           const std::string& prefix,
           const std::string& rootJointType,
           const std::string& package,
@@ -54,7 +54,7 @@ namespace hpp {
       /// \li
       /// package://${modelName}_description/srdf/${modelName}${srdfSuffix}.srdf
       void loadHumanoidModel (const DevicePtr_t& robot,
-          const model::JointPtr_t& baseJoint,
+          const JointIndex& baseJoint,
           const std::string& prefix,
           const std::string& rootJointType,
           const std::string& package,
@@ -68,7 +68,7 @@ namespace hpp {
       /// \li
       /// package://${modelName}_description/srdf/${modelName}${srdfSuffix}.srdf
       void loadRobotModel (const DevicePtr_t& robot,
-          const model::JointPtr_t& baseJoint,
+          const JointIndex& baseJoint,
           const std::string& prefix,
           const std::string& rootJointType,
           const std::string& package,

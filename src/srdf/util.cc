@@ -16,7 +16,7 @@
 
 #include "hpp/manipulation/srdf/util.hh"
 
-#include <hpp/model/urdf/util.hh>
+#include <hpp/pinocchio/urdf/util.hh>
 #include <hpp/manipulation/device.hh>
 
 #include "hpp/manipulation/parser/parser.hh"
@@ -31,7 +31,7 @@ namespace hpp {
           const std::string& urdfSuffix,
           const std::string& srdfSuffix)
       {
-        hpp::model::urdf::loadUrdfModel (robot, "anchor", package, modelName + urdfSuffix);
+        hpp::pinocchio::urdf::loadUrdfModel (robot, "anchor", package, modelName + urdfSuffix);
 
         std::string srdfPath = "package://" + package + "/srdf/"
           + modelName + srdfSuffix + ".srdf";
@@ -46,7 +46,7 @@ namespace hpp {
       }
 
       void loadObjectModel (const DevicePtr_t& robot,
-          const model::JointPtr_t& baseJoint,
+          const JointIndex& baseJoint,
           const std::string& prefix,
           const std::string& rootJointType,
           const std::string& package,
@@ -54,7 +54,7 @@ namespace hpp {
           const std::string& urdfSuffix,
           const std::string& srdfSuffix)
       {
-        hpp::model::urdf::loadRobotModel (robot, baseJoint, prefix,
+        hpp::pinocchio::urdf::loadRobotModel (robot, baseJoint, prefix,
             rootJointType, package, modelName, urdfSuffix, srdfSuffix);
 
         std::string srdfPath = "package://" + package + "/srdf/"
@@ -71,7 +71,7 @@ namespace hpp {
       }
 
       void loadHumanoidModel (const DevicePtr_t& robot,
-          const model::JointPtr_t& baseJoint,
+          const JointIndex& baseJoint,
           const std::string& prefix,
           const std::string& rootJointType,
           const std::string& package,
@@ -79,7 +79,7 @@ namespace hpp {
           const std::string& urdfSuffix,
           const std::string& srdfSuffix)
       {
-        hpp::model::urdf::loadHumanoidModel (robot, baseJoint, prefix,
+        hpp::pinocchio::urdf::loadHumanoidModel (robot, baseJoint, prefix,
             rootJointType, package, modelName, urdfSuffix, srdfSuffix);
 
         std::string srdfPath = "package://" + package + "/srdf/"
@@ -96,7 +96,7 @@ namespace hpp {
       }
 
       void loadRobotModel (const DevicePtr_t& robot,
-          const model::JointPtr_t& baseJoint,
+          const JointIndex& baseJoint,
           const std::string& prefix,
           const std::string& rootJointType,
           const std::string& package,
@@ -104,7 +104,7 @@ namespace hpp {
           const std::string& urdfSuffix,
           const std::string& srdfSuffix)
       {
-        hpp::model::urdf::loadRobotModel (robot, baseJoint, prefix,
+        hpp::pinocchio::urdf::loadRobotModel (robot, baseJoint, prefix,
             rootJointType, package, modelName, urdfSuffix, srdfSuffix);
 
         std::string srdfPath = "package://" + package + "/srdf/"

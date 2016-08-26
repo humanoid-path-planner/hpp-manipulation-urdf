@@ -17,10 +17,9 @@
 #ifndef HPP_MANIPULATION_SRDF_FACTORIES_GRIPPER_HH
 # define HPP_MANIPULATION_SRDF_FACTORIES_GRIPPER_HH
 
+# include <pinocchio/spatial/se3.hpp>
+
 # include <hpp/manipulation/fwd.hh>
-# include <hpp/model/fwd.hh>
-# include <hpp/fcl/math/transform.h>
-# include <hpp/fcl/shape/geometric_shapes.h>
 
 # include "hpp/manipulation/parser/parser.hh"
 
@@ -30,7 +29,7 @@ namespace hpp {
       /// \addtogroup factories
       /// \{
 
-      /// \brief Build an object of type hpp::model::Gripper.
+      /// \brief Build an object of type hpp::pinocchio::Gripper.
       class GripperFactory : public parser::ObjectFactory {
         public:
           GripperFactory (ObjectFactory* parent, const parser::XMLElement* element) :

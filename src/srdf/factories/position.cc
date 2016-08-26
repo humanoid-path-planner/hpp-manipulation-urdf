@@ -14,18 +14,21 @@
 // received a copy of the GNU Lesser General Public License along with
 // hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
 
-#include <hpp/fcl/math/transform.h>
-
 #include "hpp/manipulation/srdf/factories/position.hh"
+
+#include <pinocchio/spatial/se3.hpp>
 
 namespace hpp {
   namespace manipulation {
     namespace srdf {
+      typedef Eigen::Quaternion<value_type> Quaternion_t;
+
       Transform3f PositionFactory::position () const
       {
         std::vector <float> v = values ();
-        Transform3f p = Transform3f (fcl::Quaternion3f (v[3], v[4], v[5], v[6]),
-            fcl::Vec3f (v[0], v[1], v[2]));
+        Transform3f p = Transform3f (
+            Quaternion_t(v[3], v[4], v[5], v[6]).matrix(), // w, x, y, z
+            vector3_t (v[0], v[1], v[2]));
         return p;
       }
     } // namespace srdf

@@ -14,10 +14,14 @@
 // received a copy of the GNU Lesser General Public License along with
 // hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
 
+#include "hpp/manipulation/srdf/factories/handle.hh"
+
+#include <pinocchio/multibody/model.hpp>
+
 #include <hpp/util/debug.hh>
 #include <hpp/util/pointer.hh>
 
-#include <hpp/model/joint.hh>
+#include <hpp/pinocchio/joint.hh>
 
 #include <hpp/manipulation/handle.hh>
 #include <hpp/manipulation/axial-handle.hh>
@@ -25,7 +29,6 @@
 #include <hpp/manipulation/device.hh>
 
 #include "hpp/manipulation/srdf/factories/position.hh"
-#include "hpp/manipulation/srdf/factories/handle.hh"
 
 namespace hpp {
   namespace manipulation {
@@ -71,12 +74,16 @@ namespace hpp {
           hppDout (error, "Failed to create handle");
           return;
         }
-        JointPtr_t joint = root ()->device ()->getJointByBodyName (linkName_);
+        const se3::Model& model = d->model();
+        if (!model.existBodyName(linkName_))
+          throw std::invalid_argument ("Link " + linkName_ + " not found. Cannot create handle");
+        const se3::Frame& linkFrame = model.frames[model.getFrameId(linkName_)];
+        assert(linkFrame.type == se3::BODY);
+        JointPtr_t joint (new Joint (d, linkFrame.parent));
 	// Handle position is expressed in link frame. We need to express it in
 	// joint frame.
-	const Transform3f& linkInJointFrame (joint->linkInJointFrame ());
 	handle_ = HandleType::create (root ()->prependPrefix (name ()),
-				      linkInJointFrame * localPosition_, joint);
+				      linkFrame.placement * localPosition_, joint);
         handle_->clearance (clearance);
         d->add <HandlePtr_t> (handle_->name (), handle_);
       }

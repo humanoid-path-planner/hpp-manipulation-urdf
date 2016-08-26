@@ -18,12 +18,15 @@
 
 #include <boost/assign/list_of.hpp>
 
+#include <pinocchio/multibody/model.hpp>
+#include <pinocchio/multibody/geometry.hpp>
+
 #include <hpp/util/debug.hh>
 #include <hpp/util/pointer.hh>
 
-#include <hpp/model/joint.hh>
-#include <hpp/model/body.hh>
-#include <hpp/model/collision-object.hh>
+#include <hpp/pinocchio/joint.hh>
+#include <hpp/pinocchio/body.hh>
+#include <hpp/pinocchio/collision-object.hh>
 
 #include <hpp/manipulation/device.hh>
 
@@ -37,39 +40,37 @@ namespace hpp {
           hppDout (error, "Failed to create contacts");
           return;
         }
+        const se3::Model&         model     = device->model();
+        const se3::GeometryModel& geomModel = device->geomModel(); 
 
         /// Get the link
         ObjectFactory* o = NULL;
         getChildOfType ("link", o);
         linkName_ = root ()->prependPrefix (o->name ());
-        JointPtr_t joint = device->getJointByBodyName (linkName_);
+
+        /// Build joint
+        if (!model.existBodyName(linkName_))
+          throw std::invalid_argument ("Link " + linkName_ + " not found. Cannot create contact");
+        const se3::Frame& linkFrame = model.frames[model.getFrameId(linkName_)];
+        assert(linkFrame.type == se3::BODY);
+        JointPtr_t joint (new Joint (device, linkFrame.parent));
+
         Transform3f M; M.setIdentity ();
         if (o->hasAttribute ("index")) {
+          throw std::invalid_argument("attribute index is unsupported yet");
           // If there is an index, we consider the position are given relatively
           // to the "index"th collision object,
-          const model::ObjectVector_t& objVector =
-            joint->linkedBody ()->innerObjects (model::COLLISION);
-          if (o->hasAttribute ("index"))
-            objectName_ = linkName_ + "_" + o->getAttribute ("index");
-          else
-            objectName_ = linkName_ + "_0";
+          objectName_ = linkName_ + "_" + o->getAttribute ("index");
           /// In this case, coordinates are expressed in the body frame.
-          bool found = false;
-          for (model::ObjectVector_t::const_iterator it = objVector.begin ();
-              it != objVector.end (); ++it) {
-            if (root ()->prependPrefix ((*it)->name ())
-                .compare (objectName_) == 0) {
-              M = (*it)->positionInJointFrame ();
-              found = true;
-              break;
-            }
-          }
-          if (!found) {
-            hppDout (error, "Body " << objectName_ << " not found in link " << linkName_);
+          se3::GeomIndex id = geomModel.getGeometryId(objectName_);
+          if (id < geomModel.geometryObjects.size()) {
+            hppDout (error, "Geometry " << objectName_ << " not found in link " << linkName_);
+          } else {
+            M = geomModel.geometryObjects[id].placement;
           }
         } else {
           // If there is no index, the position are relative to the link.
-          M = joint->linkInJointFrame ();
+          M = linkFrame.placement;
         }
 
         getChildOfType ("point", o);
@@ -78,9 +79,9 @@ namespace hpp {
         /// First build the sequence of points
         const PointFactory::OutType& v = pts->values();
         if (v.size() % 3 != 0) throw std::length_error ("Point sequence size should be a multiple of 3.");
-        std::vector < fcl::Vec3f > points;
+        std::vector < vector3_t > points;
         for (size_t i = 0; i < v.size (); i+=3)
-          points.push_back (M.transform (fcl::Vec3f (v[i], v[i+1], v[i+2])));
+          points.push_back (M.act (vector3_t (v[i], v[i+1], v[i+2])));
 
         try {
           /// Construct shapes

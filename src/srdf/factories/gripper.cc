@@ -14,14 +14,17 @@
 // received a copy of the GNU Lesser General Public License along with
 // hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
 
+#include "hpp/manipulation/srdf/factories/gripper.hh"
+
+#include <pinocchio/multibody/model.hpp>
+
 #include <hpp/util/debug.hh>
 #include <hpp/util/pointer.hh>
 
-#include <hpp/model/gripper.hh>
+#include <hpp/pinocchio/gripper.hh>
 
 #include <hpp/manipulation/device.hh>
 #include "hpp/manipulation/srdf/factories/position.hh"
-#include "hpp/manipulation/srdf/factories/gripper.hh"
 
 namespace hpp {
   namespace manipulation {
@@ -47,12 +50,6 @@ namespace hpp {
         }
         linkName_ = root ()->prependPrefix (factories.front ()->name ());
 
-        factories = getChildrenOfType ("disable_collision");
-        for (ObjectFactoryList::const_iterator it = factories.begin ();
-            it != factories.end (); ++it)
-          collisionLinks_.push_back (
-              root ()->prependPrefix ((*it)->getAttribute ("link")));
-
         /// Get the clearance
         value_type clearance = 0;
         if (hasAttribute ("clearance")) {
@@ -68,24 +65,28 @@ namespace hpp {
         }
 
         /// We have now all the information to build the handle.
-        if (!root ()->device ()) {
+        DevicePtr_t d = root()->device();
+        if (!d) {
           hppDout (error, "Failed to create gripper");
           return;
         }
-        model::JointVector_t joints;
-        for (std::list <std::string>::const_iterator it = collisionLinks_.begin ();
-            it != collisionLinks_.end (); ++it) {
-          joints.push_back (root ()->device ()->getJointByBodyName (*it));
-        }
-        JointPtr_t joint = root ()->device ()->getJointByBodyName (linkName_);
+        const se3::Model& model = d->model();
+        if (!model.existBodyName(linkName_))
+          throw std::invalid_argument ("Link " + linkName_ + " not found. Cannot create gripper");
+        const se3::Frame& linkFrame = model.frames[model.getFrameId(linkName_)];
+        assert(linkFrame.type == se3::BODY);
 	// Gripper position is expressed in link frame. We need to compute
 	// the position in joint frame.
-	const Transform3f& linkInJointFrame (joint->linkInJointFrame ());
-        gripper_ = model::Gripper::create
-	  (root ()->prependPrefix (name ()), joint,
-	   linkInJointFrame * localPosition_, joints);
+        d->model().addFrame (se3::Frame(
+              root ()->prependPrefix (name ()),
+              linkFrame.parent,
+              linkFrame.placement * localPosition_,
+              se3::OP_FRAME
+              ));
+        gripper_ = pinocchio::Gripper::create
+	  (root ()->prependPrefix (name ()), root()->device());
         gripper_->clearance (clearance);
-        root ()->device ()->add (gripper_->name (), gripper_);
+        d->add (gripper_->name (), gripper_);
       }
 
       GripperPtr_t GripperFactory::gripper () const
