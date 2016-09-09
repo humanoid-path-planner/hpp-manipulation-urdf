@@ -73,13 +73,15 @@ namespace hpp {
         const se3::Model& model = d->model();
         if (!model.existBodyName(linkName_))
           throw std::invalid_argument ("Link " + linkName_ + " not found. Cannot create gripper");
-        const se3::Frame& linkFrame = model.frames[model.getFrameId(linkName_)];
+        se3::FrameIndex linkFrameId = model.getFrameId(linkName_);
+        const se3::Frame& linkFrame = model.frames[linkFrameId];
         assert(linkFrame.type == se3::BODY);
 	// Gripper position is expressed in link frame. We need to compute
 	// the position in joint frame.
         d->model().addFrame (se3::Frame(
               root ()->prependPrefix (name ()),
               linkFrame.parent,
+              linkFrameId,
               linkFrame.placement * localPosition_,
               se3::OP_FRAME
               ));
