@@ -17,7 +17,6 @@
 #ifndef HPP_MANIPULATION_SRDF_UTIL_HH
 # define HPP_MANIPULATION_SRDF_UTIL_HH
 
-# include <hpp/model/fwd.hh>
 # include <hpp/manipulation/fwd.hh>
 
 namespace hpp {

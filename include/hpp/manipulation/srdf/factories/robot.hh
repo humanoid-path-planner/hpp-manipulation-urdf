@@ -18,7 +18,6 @@
 # define HPP_MANIPULATION_SRDF_FACTORIES_ROBOT_HH
 
 # include <hpp/manipulation/fwd.hh>
-# include <hpp/model/fwd.hh>
 # include <hpp/fcl/math/transform.h>
 # include <hpp/fcl/shape/geometric_shapes.h>
 
