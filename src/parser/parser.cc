@@ -17,7 +17,10 @@
 #include <stdexcept>
 
 #include <hpp/util/debug.hh>
-#include <resource_retriever/retriever.h>
+// #include <resource_retriever/retriever.h>
+
+#include <pinocchio/parsers/utils.hpp>       // se3::retrieveResourcePath
+#include <pinocchio/tools/file-explorer.hpp> // se3::rosPaths
 
 #include "hpp/manipulation/parser/parser.hh"
 #include "hpp/manipulation/srdf/factories.hh"
@@ -60,6 +63,10 @@ namespace hpp {
       {
         device_ = robot;
 
+        std::string fn = se3::retrieveResourcePath(semanticResName, se3::rosPaths());
+        parseFile (fn.c_str());
+
+        /*
 	resource_retriever::Retriever resourceRetriever;
 
 	resource_retriever::MemoryResource semanticResource =
@@ -71,7 +78,7 @@ namespace hpp {
 
         loadString (semanticDescription);
         parse ();
-        delete[] semanticDescription;
+        delete[] semanticDescription; */
       }
 
       void Parser::parseFile (const char* filename)
