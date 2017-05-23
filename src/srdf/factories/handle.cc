@@ -33,6 +33,11 @@
 namespace hpp {
   namespace manipulation {
     namespace srdf {
+      namespace {
+        template <typename H> void setMask(H&, const std::vector<bool>&) {}
+        template <> void setMask(Handle& h, const std::vector<bool>& m) { h.mask(m); }
+      }
+
       template < typename HandleType>
       void HandleFactory<HandleType>::finishTags ()
       {
@@ -68,6 +73,17 @@ namespace hpp {
               << name () << ". Assuming 0");
         }
 
+        /// Get the mask
+        factories = getChildrenOfType ("mask");
+        std::vector<bool> mask(6, true);
+        if (factories.size () > 1) {
+          hppDout (warning, "handle should have at most one <mask>. Using the first one");
+        }
+        if (!factories.empty()) {
+          parser::SequenceFactory<bool>* mf = factories.front()->as<parser::SequenceFactory<bool> >();
+          mask = mf->values();
+        }
+
         /// We have now all the information to build the handle.
         DevicePtr_t d = HPP_DYNAMIC_PTR_CAST (Device, root ()->device ());
         if (!d) {
@@ -85,6 +101,7 @@ namespace hpp {
 	handle_ = HandleType::create (root ()->prependPrefix (name ()),
 				      linkFrame.placement * localPosition_, joint);
         handle_->clearance (clearance);
+        setMask<HandleType> (*handle_, mask);
         d->add <HandlePtr_t> (handle_->name (), handle_);
       }
 
