@@ -16,6 +16,8 @@
 
 #include "hpp/manipulation/srdf/factories/position.hh"
 
+#include <hpp/util/debug.hh>
+
 #include <pinocchio/spatial/se3.hpp>
 
 namespace hpp {
@@ -26,9 +28,12 @@ namespace hpp {
       Transform3f PositionFactory::position () const
       {
         std::vector <float> v = values ();
-        Transform3f p = Transform3f (
-            Quaternion_t(v[3], v[4], v[5], v[6]).matrix(), // w, x, y, z
-            vector3_t (v[0], v[1], v[2]));
+        Quaternion_t q(v[3], v[4], v[5], v[6]); // w, x, y, z
+        if (std::fabs(1 - q.squaredNorm()) < 1e-4) {
+          hppDout (warning, "Quaternion is not normalized.");
+        }
+        q.normalize();
+        Transform3f p = Transform3f (q.matrix(), vector3_t (v[0], v[1], v[2]));
         return p;
       }
     } // namespace srdf
