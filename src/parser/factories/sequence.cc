@@ -94,15 +94,18 @@ namespace hpp {
             boost::algorithm::token_compress_on);
         values.remove_if (StringIsEmpty());
         if (size_ > 0 && values.size () != size_) {
-          throw std::invalid_argument ("Wrong sequence size");
+          std::ostringstream oss;
+          oss << "Wrong sequence size, expecting " << size_ << ", got "
+              << values.size ();
+          throw std::invalid_argument (oss.str ().c_str ());
         }
 
         ValueType v;
         for (StringList::const_iterator it = values.begin ();
             it != values.end (); it++) {
           if (!cast <ValueType> (*it, &v)) {
-            v = 0;
-            hppDout (error, "could not parse value "<< *it);
+            std::ostringstream oss; oss << "Failed to cast string " << *it;
+            throw std::invalid_argument (oss.str ().c_str ());
           }
           values_.push_back (v);
         }

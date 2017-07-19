@@ -85,7 +85,13 @@ namespace hpp {
       void Parser::parseFile (const char* filename)
       {
         loadFile (filename);
-        parse ();
+        try {
+          parse ();
+        } catch (const std::exception& exc) {
+          std::ostringstream oss; oss << "in " << filename << ", "
+                                      << exc.what ();
+          throw std::runtime_error (oss.str ().c_str ());
+        }
       }
 
       void Parser::loadFile (const char* filename)

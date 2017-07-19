@@ -148,6 +148,11 @@ namespace hpp {
           /// Cast this class to any child class.
           template <typename T> T* as ()
           {
+            if (!dynamic_cast <T*> (this)) {
+              std::ostringstream oss;
+              oss << "Unexpected tag: " << this->tagName ();
+              throw std::invalid_argument (oss.str ().c_str ());
+            }
             return static_cast <T*> (this);
           }
 
