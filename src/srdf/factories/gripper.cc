@@ -49,6 +49,11 @@ namespace hpp {
           return;
         }
         linkName_ = root ()->prependPrefix (factories.front ()->name ());
+        const std::string& gripperName = root()->prependPrefix(name());
+        if (gripperName == linkName_)
+          throw std::invalid_argument ("Gripper " + gripperName +
+              " cannot have the same name as link " + linkName_ + ". "
+              "Cannot create gripper");
 
         /// Get the clearance
         value_type clearance = 0;
@@ -78,17 +83,21 @@ namespace hpp {
         assert(linkFrame.type == se3::BODY);
 	// Gripper position is expressed in link frame. We need to compute
 	// the position in joint frame.
-        d->model().addFrame (se3::Frame(
-              root ()->prependPrefix (name ()),
+        if (d->model().addFrame (se3::Frame(
+              gripperName,
               linkFrame.parent,
               linkFrameId,
               linkFrame.placement * localPosition_,
               se3::OP_FRAME
-              ));
-        gripper_ = pinocchio::Gripper::create
-	  (root ()->prependPrefix (name ()), root()->device());
+              )) == -1)
+          throw std::runtime_error ("Could not add gripper frame of gripper " + gripperName);
+        gripper_ = pinocchio::Gripper::create (gripperName, root()->device());
         gripper_->clearance (clearance);
         d->add (gripper_->name (), gripper_);
+        hppDout (info, "Add gripper " << gripper_->name()
+            << "\n\tattached to joint " << d->model().names[linkFrame.parent]
+            << " with position " << gripper_->objectPositionInJoint()
+            << "\n\tclearance " << clearance);
       }
 
       GripperPtr_t GripperFactory::gripper () const
