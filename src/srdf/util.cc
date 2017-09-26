@@ -56,7 +56,7 @@ namespace hpp {
           const std::string& urdfSuffix,
           const std::string& srdfSuffix)
       {
-        if (robot->has<FrameIndexes_t> (prefix))
+        if (robot->has<FrameIndices_t> (prefix))
           HPP_THROW(std::invalid_argument, "A robot named " << prefix << " already exists");
         hpp::pinocchio::urdf::loadRobotModel (robot, baseJoint, prefix,
             rootJointType, package, modelName, urdfSuffix, srdfSuffix);
@@ -83,7 +83,7 @@ namespace hpp {
           const std::string& urdfSuffix,
           const std::string& srdfSuffix)
       {
-        if (robot->has<FrameIndexes_t> (prefix))
+        if (robot->has<FrameIndices_t> (prefix))
           HPP_THROW(std::invalid_argument, "A robot named " << prefix << " already exists");
         hpp::pinocchio::urdf::loadHumanoidModel (robot, baseJoint, prefix,
             rootJointType, package, modelName, urdfSuffix, srdfSuffix);
@@ -110,7 +110,7 @@ namespace hpp {
           const std::string& urdfSuffix,
           const std::string& srdfSuffix)
       {
-        if (robot->has<FrameIndexes_t> (prefix))
+        if (robot->has<FrameIndices_t> (prefix))
           HPP_THROW(std::invalid_argument, "A robot named " << prefix << " already exists");
         hpp::pinocchio::urdf::loadRobotModel (robot, baseJoint, prefix,
             rootJointType, package, modelName, urdfSuffix, srdfSuffix);
