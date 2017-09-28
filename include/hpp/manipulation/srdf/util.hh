@@ -18,6 +18,7 @@
 # define HPP_MANIPULATION_SRDF_UTIL_HH
 
 # include <hpp/manipulation/fwd.hh>
+# include <hpp/manipulation/urdf/deprecated.hh>
 
 namespace hpp {
   namespace manipulation {
@@ -43,7 +44,7 @@ namespace hpp {
           const std::string& package,
           const std::string& modelName,
           const std::string& urdfSuffix,
-          const std::string& srdfSuffix);
+          const std::string& srdfSuffix) HPP_MANIPULATION_URDF_DEPRECATED;
 
       /// \note This function reads the following files:
       /// \li
@@ -57,7 +58,7 @@ namespace hpp {
           const std::string& package,
           const std::string& modelName,
           const std::string& urdfSuffix,
-          const std::string& srdfSuffix);
+          const std::string& srdfSuffix) HPP_MANIPULATION_URDF_DEPRECATED;
 
       /// \note This function reads the following files:
       /// \li
@@ -71,7 +72,7 @@ namespace hpp {
           const std::string& package,
           const std::string& modelName,
           const std::string& urdfSuffix,
-          const std::string& srdfSuffix);
+          const std::string& srdfSuffix) HPP_MANIPULATION_URDF_DEPRECATED;
 
       /// \note This function reads the following files:
       /// \li
@@ -85,13 +86,13 @@ namespace hpp {
           const std::string& package,
           const std::string& modelName,
           const std::string& urdfSuffix,
-          const std::string& srdfSuffix);
+          const std::string& srdfSuffix) HPP_MANIPULATION_URDF_DEPRECATED;
 
       void addRobotSRDFModel (const DevicePtr_t& robot,
           const std::string& prefix,
           const std::string& package,
           const std::string& modelName,
-          const std::string& srdfSuffix);
+          const std::string& srdfSuffix) HPP_MANIPULATION_URDF_DEPRECATED;
     } // namespace srdf
   } // namespace manipulation
 } // namespace hpp
