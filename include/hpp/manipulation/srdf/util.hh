@@ -22,6 +22,18 @@
 namespace hpp {
   namespace manipulation {
     namespace srdf {
+      /// Reads the tags from SRDF as defined in \ref hpp_manipulation_urdf_srdf_syntax
+      void loadModelFromFile (const DevicePtr_t& robot,
+          const std::string& prefix,
+          const std::string& package,
+          const std::string& modelName,
+          const std::string& srdfSuffix);
+
+      /// Reads the tags from SRDF as defined in \ref hpp_manipulation_urdf_srdf_syntax
+      void loadModelFromXML (const DevicePtr_t& robot,
+          const std::string& prefix,
+          const std::string& srdfString);
+
       /// \note This function reads the following files:
       /// \li
       /// package://${modelName}_description/urdf/${modelName}${urdfSuffix}.urdf

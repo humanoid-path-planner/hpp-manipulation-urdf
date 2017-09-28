@@ -27,6 +27,32 @@
 namespace hpp {
   namespace manipulation {
     namespace srdf {
+      void loadModelFromFile (const DevicePtr_t& robot,
+          const std::string& prefix,
+          const std::string& package,
+          const std::string& modelName,
+          const std::string& srdfSuffix)
+      {
+        std::string srdfPath = "package://" + package + "/srdf/"
+          + modelName + srdfSuffix + ".srdf";
+
+        parser::Parser p;
+
+        p.prefix(prefix);
+        p.parseFile (srdfPath, robot);
+        hppDout (notice, "Finished parsing semantic informations.");
+      }
+
+      void loadModelFromXML (const DevicePtr_t& robot,
+          const std::string& prefix,
+          const std::string& srdfString)
+      {
+        parser::Parser p;
+        p.prefix(prefix);
+        p.parseString (srdfString, robot);
+        hppDout (notice, "Finished parsing semantic informations.");
+      }
+
       void loadEnvironmentModel (const DevicePtr_t& robot,
           const std::string& package,
           const std::string& modelName,

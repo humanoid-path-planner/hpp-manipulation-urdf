@@ -31,6 +31,8 @@ namespace hpp {
  In order to load HRP2 from a pair of URDF and SRDF
  files, one can do:
  \code
+   #include <hpp/pinocchio/urdf/util.hh>
+
    #include <hpp/manipulation/device.hh>
    #include <hpp/manipulation/srdf/util.hh>
 
@@ -38,8 +40,11 @@ namespace hpp {
      using hpp::manipulation::DevicePtr_t;
      using hpp::manipulation::Device;
      using hpp::manipulation::srdf::loadRobotModel;
-     DevicePtr_t robot = Device::create ("hrp-2");
-     loadRobotModel (robot, "freeflyer", "hrp2_14_description", "hrp2_14", "", "");
+     DevicePtr_t robot = Device::create ("hrp2");
+     pinocchio::urdf::loadUrdfModel (robot, "freeflyer", "hrp2",
+       "hrp2_14_description", "hrp2_14", "", "");
+     loadModelFromFile (robot, "hrp2",
+       "hrp2_14_description", "hrp2_14", "");
    }
  \endcode
 
