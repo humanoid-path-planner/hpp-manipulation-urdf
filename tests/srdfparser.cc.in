@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE (testparser)
   Parser p (false);
   p.addObjectFactory ("test", TestFactory::create);
   p.addObjectFactory ("tag1", TestDFactory::create);
-  p.parseFile ("@CMAKE_SOURCE_DIR@/tests/ressources/basic.srdf");
+  p.parseFile ("@CMAKE_SOURCE_DIR@/tests/ressources/basic.srdf", hpp::manipulation::DevicePtr_t());
   
   std::cout << p;
 }
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE (srdfparser)
   p.addObjectFactory ("handle",
       create <HandleFactory <hpp::manipulation::Handle> >);
   p.addObjectFactory ("local_position", create <PositionFactory>);
-  p.parseFile ("@CMAKE_SOURCE_DIR@/tests/ressources/box.srdf");
+  p.parseFile ("@CMAKE_SOURCE_DIR@/tests/ressources/box.srdf", hpp::manipulation::DevicePtr_t());
 
   std::cout << p;
 }

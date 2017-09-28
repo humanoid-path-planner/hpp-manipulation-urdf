@@ -43,7 +43,7 @@ namespace hpp {
         // For backward compatibility
         handleParser.addObjectFactory ("local_position", parser::create <PositionFactory>);
 
-        handleParser.parse (srdfPath, robot);
+        handleParser.parseFile (srdfPath, robot);
         hppDout (notice, "Finished parsing environment contacts.");
       }
 
@@ -70,7 +70,7 @@ namespace hpp {
         handleParser.addObjectFactory ("local_position", parser::create <PositionFactory>);
 
         handleParser.prefix (prefix);
-        handleParser.parse (srdfPath, robot);
+        handleParser.parseFile (srdfPath, robot);
         hppDout (notice, "Finished parsing handles.");
       }
 
@@ -97,7 +97,7 @@ namespace hpp {
         gripperParser.addObjectFactory ("handle_position_in_joint", parser::create <PositionFactory>);
 
         gripperParser.prefix (prefix);
-        gripperParser.parse (srdfPath, robot);
+        gripperParser.parseFile (srdfPath, robot);
         hppDout (notice, "Finished parsing grippers.");
       }
 
@@ -124,7 +124,7 @@ namespace hpp {
         gripperParser.addObjectFactory ("handle_position_in_joint", parser::create <PositionFactory>);
 
         gripperParser.prefix (prefix);
-        gripperParser.parse (srdfPath, robot);
+        gripperParser.parseFile (srdfPath, robot);
         hppDout (notice, "Finished parsing grippers.");
       }
 
@@ -144,7 +144,7 @@ namespace hpp {
             parser::create <PositionFactory>);
 
         gripperParser.prefix (prefix);
-        gripperParser.parse (srdfPath, robot);
+        gripperParser.parseFile (srdfPath, robot);
         hppDout (notice, "Finished parsing grippers.");
       }
     } // namespace srdf

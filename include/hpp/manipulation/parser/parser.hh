@@ -248,11 +248,11 @@ namespace hpp {
 
           ~Parser ();
 
-          void parse (const std::string& semanticResourceName, DevicePtr_t robot);
-
           void addObjectFactory (const std::string& tagname, FactoryType factory);
 
-          void parseFile (const char* filename);
+          void parseString (const std::string& xmlString, DevicePtr_t robot);
+
+          void parseFile (const std::string& filename, DevicePtr_t robot);
 
           /// Set the prefix of all joints
           void prefix (const std::string& prefix)
