@@ -60,31 +60,25 @@ namespace hpp {
         if (root_ != NULL) delete root_;
       }
 
-      void Parser::parse (const std::string& semanticResName, DevicePtr_t robot)
+      void Parser::parseString (const std::string& xmlString, DevicePtr_t robot)
       {
         device_ = robot;
 
-        std::string fn = se3::retrieveResourcePath(semanticResName, se3::rosPaths());
-        parseFile (fn.c_str());
-
-        /*
-	resource_retriever::Retriever resourceRetriever;
-
-	resource_retriever::MemoryResource semanticResource =
-	  resourceRetriever.get(semanticResName);
-	char* semanticDescription = new char[semanticResource.size + 1];
-	for (unsigned i = 0; i < semanticResource.size; ++i)
-          semanticDescription[i] = semanticResource.data.get()[i];
-        semanticDescription[semanticResource.size] = '\0';
-
-        loadString (semanticDescription);
-        parse ();
-        delete[] semanticDescription; */
+        loadString (xmlString.c_str());
+        try {
+          parse ();
+        } catch (const std::exception& exc) {
+          std::ostringstream oss; oss << "in XML string, " << exc.what ();
+          throw std::runtime_error (oss.str ().c_str ());
+        }
       }
 
-      void Parser::parseFile (const char* filename)
+      void Parser::parseFile (const std::string& filename, DevicePtr_t robot)
       {
-        loadFile (filename);
+        device_ = robot;
+
+        std::string fn = se3::retrieveResourcePath(filename, se3::rosPaths());
+        loadFile (fn.c_str());
         try {
           parse ();
         } catch (const std::exception& exc) {

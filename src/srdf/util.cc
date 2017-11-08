@@ -27,6 +27,32 @@
 namespace hpp {
   namespace manipulation {
     namespace srdf {
+      void loadModelFromFile (const DevicePtr_t& robot,
+          const std::string& prefix,
+          const std::string& package,
+          const std::string& modelName,
+          const std::string& srdfSuffix)
+      {
+        std::string srdfPath = "package://" + package + "/srdf/"
+          + modelName + srdfSuffix + ".srdf";
+
+        parser::Parser p;
+
+        p.prefix(prefix);
+        p.parseFile (srdfPath, robot);
+        hppDout (notice, "Finished parsing semantic informations.");
+      }
+
+      void loadModelFromXML (const DevicePtr_t& robot,
+          const std::string& prefix,
+          const std::string& srdfString)
+      {
+        parser::Parser p;
+        p.prefix(prefix);
+        p.parseString (srdfString, robot);
+        hppDout (notice, "Finished parsing semantic informations.");
+      }
+
       void loadEnvironmentModel (const DevicePtr_t& robot,
           const std::string& package,
           const std::string& modelName,
@@ -43,7 +69,7 @@ namespace hpp {
         // For backward compatibility
         handleParser.addObjectFactory ("local_position", parser::create <PositionFactory>);
 
-        handleParser.parse (srdfPath, robot);
+        handleParser.parseFile (srdfPath, robot);
         hppDout (notice, "Finished parsing environment contacts.");
       }
 
@@ -70,7 +96,7 @@ namespace hpp {
         handleParser.addObjectFactory ("local_position", parser::create <PositionFactory>);
 
         handleParser.prefix (prefix);
-        handleParser.parse (srdfPath, robot);
+        handleParser.parseFile (srdfPath, robot);
         hppDout (notice, "Finished parsing handles.");
       }
 
@@ -97,7 +123,7 @@ namespace hpp {
         gripperParser.addObjectFactory ("handle_position_in_joint", parser::create <PositionFactory>);
 
         gripperParser.prefix (prefix);
-        gripperParser.parse (srdfPath, robot);
+        gripperParser.parseFile (srdfPath, robot);
         hppDout (notice, "Finished parsing grippers.");
       }
 
@@ -124,7 +150,7 @@ namespace hpp {
         gripperParser.addObjectFactory ("handle_position_in_joint", parser::create <PositionFactory>);
 
         gripperParser.prefix (prefix);
-        gripperParser.parse (srdfPath, robot);
+        gripperParser.parseFile (srdfPath, robot);
         hppDout (notice, "Finished parsing grippers.");
       }
 
@@ -144,7 +170,7 @@ namespace hpp {
             parser::create <PositionFactory>);
 
         gripperParser.prefix (prefix);
-        gripperParser.parse (srdfPath, robot);
+        gripperParser.parseFile (srdfPath, robot);
         hppDout (notice, "Finished parsing grippers.");
       }
     } // namespace srdf
