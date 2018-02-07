@@ -34,65 +34,6 @@ namespace hpp {
       void loadModelFromXML (const DevicePtr_t& robot,
           const std::string& prefix,
           const std::string& srdfString);
-
-      /// \note This function reads the following files:
-      /// \li
-      /// package://${modelName}_description/urdf/${modelName}${urdfSuffix}.urdf
-      /// \li
-      /// package://${modelName}_description/srdf/${modelName}${srdfSuffix}.srdf
-      void loadEnvironmentModel (const DevicePtr_t& robot,
-          const std::string& package,
-          const std::string& modelName,
-          const std::string& urdfSuffix,
-          const std::string& srdfSuffix) HPP_MANIPULATION_URDF_DEPRECATED;
-
-      /// \note This function reads the following files:
-      /// \li
-      /// package://${modelName}_description/urdf/${modelName}${urdfSuffix}.urdf
-      /// \li
-      /// package://${modelName}_description/srdf/${modelName}${srdfSuffix}.srdf
-      void loadObjectModel (const DevicePtr_t& robot,
-          const JointIndex& baseJoint,
-          const std::string& prefix,
-          const std::string& rootJointType,
-          const std::string& package,
-          const std::string& modelName,
-          const std::string& urdfSuffix,
-          const std::string& srdfSuffix) HPP_MANIPULATION_URDF_DEPRECATED;
-
-      /// \note This function reads the following files:
-      /// \li
-      /// package://${modelName}_description/urdf/${modelName}${urdfSuffix}.urdf
-      /// \li
-      /// package://${modelName}_description/srdf/${modelName}${srdfSuffix}.srdf
-      void loadHumanoidModel (const DevicePtr_t& robot,
-          const JointIndex& baseJoint,
-          const std::string& prefix,
-          const std::string& rootJointType,
-          const std::string& package,
-          const std::string& modelName,
-          const std::string& urdfSuffix,
-          const std::string& srdfSuffix) HPP_MANIPULATION_URDF_DEPRECATED;
-
-      /// \note This function reads the following files:
-      /// \li
-      /// package://${modelName}_description/urdf/${modelName}${urdfSuffix}.urdf
-      /// \li
-      /// package://${modelName}_description/srdf/${modelName}${srdfSuffix}.srdf
-      void loadRobotModel (const DevicePtr_t& robot,
-          const JointIndex& baseJoint,
-          const std::string& prefix,
-          const std::string& rootJointType,
-          const std::string& package,
-          const std::string& modelName,
-          const std::string& urdfSuffix,
-          const std::string& srdfSuffix) HPP_MANIPULATION_URDF_DEPRECATED;
-
-      void addRobotSRDFModel (const DevicePtr_t& robot,
-          const std::string& prefix,
-          const std::string& package,
-          const std::string& modelName,
-          const std::string& srdfSuffix) HPP_MANIPULATION_URDF_DEPRECATED;
     } // namespace srdf
   } // namespace manipulation
 } // namespace hpp
