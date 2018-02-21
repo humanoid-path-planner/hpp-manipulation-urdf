@@ -125,7 +125,7 @@ namespace hpp {
               " Use tag shape instead.");
         }
 
-        device->add (root ()->prependPrefix (name ()), shapes_);
+        device->jointAndShapes.add (root ()->prependPrefix (name ()), shapes_);
       }
     } // namespace srdf
   } // namespace manipulation

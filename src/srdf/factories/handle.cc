@@ -105,7 +105,7 @@ namespace hpp {
 				      linkFrame.placement * localPosition_, joint);
         handle_->clearance (clearance);
         setMask<HandleType> (*handle_, mask);
-        d->add <HandlePtr_t> (handle_->name (), handle_);
+        d->handles.add (handle_->name (), handle_);
       }
 
       template < typename HandleType>

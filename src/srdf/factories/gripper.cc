@@ -93,7 +93,7 @@ namespace hpp {
           throw std::runtime_error ("Could not add gripper frame of gripper " + gripperName);
         gripper_ = pinocchio::Gripper::create (gripperName, root()->device());
         gripper_->clearance (clearance);
-        d->add (gripper_->name (), gripper_);
+        d->grippers.add (gripper_->name (), gripper_);
         hppDout (info, "Add gripper " << gripper_->name()
             << "\n\tattached to joint " << d->model().names[linkFrame.parent]
             << " with position " << gripper_->objectPositionInJoint()
