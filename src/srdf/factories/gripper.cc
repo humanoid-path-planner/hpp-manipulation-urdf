@@ -91,6 +91,7 @@ namespace hpp {
               se3::OP_FRAME
               )) == -1)
           throw std::runtime_error ("Could not add gripper frame of gripper " + gripperName);
+        d->createData();
         gripper_ = pinocchio::Gripper::create (gripperName, root()->device());
         gripper_->clearance (clearance);
         d->grippers.add (gripper_->name (), gripper_);
