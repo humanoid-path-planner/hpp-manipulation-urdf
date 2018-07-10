@@ -20,7 +20,7 @@
 // #include <resource_retriever/retriever.h>
 
 #include <pinocchio/parsers/utils.hpp>       // se3::retrieveResourcePath
-#include <pinocchio/tools/file-explorer.hpp> // se3::rosPaths
+#include <pinocchio/utils/file-explorer.hpp> // se3::rosPaths
 
 #include "hpp/manipulation/parser/parser.hh"
 #include "hpp/manipulation/srdf/factories.hh"
