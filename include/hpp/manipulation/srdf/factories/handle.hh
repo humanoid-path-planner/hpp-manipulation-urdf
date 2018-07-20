@@ -37,8 +37,7 @@ namespace hpp {
       using parser::XMLText;
 
       /// \brief Build an object of type HandleType
-      /// \tparam HandleType must be one of hpp::manipulation::Handle
-      /// and hpp::manipulation::AxialHandle.
+      /// \tparam HandleType must be hpp::manipulation::Handle
       template < typename HandleType>
       class HandleFactory : public ObjectFactory {
         public:

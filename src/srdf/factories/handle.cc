@@ -24,7 +24,6 @@
 #include <hpp/pinocchio/joint.hh>
 
 #include <hpp/manipulation/handle.hh>
-#include <hpp/manipulation/axial-handle.hh>
 
 #include <hpp/manipulation/device.hh>
 
@@ -98,9 +97,6 @@ namespace hpp {
         JointPtr_t joint (new Joint (d, linkFrame.parent));
 	// Handle position is expressed in link frame. We need to express it in
 	// joint frame.
-        if (HandleType::className == "AxialHandle") {
-          hppDout (warning, "Tag axial_handle is deprecated. Use handle with <mask> true true true true true false </mask>");
-        }
 	handle_ = HandleType::create (root ()->prependPrefix (name ()),
 				      linkFrame.placement * localPosition_, joint);
         handle_->clearance (clearance);
@@ -116,7 +112,6 @@ namespace hpp {
       }
 
       template class HandleFactory <Handle>;
-      template class HandleFactory <AxialHandle>;
     } // namespace srdf
   } // namespace manipulation
 } // namespace hpp
