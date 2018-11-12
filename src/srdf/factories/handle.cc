@@ -89,11 +89,11 @@ namespace hpp {
           hppDout (error, "Failed to create handle");
           return;
         }
-        const se3::Model& model = d->model();
+        const pinocchio::Model& model = d->model();
         if (!model.existBodyName(linkName_))
           throw std::invalid_argument ("Link " + linkName_ + " not found. Cannot create handle");
-        const se3::Frame& linkFrame = model.frames[model.getFrameId(linkName_)];
-        assert(linkFrame.type == se3::BODY);
+        const ::pinocchio::Frame& linkFrame = model.frames[model.getFrameId(linkName_)];
+        assert(linkFrame.type == ::pinocchio::BODY);
         JointPtr_t joint (new Joint (d, linkFrame.parent));
 	// Handle position is expressed in link frame. We need to express it in
 	// joint frame.
