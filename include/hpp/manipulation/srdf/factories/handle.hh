@@ -36,21 +36,18 @@ namespace hpp {
       using parser::XMLNode;
       using parser::XMLText;
 
-      /// \brief Build an object of type HandleType
-      /// \tparam HandleType must be hpp::manipulation::Handle
-      template < typename HandleType>
+      /// \brief Build an object of type hpp::manipulation::Handle
       class HandleFactory : public ObjectFactory {
         public:
-          typedef typename boost::shared_ptr <HandleType> HandleTypePtr_t;
           HandleFactory (ObjectFactory* parent, const XMLElement* element) :
             ObjectFactory (parent, element) {}
 
           virtual void finishTags ();
 
-          HandleTypePtr_t handle () const;
+          HandlePtr_t handle () const;
 
         protected:
-          HandleTypePtr_t handle_;
+          HandlePtr_t handle_;
 
           /// The element required to build the handle
           Transform3f localPosition_;

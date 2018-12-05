@@ -33,7 +33,7 @@ namespace hpp {
       {
         if (fillWithDefaultFactories) {
           addObjectFactory ("robot", create <srdf::RobotFactory>);
-          addObjectFactory ("handle", create <srdf::HandleFactory <Handle> >);
+          addObjectFactory ("handle", create <srdf::HandleFactory>);
           addObjectFactory ("gripper", create <srdf::GripperFactory>);
           addObjectFactory ("position", create <srdf::PositionFactory>);
           addObjectFactory ("mask", create <SequenceFactory<bool> >);
