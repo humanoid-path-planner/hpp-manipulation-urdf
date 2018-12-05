@@ -94,11 +94,11 @@ namespace hpp {
           throw std::invalid_argument ("Link " + linkName_ + " not found. Cannot create handle");
         const se3::Frame& linkFrame = model.frames[model.getFrameId(linkName_)];
         assert(linkFrame.type == se3::BODY);
-        JointPtr_t joint (new Joint (d, linkFrame.parent));
-	// Handle position is expressed in link frame. We need to express it in
-	// joint frame.
-	handle_ = HandleType::create (root ()->prependPrefix (name ()),
-				      linkFrame.placement * localPosition_, joint);
+        JointPtr_t joint (Joint::create (d, linkFrame.parent));
+        // Handle position is expressed in link frame. We need to express it in
+        // joint frame.
+        handle_ = HandleType::create (root ()->prependPrefix (name ()),
+            linkFrame.placement * localPosition_, joint);
         handle_->clearance (clearance);
         setMask<HandleType> (*handle_, mask);
         d->handles.add (handle_->name (), handle_);

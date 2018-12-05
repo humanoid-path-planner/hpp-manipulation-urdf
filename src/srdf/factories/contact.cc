@@ -53,7 +53,7 @@ namespace hpp {
           throw std::invalid_argument ("Link " + linkName_ + " not found. Cannot create contact");
         const se3::Frame& linkFrame = model.frames[model.getFrameId(linkName_)];
         assert(linkFrame.type == se3::BODY);
-        JointPtr_t joint (new Joint (device, linkFrame.parent));
+        JointPtr_t joint (Joint::create (device, linkFrame.parent));
 
         Transform3f M; M.setIdentity ();
         if (o->hasAttribute ("index")) {
