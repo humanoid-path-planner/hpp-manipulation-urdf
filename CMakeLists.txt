@@ -21,19 +21,14 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 SET(CXX_DISABLE_WERROR TRUE)
 INCLUDE(cmake/base.cmake)
+INCLUDE(cmake/hpp.cmake)
 INCLUDE(cmake/cpack.cmake)
 
 SET(PROJECT_NAME hpp-manipulation-urdf)
 SET(PROJECT_DESCRIPTION "Implementation of a parser for hpp-manipulation.")
 SET(PROJECT_URL "https://github.com/jmirabel/hpp-manipulation-urdf")
 
-SETUP_PROJECT()
-
-# Activate hpp-util logging if requested
-SET (HPP_DEBUG FALSE CACHE BOOL "trigger hpp-util debug output")
-IF (HPP_DEBUG)
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DHPP_DEBUG")
-ENDIF()
+SETUP_HPP_PROJECT()
 
 # Declare Headers
 SET(${PROJECT_NAME}_HEADERS
@@ -61,5 +56,5 @@ ADD_SUBDIRECTORY(tests)
 
 PKG_CONFIG_APPEND_LIBS (${PROJECT_NAME})
 
-SETUP_PROJECT_FINALIZE()
+SETUP_HPP_PROJECT_FINALIZE()
 SETUP_PROJECT_CPACK()
