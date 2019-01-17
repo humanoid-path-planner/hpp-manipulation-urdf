@@ -14,13 +14,10 @@
 // received a copy of the GNU Lesser General Public License along with
 // hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
 
-namespace hpp {
-  namespace manipulation {
-    namespace srdf {
 /**
 
  \mainpage
- \anchor hpp_manipulation_urdf
+ \anchor hpp_manipulation_urdf_documentation
 
  \section intro_sec Basic use
 
@@ -114,6 +111,3 @@ namespace hpp {
  \see parser::ObjectFactory
 
 **/
-    }
-  }
-}

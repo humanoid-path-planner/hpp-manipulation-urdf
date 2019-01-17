@@ -32,13 +32,7 @@
 namespace hpp {
   namespace manipulation {
     namespace srdf {
-      namespace {
-        template <typename H> void setMask(H&, const std::vector<bool>&) {}
-        template <> void setMask(Handle& h, const std::vector<bool>& m) { h.mask(m); }
-      }
-
-      template < typename HandleType>
-      void HandleFactory<HandleType>::finishTags ()
+      void HandleFactory::finishTags ()
       {
         ObjectFactoryList factories = getChildrenOfType ("position");
         if (factories.empty ()) {
@@ -94,24 +88,20 @@ namespace hpp {
           throw std::invalid_argument ("Link " + linkName_ + " not found. Cannot create handle");
         const ::pinocchio::Frame& linkFrame = model.frames[model.getFrameId(linkName_)];
         assert(linkFrame.type == ::pinocchio::BODY);
-        JointPtr_t joint (new Joint (d, linkFrame.parent));
+        JointPtr_t joint (Joint::create (d, linkFrame.parent));
 	// Handle position is expressed in link frame. We need to express it in
 	// joint frame.
-	handle_ = HandleType::create (root ()->prependPrefix (name ()),
-				      linkFrame.placement * localPosition_, joint);
+        handle_ = Handle::create (root ()->prependPrefix (name ()),
+            linkFrame.placement * localPosition_, d, joint);
         handle_->clearance (clearance);
-        setMask<HandleType> (*handle_, mask);
+        handle_->mask(mask);
         d->handles.add (handle_->name (), handle_);
       }
 
-      template < typename HandleType>
-      typename HandleFactory<HandleType>::HandleTypePtr_t
-        HandleFactory<HandleType>::handle () const
+      HandlePtr_t HandleFactory::handle () const
       {
         return handle_;
       }
-
-      template class HandleFactory <Handle>;
     } // namespace srdf
   } // namespace manipulation
 } // namespace hpp
