@@ -40,8 +40,8 @@ namespace hpp {
           hppDout (error, "Failed to create contacts");
           return;
         }
-        const se3::Model&         model     = device->model();
-        const se3::GeometryModel& geomModel = device->geomModel(); 
+        const pinocchio::Model&         model     = device->model();
+        const pinocchio::GeomModel& geomModel = device->geomModel();
 
         /// Get the link
         ObjectFactory* o = NULL;
@@ -51,8 +51,8 @@ namespace hpp {
         /// Build joint
         if (!model.existBodyName(linkName_))
           throw std::invalid_argument ("Link " + linkName_ + " not found. Cannot create contact");
-        const se3::Frame& linkFrame = model.frames[model.getFrameId(linkName_)];
-        assert(linkFrame.type == se3::BODY);
+        const ::pinocchio::Frame& linkFrame = model.frames[model.getFrameId(linkName_)];
+        assert(linkFrame.type == ::pinocchio::BODY);
         JointPtr_t joint (Joint::create (device, linkFrame.parent));
 
         Transform3f M; M.setIdentity ();
@@ -62,7 +62,7 @@ namespace hpp {
           // to the "index"th collision object,
           objectName_ = linkName_ + "_" + o->getAttribute ("index");
           /// In this case, coordinates are expressed in the body frame.
-          se3::GeomIndex id = geomModel.getGeometryId(objectName_);
+          pinocchio::GeomIndex id = geomModel.getGeometryId(objectName_);
           if (id < geomModel.geometryObjects.size()) {
             hppDout (error, "Geometry " << objectName_ << " not found in link " << linkName_);
           } else {

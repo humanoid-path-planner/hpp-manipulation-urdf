@@ -75,20 +75,20 @@ namespace hpp {
           hppDout (error, "Failed to create gripper");
           return;
         }
-        const se3::Model& model = d->model();
+        const pinocchio::Model& model = d->model();
         if (!model.existBodyName(linkName_))
           throw std::invalid_argument ("Link " + linkName_ + " not found. Cannot create gripper");
-        se3::FrameIndex linkFrameId = model.getFrameId(linkName_);
-        const se3::Frame& linkFrame = model.frames[linkFrameId];
-        assert(linkFrame.type == se3::BODY);
+        pinocchio::FrameIndex linkFrameId = model.getFrameId(linkName_);
+        const ::pinocchio::Frame& linkFrame = model.frames[linkFrameId];
+        assert(linkFrame.type == ::pinocchio::BODY);
 	// Gripper position is expressed in link frame. We need to compute
 	// the position in joint frame.
-        if (d->model().addFrame (se3::Frame(
+        if (d->model().addFrame (::pinocchio::Frame(
               gripperName,
               linkFrame.parent,
               linkFrameId,
               linkFrame.placement * localPosition_,
-              se3::OP_FRAME
+              ::pinocchio::OP_FRAME
               )) == -1)
           throw std::runtime_error ("Could not add gripper frame of gripper " + gripperName);
         d->createData();
