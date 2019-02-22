@@ -239,6 +239,7 @@ namespace hpp {
       class Parser {
         public:
           typedef ObjectFactory* (*FactoryType) (ObjectFactory*, const XMLElement*);
+          typedef std::list <ObjectFactory*> ObjectFactoryList;
 
           /// Constructor
           /// \param fillWithDefaultFactories Set to true if you want to insert the default
@@ -253,6 +254,11 @@ namespace hpp {
           void parseString (const std::string& xmlString, DevicePtr_t robot);
 
           void parseFile (const std::string& filename, DevicePtr_t robot);
+
+          const ObjectFactoryList& objectFactories () const
+          {
+            return objectFactories_;
+          }
 
           /// Set the prefix of all joints
           void prefix (const std::string& prefix)
@@ -279,7 +285,6 @@ namespace hpp {
           ObjectFactoryMap objFactoryMap_;
           FactoryType defaultFactory_;
 
-          typedef std::list <ObjectFactory*> ObjectFactoryList;
           ObjectFactoryList objectFactories_;
 
           std::string prefix_;

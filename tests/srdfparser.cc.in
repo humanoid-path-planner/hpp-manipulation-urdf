@@ -21,6 +21,7 @@
 #include "hpp/manipulation/parser/parser.hh"
 #include "hpp/manipulation/srdf/factories.hh"
 
+using namespace hpp::manipulation;
 using namespace hpp::manipulation::srdf;
 using namespace hpp::manipulation::parser;
 
@@ -88,6 +89,33 @@ BOOST_AUTO_TEST_CASE (testparser)
   p.parseFile ("@CMAKE_SOURCE_DIR@/tests/ressources/basic.srdf", hpp::manipulation::DevicePtr_t());
   
   std::cout << p;
+}
+
+void checkPosition (const char* xmlstring, const Transform3f& result)
+{
+  Parser p (false);
+  p.addObjectFactory ("position", create <PositionFactory>);
+  p.parseString (xmlstring, DevicePtr_t());
+  BOOST_REQUIRE_EQUAL (p.objectFactories().size(), 1);
+
+  ObjectFactory* objectFactory = p.objectFactories().front();
+  BOOST_REQUIRE (objectFactory);
+  PositionFactory* positionFactory = objectFactory->as<PositionFactory>();
+  BOOST_REQUIRE (positionFactory);
+
+  Transform3f M = positionFactory->position();
+  BOOST_CHECK (M.isApprox (result));
+}
+ 
+BOOST_AUTO_TEST_CASE (position)
+{
+  Transform3f result (matrix3_t::Identity(), vector3_t (0,1,0));
+
+  checkPosition ("<position>0 1 0 1 0 0 0</position>", result);
+  checkPosition ("<position xyz='0 1 0' />", result);
+  checkPosition ("<position xyz='0 1 0' wxyz='1 0 0 0' />", result);
+  checkPosition ("<position xyz='0 1 0' xyzw='0 0 0 1' />", result);
+  checkPosition ("<position xyz='0 1 0' rpy='0 0 0' />", result);
 }
 
 BOOST_AUTO_TEST_CASE (srdfparser)
