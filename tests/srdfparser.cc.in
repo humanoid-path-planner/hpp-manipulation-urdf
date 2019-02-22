@@ -110,11 +110,11 @@ BOOST_AUTO_TEST_CASE (testparser)
   BOOST_MESSAGE (p);
 }
 
-void checkPosition (const char* xmlstring, const Transform3f& result)
+void checkPosition (const std::string xmlstring, const Transform3f& result)
 {
   Parser p (false);
   p.addObjectFactory ("position", create <PositionFactory>);
-  p.parseString (xmlstring, DevicePtr_t());
+  p.parseString (xmlstring.c_str(), DevicePtr_t());
   BOOST_REQUIRE_EQUAL (p.objectFactories().size(), 1);
 
   ObjectFactory* objectFactory = p.objectFactories().front();
@@ -123,18 +123,33 @@ void checkPosition (const char* xmlstring, const Transform3f& result)
   BOOST_REQUIRE (positionFactory);
 
   Transform3f M = positionFactory->position();
-  BOOST_CHECK (M.isApprox (result));
+  BOOST_CHECK_MESSAGE (M.isApprox (result, 1e-5),
+      "Different transforms:\n"
+      << M << '\n'
+      << result);
 }
- 
+
 BOOST_AUTO_TEST_CASE (position)
 {
-  Transform3f result (matrix3_t::Identity(), vector3_t (0,1,0));
+  value_type w = 0.786066629137,
+             x = 0.167518791246,
+             y = 0.570941471358,
+             z = 0.167518791246;
+  Transform3f result (Eigen::Quaternion<value_type>(w, x, y, z).matrix(), vector3_t (0,1,0));
 
-  checkPosition ("<position>0 1 0 1 0 0 0</position>", result);
-  checkPosition ("<position xyz='0 1 0' />", result);
-  checkPosition ("<position xyz='0 1 0' wxyz='1 0 0 0' />", result);
-  checkPosition ("<position xyz='0 1 0' xyzw='0 0 0 1' />", result);
-  checkPosition ("<position xyz='0 1 0' rpy='0 0 0' />", result);
+  std::ostringstream oss1,oss2;
+  oss1 << w << ' ' << x << ' ' << y << ' ' << z;
+  std::string wxyz = oss1.str();
+  oss2 << x << ' ' << y << ' ' << z << ' ' << w;
+  std::string xyzw = oss2.str();
+
+
+  checkPosition ("<position>0 1 0 " + wxyz + "</position>", result);
+  checkPosition ("<position xyz='0 1 0' wxyz='" + wxyz + "' />", result);
+  checkPosition ("<position xyz='0 1 0' xyzw='" + xyzw + "' />", result);
+  checkPosition ("<position xyz='0 1 0' rpy='1 1 1' />", result);
+
+  checkPosition ("<position xyz='0 1 0' />", Transform3f (matrix3_t::Identity(), vector3_t (0,1,0)));
 }
 
 BOOST_AUTO_TEST_CASE (srdfparser)

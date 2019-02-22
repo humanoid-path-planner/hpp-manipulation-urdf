@@ -96,7 +96,7 @@ namespace hpp {
         if (size >= 0 && values.size () != (std::size_t)size) {
           std::ostringstream oss;
           oss << "Wrong sequence size, expecting " << size << ", got "
-              << values.size ();
+              << values.size () << " in " << str;
           throw std::invalid_argument (oss.str ().c_str ());
         }
         out.resize (values.size());
