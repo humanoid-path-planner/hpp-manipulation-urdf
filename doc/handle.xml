@@ -1,7 +1,10 @@
 <handle name="name" clearance="value">
   <!-- Exactly 1 -->
-    <!-- position should contains 7 numbers, treated as a 3D vector (translation) and a quaternion (rotation) -->
+    <!-- One of the following position tag. Attributes are optional and read only if the tag has no text. -->
     <position>0 0 0 1 0 0 0</position>
+    <position xyz="0 0 0" rpy="0 0 0"/>
+    <position xyz="0 0 0" wxyz="1 0 0 0"/>
+    <position xyz="0 0 0" xyzw="0 0 0 1"/>
     <!-- the position represents the position of the handle relatively to the following link -->
     <link name="link_name" />
 </handle>
