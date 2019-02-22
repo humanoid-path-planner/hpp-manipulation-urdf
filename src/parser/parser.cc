@@ -270,7 +270,7 @@ namespace hpp {
         children_ [child->tagName ()].push_back (child);
       }
 
-      std::list <ObjectFactory*> ObjectFactory::getChildrenOfType (std::string type)
+      ObjectFactory::ObjectFactoryList ObjectFactory::getChildrenOfType (std::string type)
       {
         return children_ [type];
       }

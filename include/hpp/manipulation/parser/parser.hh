@@ -72,7 +72,7 @@ namespace hpp {
       /// \endcode
       class ObjectFactory {
         public:
-          typedef std::list <ObjectFactory*> ObjectFactoryList;
+          typedef std::vector <ObjectFactory*> ObjectFactoryList;
 
           ObjectFactory (ObjectFactory* parent = NULL, const XMLElement* element = NULL);
 
@@ -239,7 +239,7 @@ namespace hpp {
       class Parser {
         public:
           typedef ObjectFactory* (*FactoryType) (ObjectFactory*, const XMLElement*);
-          typedef std::list <ObjectFactory*> ObjectFactoryList;
+          typedef ObjectFactory::ObjectFactoryList ObjectFactoryList;
 
           /// Constructor
           /// \param fillWithDefaultFactories Set to true if you want to insert the default

@@ -86,9 +86,28 @@ BOOST_AUTO_TEST_CASE (testparser)
   Parser p (false);
   p.addObjectFactory ("test", TestFactory::create);
   p.addObjectFactory ("tag1", TestDFactory::create);
-  p.parseFile ("@CMAKE_SOURCE_DIR@/tests/ressources/basic.srdf", hpp::manipulation::DevicePtr_t());
-  
-  std::cout << p;
+  p.parseString (
+      "<?xml version=\"1.0\"?>                     \n"
+      "<robot name=\"box\">                        \n"
+      "  <test name=\"handle\">                    \n"
+      "    <tag1>0</tag1>                          \n"
+      "    <tag2 name=\"base_link\"/>              \n"
+      "  </test>                                   \n"
+      "  <test name=\"handle2\" othername=\"test\">\n"
+      "    <tag1>0.54326 </tag1>                   \n"
+      "    <tag2 name=\"test\"/>                   \n"
+      "  </test>                                   \n"
+      "</robot>                                    \n",
+      DevicePtr_t());
+
+  BOOST_CHECK_EQUAL (p.objectFactories().size(), 7);
+
+  BOOST_CHECK (p.objectFactories()[1]->as<TestFactory>());
+  BOOST_CHECK (p.objectFactories()[2]->as<TestDFactory>());
+  BOOST_CHECK (p.objectFactories()[4]->as<TestFactory>());
+  BOOST_CHECK (p.objectFactories()[5]->as<TestDFactory>());
+
+  BOOST_MESSAGE (p);
 }
 
 void checkPosition (const char* xmlstring, const Transform3f& result)
