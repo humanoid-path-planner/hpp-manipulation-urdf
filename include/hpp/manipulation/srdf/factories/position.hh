@@ -19,6 +19,7 @@
 
 # include <hpp/manipulation/fwd.hh>
 
+# include <pinocchio/spatial/se3.hpp>
 # include "hpp/manipulation/parser/factories/sequence.hh"
 
 namespace hpp {
@@ -38,7 +39,18 @@ namespace hpp {
           PositionFactory (ObjectFactory* parent, const parser::XMLElement* element) :
             SequenceFactory <float> (parent, element, 7) {}
 
-          Transform3f position () const;
+          virtual void finishTags ();
+
+          const Transform3f& position () const
+          {
+            return position_;
+          }
+
+        private:
+          void computeTransformFromText ();
+          void computeTransformFromAttributes ();
+
+          Transform3f position_;
       };
 
       /// \}

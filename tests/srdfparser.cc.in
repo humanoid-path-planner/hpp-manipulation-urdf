@@ -21,6 +21,7 @@
 #include "hpp/manipulation/parser/parser.hh"
 #include "hpp/manipulation/srdf/factories.hh"
 
+using namespace hpp::manipulation;
 using namespace hpp::manipulation::srdf;
 using namespace hpp::manipulation::parser;
 
@@ -85,9 +86,70 @@ BOOST_AUTO_TEST_CASE (testparser)
   Parser p (false);
   p.addObjectFactory ("test", TestFactory::create);
   p.addObjectFactory ("tag1", TestDFactory::create);
-  p.parseFile ("@CMAKE_SOURCE_DIR@/tests/ressources/basic.srdf", hpp::manipulation::DevicePtr_t());
-  
-  std::cout << p;
+  p.parseString (
+      "<?xml version=\"1.0\"?>                     \n"
+      "<robot name=\"box\">                        \n"
+      "  <test name=\"handle\">                    \n"
+      "    <tag1>0</tag1>                          \n"
+      "    <tag2 name=\"base_link\"/>              \n"
+      "  </test>                                   \n"
+      "  <test name=\"handle2\" othername=\"test\">\n"
+      "    <tag1>0.54326 </tag1>                   \n"
+      "    <tag2 name=\"test\"/>                   \n"
+      "  </test>                                   \n"
+      "</robot>                                    \n",
+      DevicePtr_t());
+
+  BOOST_CHECK_EQUAL (p.objectFactories().size(), 7);
+
+  BOOST_CHECK (p.objectFactories()[1]->as<TestFactory>());
+  BOOST_CHECK (p.objectFactories()[2]->as<TestDFactory>());
+  BOOST_CHECK (p.objectFactories()[4]->as<TestFactory>());
+  BOOST_CHECK (p.objectFactories()[5]->as<TestDFactory>());
+
+  BOOST_MESSAGE (p);
+}
+
+void checkPosition (const std::string xmlstring, const Transform3f& result)
+{
+  Parser p (false);
+  p.addObjectFactory ("position", create <PositionFactory>);
+  p.parseString (xmlstring.c_str(), DevicePtr_t());
+  BOOST_REQUIRE_EQUAL (p.objectFactories().size(), 1);
+
+  ObjectFactory* objectFactory = p.objectFactories().front();
+  BOOST_REQUIRE (objectFactory);
+  PositionFactory* positionFactory = objectFactory->as<PositionFactory>();
+  BOOST_REQUIRE (positionFactory);
+
+  Transform3f M = positionFactory->position();
+  BOOST_CHECK_MESSAGE (M.isApprox (result, 1e-5),
+      "Different transforms:\n"
+      << M << '\n'
+      << result);
+}
+
+BOOST_AUTO_TEST_CASE (position)
+{
+  value_type w = 0.786066629137,
+             x = 0.167518791246,
+             y = 0.570941471358,
+             z = 0.167518791246;
+  Transform3f result (Eigen::Quaternion<value_type>(w, x, y, z).matrix(), vector3_t (0,1,0));
+
+  std::ostringstream oss1,oss2;
+  oss1 << w << ' ' << x << ' ' << y << ' ' << z;
+  std::string wxyz = oss1.str();
+  oss2 << x << ' ' << y << ' ' << z << ' ' << w;
+  std::string xyzw = oss2.str();
+
+
+  checkPosition ("<position>0 1 0 " + wxyz + "</position>", result);
+  checkPosition ("<position xyz='0 1 0' wxyz='" + wxyz + "' />", result);
+  checkPosition ("<position xyz='0 1 0' xyzw='" + xyzw + "' />", result);
+  checkPosition ("<position xyz='0 1 0' rpy='1 1 1' />", result);
+
+  checkPosition ("<position xyz='0 1 0' />", Transform3f (matrix3_t::Identity(), vector3_t (0,1,0)));
 }
 
 BOOST_AUTO_TEST_CASE (srdfparser)
