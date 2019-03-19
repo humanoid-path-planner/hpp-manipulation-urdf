@@ -19,8 +19,8 @@
 #include <hpp/util/debug.hh>
 // #include <resource_retriever/retriever.h>
 
-#include <pinocchio/parsers/utils.hpp>       // se3::retrieveResourcePath
-#include <pinocchio/utils/file-explorer.hpp> // se3::rosPaths
+#include <pinocchio/parsers/utils.hpp>       // ::pinocchio::retrieveResourcePath
+#include <pinocchio/utils/file-explorer.hpp> // ::pinocchio::rosPaths
 
 #include "hpp/manipulation/parser/parser.hh"
 #include "hpp/manipulation/srdf/factories.hh"
@@ -75,7 +75,7 @@ namespace hpp {
       {
         device_ = robot;
 
-        std::string fn = se3::retrieveResourcePath(filename, se3::rosPaths());
+        std::string fn = ::pinocchio::retrieveResourcePath(filename, ::pinocchio::rosPaths());
         loadFile (fn.c_str());
         try {
           parse ();
@@ -270,7 +270,7 @@ namespace hpp {
         children_ [child->tagName ()].push_back (child);
       }
 
-      std::list <ObjectFactory*> ObjectFactory::getChildrenOfType (std::string type)
+      ObjectFactory::ObjectFactoryList ObjectFactory::getChildrenOfType (std::string type)
       {
         return children_ [type];
       }

@@ -81,34 +81,41 @@ namespace hpp {
         }
       }
 
+      template <typename Container>
+      void readSequence (const std::string& str, Container& out, int size)
+      {
+        typedef typename Container::value_type value_type;
+
+        typedef std::vector<std::string> StringList;
+        StringList values;
+
+        boost::algorithm::split (values, str,
+            boost::algorithm::is_any_of (" \n\t\r"),
+            boost::algorithm::token_compress_on);
+        std::remove_if (values.begin(), values.end(), StringIsEmpty());
+        if (size >= 0 && values.size () != (std::size_t)size) {
+          std::ostringstream oss;
+          oss << "Wrong sequence size, expecting " << size << ", got "
+              << values.size () << " in " << str;
+          throw std::invalid_argument (oss.str ().c_str ());
+        }
+        out.resize (values.size());
+
+        value_type v;
+        for (std::size_t i = 0; i < (std::size_t)out.size(); ++i) {
+          if (!cast <value_type> (values[i], &v)) {
+            throw std::invalid_argument ("Failed to cast string " + values[i]);
+          }
+          out[i] = v;
+        }
+      }
+
       template <typename ValueType>
       void SequenceFactory<ValueType>::addTextChild (const XMLText* text)
       {
-        values_.clear ();
         std::string t(text->Value ());
-        typedef std::list<std::string> StringList;
-        StringList values;
 
-        boost::algorithm::split (values, t,
-            boost::algorithm::is_any_of (" \n\t\r"),
-            boost::algorithm::token_compress_on);
-        values.remove_if (StringIsEmpty());
-        if (size_ > 0 && values.size () != size_) {
-          std::ostringstream oss;
-          oss << "Wrong sequence size, expecting " << size_ << ", got "
-              << values.size ();
-          throw std::invalid_argument (oss.str ().c_str ());
-        }
-
-        ValueType v;
-        for (StringList::const_iterator it = values.begin ();
-            it != values.end (); it++) {
-          if (!cast <ValueType> (*it, &v)) {
-            std::ostringstream oss; oss << "Failed to cast string " << *it;
-            throw std::invalid_argument (oss.str ().c_str ());
-          }
-          values_.push_back (v);
-        }
+        readSequence (t, values_, size_);
       }
 
       template class SequenceFactory <bool>;
@@ -116,6 +123,9 @@ namespace hpp {
       template class SequenceFactory <unsigned int>;
       template class SequenceFactory <double>;
       template class SequenceFactory <float>;
+
+      template void readSequence <vector_t > (const std::string&, vector_t &, int);
+      template void readSequence <vector3_t> (const std::string&, vector3_t&, int);
     } // namespace parser
   } // namespace manipulation
 } // namespace hpp

@@ -24,6 +24,8 @@ namespace hpp {
     namespace parser {
       /// \addtogroup factories
       /// \{
+      template <typename Container>
+        void readSequence (const std::string& str, Container& out, int size = -1);
 
       /// \brief  Factory parsing sequence of values.
       /// \tparam ValueType one of (bool, int, unsigned int, double, float)
@@ -34,7 +36,7 @@ namespace hpp {
       class SequenceFactory : public ObjectFactory {
         public:
           typedef std::vector <ValueType> OutType;
-          SequenceFactory (ObjectFactory* parent, const XMLElement* element, const unsigned int nbValue = 0) :
+          SequenceFactory (ObjectFactory* parent, const XMLElement* element, const int nbValue = -1) :
             ObjectFactory (parent, element), size_ (nbValue)
         {}
 
@@ -47,7 +49,7 @@ namespace hpp {
 
         private:
           std::vector <ValueType> values_;
-          unsigned int size_;
+          int size_;
       };
 
       /// \}
