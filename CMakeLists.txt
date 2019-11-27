@@ -44,7 +44,9 @@ SET(${PROJECT_NAME}_HEADERS
   include/hpp/manipulation/srdf/factories/robot.hh
   )
 
-ADD_REQUIRED_DEPENDENCY("tinyxml >= 2.6")
+SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/find-external/TinyXML)
+FIND_PACKAGE(TinyXML REQUIRED)
+
 ADD_REQUIRED_DEPENDENCY("hpp-util >= 3.2")
 ADD_REQUIRED_DEPENDENCY("hpp-manipulation >= 4")
 ADD_REQUIRED_DEPENDENCY("pinocchio")
