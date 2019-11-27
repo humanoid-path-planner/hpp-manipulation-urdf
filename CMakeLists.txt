@@ -17,18 +17,17 @@
 # hpp-manipulation-urdf  If not, see
 # <http://www.gnu.org/licenses/>.
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
-
-SET(CXX_DISABLE_WERROR TRUE)
-INCLUDE(cmake/base.cmake)
-INCLUDE(cmake/hpp.cmake)
-INCLUDE(cmake/cpack.cmake)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 SET(PROJECT_NAME hpp-manipulation-urdf)
 SET(PROJECT_DESCRIPTION "Implementation of a parser for hpp-manipulation.")
-SET(PROJECT_URL "https://github.com/jmirabel/hpp-manipulation-urdf")
 
-SETUP_HPP_PROJECT()
+SET(CXX_DISABLE_WERROR TRUE)
+INCLUDE(cmake/hpp.cmake)
+INCLUDE(cmake/cpack.cmake)
+
+COMPUTE_PROJECT_ARGS(PROJECT_ARGS LANGUAGES CXX)
+PROJECT(${PROJECT_NAME} ${PROJECT_ARGS})
 
 # Declare Headers
 SET(${PROJECT_NAME}_HEADERS
@@ -55,6 +54,3 @@ ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(tests)
 
 PKG_CONFIG_APPEND_LIBS (${PROJECT_NAME})
-
-SETUP_HPP_PROJECT_FINALIZE()
-SETUP_PROJECT_CPACK()
