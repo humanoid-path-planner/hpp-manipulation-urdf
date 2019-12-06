@@ -33,13 +33,19 @@ namespace hpp {
           const std::string& modelName,
           const std::string& srdfSuffix)
       {
-        std::string srdfPath = "package://" + package + "/srdf/"
+        std::string srdfName = "package://" + package + "/srdf/"
           + modelName + srdfSuffix + ".srdf";
+        loadModelFromFile (robot, prefix, srdfName);
+      }
 
+      void loadModelFromFile (const DevicePtr_t& robot,
+          const std::string& prefix,
+          const std::string& srdfName)
+      {
         parser::Parser p;
 
         p.prefix(prefix);
-        p.parseFile (srdfPath, robot);
+        p.parseFile (srdfName, robot);
         hppDout (notice, "Finished parsing semantic informations.");
       }
 
