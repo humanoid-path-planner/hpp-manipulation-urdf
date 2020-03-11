@@ -7,4 +7,9 @@
     <position xyz="0 0 0" xyzw="0 0 0 1"/>
     <!-- the position represents the position of the handle relatively to the following link -->
     <link name="link_name" />
+    <!-- Optionally, one may specify a mask.
+         It is a sequence of 6 booleans corresponding to the 3 translations
+         followed by the 3 rotations. True means the axis is constrained.
+         -->
+    <mask>1 1 1 0 0 0</mask>
 </handle>
