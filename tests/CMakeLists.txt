@@ -1,5 +1,6 @@
-# Copyright (c) 2014, LAAS-CNRS
+# Copyright (c) 2014, 2020, LAAS-CNRS
 # Authors: Joseph Mirabel (joseph.mirabel@laas.fr)
+# Authors: Guilhem Saurel (guilhem.saurel@laas.fr)
 #
 # This file is part of hpp-manipulation-urdf.
 # hpp-manipulation-urdf is free software: you can redistribute it
@@ -14,11 +15,6 @@
 # received a copy of the GNU Lesser General Public License along with
 # hpp-manipulation-urdf. If not, see <http://www.gnu.org/licenses/>.
 
-INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
-
-# Make Boost.Test generates the main function in test cases.
-#ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK -DBOOST_TEST_MAIN)
-
 # ADD_TESTCASE(NAME)
 # ------------------------
 #
@@ -29,21 +25,14 @@ INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 #
 MACRO(ADD_TESTCASE NAME GENERATED)
   IF (${GENERATED} STREQUAL TRUE)
-    ADD_EXECUTABLE(${NAME} ${CMAKE_CURRENT_BINARY_DIR}/${NAME}.cc)
+   ADD_UNIT_TEST(${NAME} ${CMAKE_CURRENT_BINARY_DIR}/${NAME}.cc)
   ELSE()
-    ADD_EXECUTABLE(${NAME} ${NAME}.cc)
+    ADD_UNIT_TEST(${NAME} ${NAME}.cc)
   ENDIF()
-  ADD_TEST(${NAME} ${RUNTIME_OUTPUT_DIRECTORY}/${NAME})
 
   PKG_CONFIG_USE_DEPENDENCY(${NAME} tinyxml)
-  PKG_CONFIG_USE_DEPENDENCY(${NAME} hpp-manipulation)
-
-  # Link against Boost and project library.
-  TARGET_LINK_LIBRARIES(${NAME}
-    ${Boost_LIBRARIES} hpp-manipulation-urdf
-  )
-
+  TARGET_LINK_LIBRARIES(${NAME} ${PROJECT_NAME} ${Boost_LIBRARIES} )
 ENDMACRO(ADD_TESTCASE)
 
-CONFIG_FILES (srdfparser.cc)
-ADD_TESTCASE (srdfparser TRUE)
+CONFIG_FILES(srdfparser.cc)
+ADD_TESTCASE(srdfparser TRUE)

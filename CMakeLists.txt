@@ -1,6 +1,6 @@
 #
-# Copyright (c) 2010, 2011 CNRS
-# Authors: Joseph Mirabel
+# Copyright (c) 2010, 2011, 2020, CNRS
+# Authors: Joseph Mirabel, Guilhem Saurel
 #
 #
 # This file is part of hpp-manipulation-urdf
@@ -17,17 +17,23 @@
 # hpp-manipulation-urdf  If not, see
 # <http://www.gnu.org/licenses/>.
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 
 SET(PROJECT_NAME hpp-manipulation-urdf)
 SET(PROJECT_DESCRIPTION "Implementation of a parser for hpp-manipulation.")
 
+SET(PROJECT_USE_CMAKE_EXPORT TRUE)
 SET(CXX_DISABLE_WERROR TRUE)
+
 INCLUDE(cmake/hpp.cmake)
-INCLUDE(cmake/cpack.cmake)
 
 COMPUTE_PROJECT_ARGS(PROJECT_ARGS LANGUAGES CXX)
 PROJECT(${PROJECT_NAME} ${PROJECT_ARGS})
+
+SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/find-external/TinyXML)
+FIND_PACKAGE(TinyXML REQUIRED)
+
+ADD_PROJECT_DEPENDENCY("hpp-manipulation" REQUIRED)
 
 # Declare Headers
 SET(${PROJECT_NAME}_HEADERS
@@ -44,15 +50,25 @@ SET(${PROJECT_NAME}_HEADERS
   include/hpp/manipulation/srdf/factories/robot.hh
   )
 
-SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/find-external/TinyXML)
-FIND_PACKAGE(TinyXML REQUIRED)
 
-ADD_REQUIRED_DEPENDENCY("hpp-util >= 3.2")
-ADD_REQUIRED_DEPENDENCY("hpp-manipulation >= 4")
-ADD_REQUIRED_DEPENDENCY("pinocchio")
-# ADD_REQUIRED_DEPENDENCY("resource_retriever")
+SET(${PROJECT_NAME}_SOURCES
+  src/parser/parser.cc
+  src/parser/factories/sequence.cc
 
-ADD_SUBDIRECTORY(src)
+  src/srdf/util.cc
+  src/srdf/factories/handle.cc
+  src/srdf/factories/gripper.cc
+  src/srdf/factories/contact.cc
+  src/srdf/factories/position.cc
+  src/srdf/factories/robot.cc
+  )
+
+ADD_LIBRARY(${PROJECT_NAME} SHARED ${${PROJECT_NAME}_SOURCES} ${${PROJECT_NAME}_HEADERS})
+TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PUBLIC $<INSTALL_INTERFACE:include>)
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} hpp-manipulation::hpp-manipulation)
+
+INSTALL(TARGETS ${PROJECT_NAME} EXPORT ${TARGETS_EXPORT_NAME} DESTINATION lib)
+
 ADD_SUBDIRECTORY(tests)
 
-PKG_CONFIG_APPEND_LIBS (${PROJECT_NAME})
+PKG_CONFIG_APPEND_LIBS(${PROJECT_NAME})
