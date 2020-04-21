@@ -20,6 +20,11 @@
 
 #include "hpp/manipulation/parser/factories/sequence.hh"
 
+/* tinyxml 2.5.2 is missing this */
+#ifndef TIXML_SSCANF
+# define TIXML_SSCANF sscanf
+#endif
+
 namespace hpp {
   namespace manipulation {
     namespace parser {
