@@ -1,0 +1,28 @@
+<?xml version='1.0'?> 
+ <package format='2'> 
+ <name>hpp-manipulation-urdf</name> 
+ <version>4.9.0</version> 
+ <description>Implementation of a parser for hpp-manipulation. </description> 
+ 
+ <maintainer email='hpp@laas.fr'>Joseph Mirabel</maintainer> 
+ <license>LGPL</license> 
+ 
+ <!-- <url type='website'>https://github.com/humanoid-path-planner/hpp-manipulation-urdf </url> --> 
+ 
+ <author>Joseph Mirabel</author> 
+ <author>Florent Lamiraux et al.</author> 
+ 
+ <buildtool_depend>catkin</buildtool_depend> 
+ <build_depend>hpp-manipulation</build_depend> 
+ <exec_depend>hpp-manipulation</exec_depend> 
+ <build_export_depend>hpp-manipulation</build_export_depend>
+ <build_depend>eigen3</build_depend> 
+ <exec_depend>eigen3</exec_depend> 
+ <build_export_depend>eigen3</build_export_depend>
+ <build_depend>urdfdom</build_depend> 
+ <exec_depend>urdfdom</exec_depend> 
+ <build_export_depend>urdfdom</build_export_depend>
+ <build_depend>hpp-fcl</build_depend> 
+ <exec_depend>hpp-fcl</exec_depend> 
+ <build_export_depend>hpp-fcl</build_export_depend>
+ </package>
