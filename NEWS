@@ -1,3 +1,7 @@
+                                                                -*- outline -*-
+New in 4.10.0
+* Add package.xml
+
 2014/11/18 - Release 1.0
         * Handle parser
         * Gripper parser
