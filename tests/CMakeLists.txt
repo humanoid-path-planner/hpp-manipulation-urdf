@@ -20,8 +20,7 @@
 #
 # Define a test named `NAME'.
 #
-# This macro will create a binary from `NAME.cc', link it against
-# Boost and add it to the test suite.
+# This macro will create a binary from `NAME.cc' and add it to the test suite.
 #
 MACRO(ADD_TESTCASE NAME GENERATED)
   IF (${GENERATED} STREQUAL TRUE)
@@ -31,7 +30,7 @@ MACRO(ADD_TESTCASE NAME GENERATED)
   ENDIF()
 
   PKG_CONFIG_USE_DEPENDENCY(${NAME} tinyxml)
-  TARGET_LINK_LIBRARIES(${NAME} ${PROJECT_NAME} ${Boost_LIBRARIES} )
+  TARGET_LINK_LIBRARIES(${NAME} ${PROJECT_NAME})
 ENDMACRO(ADD_TESTCASE)
 
 CONFIG_FILES(srdfparser.cc)
