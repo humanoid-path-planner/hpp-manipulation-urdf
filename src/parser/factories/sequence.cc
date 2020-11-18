@@ -97,7 +97,8 @@ namespace hpp {
         boost::algorithm::split (values, str,
             boost::algorithm::is_any_of (" \n\t\r"),
             boost::algorithm::token_compress_on);
-        std::remove_if (values.begin(), values.end(), StringIsEmpty());
+        values.erase(std::remove_if (values.begin(), values.end(), StringIsEmpty()),
+            values.end());
         if (size >= 0 && values.size () != (std::size_t)size) {
           std::ostringstream oss;
           oss << "Wrong sequence size, expecting " << size << ", got "
