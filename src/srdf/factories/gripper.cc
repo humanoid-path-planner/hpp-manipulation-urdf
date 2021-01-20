@@ -83,14 +83,16 @@ namespace hpp {
         assert(linkFrame.type == ::pinocchio::BODY);
 	// Gripper position is expressed in link frame. We need to compute
 	// the position in joint frame.
-        if (d->model().addFrame (::pinocchio::Frame(
+        if (d->model().existFrame(gripperName, ::pinocchio::OP_FRAME))
+          throw std::runtime_error
+	    ("Could not add gripper frame of gripper " + gripperName);
+        d->model().addFrame (::pinocchio::Frame(
               gripperName,
               linkFrame.parent,
               linkFrameId,
               linkFrame.placement * localPosition_,
               ::pinocchio::OP_FRAME
-              )) == -1)
-          throw std::runtime_error ("Could not add gripper frame of gripper " + gripperName);
+	    ));
         d->createData();
         gripper_ = pinocchio::Gripper::create (gripperName, root()->device());
         gripper_->clearance (clearance);
