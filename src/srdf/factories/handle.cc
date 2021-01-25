@@ -39,17 +39,15 @@ namespace hpp {
           factories = getChildrenOfType ("local_position");
           hppDout (warning, "Use tag position instead of local_position");
         }
-        if (factories.size () != 1) {
-          hppDout (error, "handle should have exactly one <position>");
-          return;
-        }
+        if (factories.size () != 1)
+          throw std::invalid_argument("handle tag " + name() +
+              " should have exactly one <position>");
         PositionFactory* pf = factories.front ()->as <PositionFactory> ();
         localPosition_ = pf->position ();
         factories = getChildrenOfType ("link");
-        if (factories.size () != 1) {
-          hppDout (error, "handle should have exactly one <link>");
-          return;
-        }
+        if (factories.size () != 1)
+          throw std::invalid_argument("handle tag " + name() +
+              " should have exactly one <link>");
         linkName_ = root ()->prependPrefix (factories.front ()->name ());
 
         /// Get the clearance

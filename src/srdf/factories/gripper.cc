@@ -36,18 +36,16 @@ namespace hpp {
           factories = getChildrenOfType ("handle_position_in_joint");
           hppDout (warning, "Use tag position instead of handle_position_in_joint");
         }
-        if (factories.size () != 1) {
-          hppDout (error, "gripper should have exactly one <position>");
-          return;
-        }
+        if (factories.size () != 1)
+          throw std::invalid_argument("gripper tag " + name() +
+              " should have exactly one <position>");
         PositionFactory* pf = factories.front ()->as <PositionFactory> ();
         localPosition_ = pf->position ();
 
         factories = getChildrenOfType ("link");
-        if (factories.size () != 1) {
-          hppDout (error, "gripper should have exactly one <link>");
-          return;
-        }
+        if (factories.size () != 1)
+          throw std::invalid_argument("gripper tag " + name() +
+              " should have exactly one <link>");
         linkName_ = root ()->prependPrefix (factories.front ()->name ());
         const std::string& gripperName = root()->prependPrefix(name());
         if (gripperName == linkName_)
