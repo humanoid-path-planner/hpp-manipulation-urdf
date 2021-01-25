@@ -16,8 +16,6 @@
 
 #include "hpp/manipulation/srdf/factories/contact.hh"
 
-#include <boost/assign/list_of.hpp>
-
 #include <pinocchio/multibody/model.hpp>
 #include <pinocchio/multibody/geometry.hpp>
 
@@ -115,11 +113,11 @@ namespace hpp {
             throw std::out_of_range ("triangle should be a sequence of unsigned integer lower than the number of points.");
           for (size_t i_tri = 0; i_tri < indexes.size (); i_tri+=3) {
             /// For each of the point indexes
-            Shape_t t = boost::assign::list_of
-              (points [indexes [i_tri  ]])
-              (points [indexes [i_tri+1]])
-              (points [indexes [i_tri+2]]);
-            shapes_.push_back (JointAndShape_t (joint, t));
+            shapes_.push_back (JointAndShape_t (joint, {
+                  points [indexes [i_tri  ]],
+                  points [indexes [i_tri+1]],
+                  points [indexes [i_tri+2]]
+                  }));
           }
           hppDout (info, "Triangles are deprecated and will be removed."
               " Use tag shape instead.");
