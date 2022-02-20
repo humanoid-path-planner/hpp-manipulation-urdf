@@ -75,6 +75,19 @@ namespace hpp {
           mask = mf->values();
         }
 
+        /// Get the mask complement
+        factories = getChildrenOfType ("mask_complement");
+        std::vector<bool> maskComp(6, false);
+        if (factories.size () > 1) {
+          hppDout (warning, "handle should have at most one <mask_complement>. Using the first one");
+        }
+        bool maskCompSpecified(false);
+        if (!factories.empty()) {
+          maskCompSpecified = true;
+          parser::SequenceFactory<bool>* mf = factories.front()->as<parser::SequenceFactory<bool> >();
+          maskComp = mf->values();
+        }
+
         /// We have now all the information to build the handle.
         DevicePtr_t d = HPP_DYNAMIC_PTR_CAST (Device, root ()->device ());
         if (!d) {
@@ -93,6 +106,7 @@ namespace hpp {
             linkFrame.placement * localPosition_, d, joint);
         handle_->clearance (clearance);
         handle_->mask(mask);
+        if (maskCompSpecified) handle_->maskComp(maskComp);
         d->handles.add (handle_->name (), handle_);
       }
 

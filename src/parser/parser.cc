@@ -37,6 +37,7 @@ namespace hpp {
           addObjectFactory ("gripper", create <srdf::GripperFactory>);
           addObjectFactory ("position", create <srdf::PositionFactory>);
           addObjectFactory ("mask", create <SequenceFactory<bool> >);
+          addObjectFactory ("mask_complement", create <SequenceFactory<bool> >);
           addObjectFactory ("contact", create <srdf::ContactFactory>);
           addObjectFactory ("point", create <srdf::ContactFactory::PointFactory>);
           addObjectFactory ("triangle", create <srdf::ContactFactory::TriangleFactory>);
