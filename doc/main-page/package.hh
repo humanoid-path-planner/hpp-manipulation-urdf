@@ -40,10 +40,9 @@
  In order to load HRP2 from a pair of URDF and SRDF
  files, one can do:
  \code
-   #include <hpp/pinocchio/urdf/util.hh>
-
    #include <hpp/manipulation/device.hh>
    #include <hpp/manipulation/srdf/util.hh>
+   #include <hpp/pinocchio/urdf/util.hh>
 
    int main (int argc, char** argv) {
      using hpp::manipulation::DevicePtr_t;
@@ -71,10 +70,9 @@
  \section hpp_manipulation_urdf_extend_sec Extend the parser
 
  To extend the parser, you must write a class that inherits from
- parser::ObjectFactory. Some \ref factories "factories" such as parser::SequenceFactory might be
- useful. You also have to declare the new factory to the parser:
- \code
- #include <hpp/manipulation/parser/parser.hh>
+ parser::ObjectFactory. Some \ref factories "factories" such as
+parser::SequenceFactory might be useful. You also have to declare the new
+factory to the parser: \code #include <hpp/manipulation/parser/parser.hh>
 
  // See ObjectFactory documentation for more details.
  // This factory parses something like:
@@ -117,7 +115,8 @@
  int main (int argc, char** argv) {
    // Parameter false tells the constructor not to include default factories.
    hpp::manipulation::parser::Parser p (false);
-   p.addObjectFactory ("tagname", hpp::manipulation::parser::create <YourFactory>);
+   p.addObjectFactory ("tagname", hpp::manipulation::parser::create
+<YourFactory>);
  }
  \endcode
  \see parser::ObjectFactory

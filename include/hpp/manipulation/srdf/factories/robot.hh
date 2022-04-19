@@ -27,43 +27,43 @@
 // DAMAGE.
 
 #ifndef HPP_MANIPULATION_SRDF_FACTORIES_ROBOT_HH
-# define HPP_MANIPULATION_SRDF_FACTORIES_ROBOT_HH
+#define HPP_MANIPULATION_SRDF_FACTORIES_ROBOT_HH
 
-# include <hpp/manipulation/fwd.hh>
-# include <hpp/fcl/math/transform.h>
-# include <hpp/fcl/shape/geometric_shapes.h>
+#include <hpp/fcl/math/transform.h>
+#include <hpp/fcl/shape/geometric_shapes.h>
 
-# include "hpp/manipulation/parser/parser.hh"
+#include <hpp/manipulation/fwd.hh>
+
+#include "hpp/manipulation/parser/parser.hh"
 
 namespace hpp {
-  namespace manipulation {
-    namespace srdf {
-      /// \addtogroup factories
-      /// \{
+namespace manipulation {
+namespace srdf {
+/// \addtogroup factories
+/// \{
 
-      using parser::ObjectFactory;
-      using parser::XMLElement;
-      using parser::XMLElement;
-      using parser::XMLDocument;
-      using parser::XMLAttribute;
-      using parser::XMLNode;
-      using parser::XMLText;
+using parser::ObjectFactory;
+using parser::XMLAttribute;
+using parser::XMLDocument;
+using parser::XMLElement;
+using parser::XMLNode;
+using parser::XMLText;
 
-      /// This class only check if the robot name and
-      /// the attribute "name" of tag "robot" are the same.
-      class RobotFactory : public ObjectFactory {
-        public:
-          RobotFactory (ObjectFactory* parent, const XMLElement* element) :
-            ObjectFactory (parent, element) {}
+/// This class only check if the robot name and
+/// the attribute "name" of tag "robot" are the same.
+class RobotFactory : public ObjectFactory {
+ public:
+  RobotFactory(ObjectFactory* parent, const XMLElement* element)
+      : ObjectFactory(parent, element) {}
 
-          /// \return true iif the robot name and
-          /// the attribute "name" of tag "robot" are equal.
-          bool finishAttributes ();
-      };
+  /// \return true iif the robot name and
+  /// the attribute "name" of tag "robot" are equal.
+  bool finishAttributes();
+};
 
-      /// \}
-    } // namespace srdf
-  } // namespace manipulation
-} // namespace hpp
+/// \}
+}  // namespace srdf
+}  // namespace manipulation
+}  // namespace hpp
 
-#endif // HPP_MANIPULATION_SRDF_FACTORIES_ROBOT_HH
+#endif  // HPP_MANIPULATION_SRDF_FACTORIES_ROBOT_HH

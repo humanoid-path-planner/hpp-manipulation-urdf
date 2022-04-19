@@ -27,46 +27,43 @@
 // DAMAGE.
 
 #ifndef HPP_MANIPULATION_PARSER_FACTORIES_SEQUENCE_HH
-# define HPP_MANIPULATION_PARSER_FACTORIES_SEQUENCE_HH
+#define HPP_MANIPULATION_PARSER_FACTORIES_SEQUENCE_HH
 
-# include "hpp/manipulation/parser/parser.hh"
+#include "hpp/manipulation/parser/parser.hh"
 
 namespace hpp {
-  namespace manipulation {
-    namespace parser {
-      /// \addtogroup factories
-      /// \{
-      template <typename Container>
-        void readSequence (const std::string& str, Container& out, int size = -1);
+namespace manipulation {
+namespace parser {
+/// \addtogroup factories
+/// \{
+template <typename Container>
+void readSequence(const std::string& str, Container& out, int size = -1);
 
-      /// \brief  Factory parsing sequence of values.
-      /// \tparam ValueType one of (bool, int, unsigned int, double, float)
-      ///
-      /// A std::vector is built from a sequence of values separeted by
-      /// white spaces.
-      template <typename ValueType>
-      class SequenceFactory : public ObjectFactory {
-        public:
-          typedef std::vector <ValueType> OutType;
-          SequenceFactory (ObjectFactory* parent, const XMLElement* element, const int nbValue = -1) :
-            ObjectFactory (parent, element), size_ (nbValue)
-        {}
+/// \brief  Factory parsing sequence of values.
+/// \tparam ValueType one of (bool, int, unsigned int, double, float)
+///
+/// A std::vector is built from a sequence of values separeted by
+/// white spaces.
+template <typename ValueType>
+class SequenceFactory : public ObjectFactory {
+ public:
+  typedef std::vector<ValueType> OutType;
+  SequenceFactory(ObjectFactory* parent, const XMLElement* element,
+                  const int nbValue = -1)
+      : ObjectFactory(parent, element), size_(nbValue) {}
 
-          virtual void addTextChild (const XMLText* text);
+  virtual void addTextChild(const XMLText* text);
 
-          const OutType& values () const
-          {
-            return values_;
-          }
+  const OutType& values() const { return values_; }
 
-        private:
-          std::vector <ValueType> values_;
-          int size_;
-      };
+ private:
+  std::vector<ValueType> values_;
+  int size_;
+};
 
-      /// \}
-    } // namespace parser
-  } // namespace manipulation
-} // namespace hpp
+/// \}
+}  // namespace parser
+}  // namespace manipulation
+}  // namespace hpp
 
-#endif // HPP_MANIPULATION_PARSER_FACTORIES_SEQUENCE_HH
+#endif  // HPP_MANIPULATION_PARSER_FACTORIES_SEQUENCE_HH

@@ -27,48 +27,47 @@
 // DAMAGE.
 
 #ifndef HPP_MANIPULATION_SRDF_FACTORIES_HANDLE_HH
-# define HPP_MANIPULATION_SRDF_FACTORIES_HANDLE_HH
+#define HPP_MANIPULATION_SRDF_FACTORIES_HANDLE_HH
 
-# include <pinocchio/spatial/se3.hpp>
+#include <hpp/manipulation/fwd.hh>
+#include <pinocchio/spatial/se3.hpp>
 
-# include <hpp/manipulation/fwd.hh>
-
-# include "hpp/manipulation/parser/parser.hh"
+#include "hpp/manipulation/parser/parser.hh"
 
 namespace hpp {
-  namespace manipulation {
-    namespace srdf {
-      /// \addtogroup factories
-      /// \{
+namespace manipulation {
+namespace srdf {
+/// \addtogroup factories
+/// \{
 
-      using parser::ObjectFactory;
-      using parser::XMLElement;
-      using parser::XMLDocument;
-      using parser::XMLAttribute;
-      using parser::XMLNode;
-      using parser::XMLText;
+using parser::ObjectFactory;
+using parser::XMLAttribute;
+using parser::XMLDocument;
+using parser::XMLElement;
+using parser::XMLNode;
+using parser::XMLText;
 
-      /// \brief Build an object of type hpp::manipulation::Handle
-      class HandleFactory : public ObjectFactory {
-        public:
-          HandleFactory (ObjectFactory* parent, const XMLElement* element) :
-            ObjectFactory (parent, element) {}
+/// \brief Build an object of type hpp::manipulation::Handle
+class HandleFactory : public ObjectFactory {
+ public:
+  HandleFactory(ObjectFactory* parent, const XMLElement* element)
+      : ObjectFactory(parent, element) {}
 
-          virtual void finishTags ();
+  virtual void finishTags();
 
-          HandlePtr_t handle () const;
+  HandlePtr_t handle() const;
 
-        protected:
-          HandlePtr_t handle_;
+ protected:
+  HandlePtr_t handle_;
 
-          /// The element required to build the handle
-          Transform3f localPosition_;
-          std::string linkName_;
-      };
+  /// The element required to build the handle
+  Transform3f localPosition_;
+  std::string linkName_;
+};
 
-      /// \}
-    } // namespace srdf
-  } // namespace manipulation
-} // namespace hpp
+/// \}
+}  // namespace srdf
+}  // namespace manipulation
+}  // namespace hpp
 
-#endif // HPP_MANIPULATION_SRDF_FACTORIES_HANDLE_HH
+#endif  // HPP_MANIPULATION_SRDF_FACTORIES_HANDLE_HH

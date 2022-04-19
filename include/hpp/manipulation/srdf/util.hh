@@ -27,44 +27,43 @@
 // DAMAGE.
 
 #ifndef HPP_MANIPULATION_SRDF_UTIL_HH
-# define HPP_MANIPULATION_SRDF_UTIL_HH
+#define HPP_MANIPULATION_SRDF_UTIL_HH
 
-# include <hpp/manipulation/fwd.hh>
-# include <hpp/manipulation/urdf/deprecated.hh>
+#include <hpp/manipulation/fwd.hh>
+#include <hpp/manipulation/urdf/deprecated.hh>
 
 namespace hpp {
-  namespace manipulation {
-    namespace srdf {
-      /// Reads the tags from SRDF as defined in \ref hpp_manipulation_urdf_srdf_syntax
-      /// \param robot robot to modify with the information stored in srdf file,
-      /// \param prefix prefix to insert before tags of the srdf file to get
-      ///        the corresponding object in the robot model
-      /// \param modelName part of the filename,
-      /// \param srdfSuffix part of the filename.
-      ///
-      /// The srdf file is retrieve by the following string:
-      /// "package://${package}/srdf/${modelName}${srdfSuffix}.srdf".
-      ///
-      void loadModelFromFile (const DevicePtr_t& robot,
-          const std::string& prefix,
-          const std::string& package,
-          const std::string& modelName,
-          const std::string& srdfSuffix);
+namespace manipulation {
+namespace srdf {
+/// Reads the tags from SRDF as defined in \ref
+/// hpp_manipulation_urdf_srdf_syntax \param robot robot to modify with the
+/// information stored in srdf file, \param prefix prefix to insert before tags
+/// of the srdf file to get
+///        the corresponding object in the robot model
+/// \param modelName part of the filename,
+/// \param srdfSuffix part of the filename.
+///
+/// The srdf file is retrieve by the following string:
+/// "package://${package}/srdf/${modelName}${srdfSuffix}.srdf".
+///
+void loadModelFromFile(const DevicePtr_t& robot, const std::string& prefix,
+                       const std::string& package, const std::string& modelName,
+                       const std::string& srdfSuffix);
 
-      /// Reads the tags from SRDF as defined in \ref hpp_manipulation_urdf_srdf_syntax
-      /// \param prefix prefix to insert before tags of the srdf file to get
-      ///        the corresponding object in the robot model
-      /// \param srdfName name of the srdf file; may contain "package://" or
-      ///        "file://".
-      void loadModelFromFile (const DevicePtr_t& robot,
-          const std::string& prefix,
-          const std::string& srdfName);
+/// Reads the tags from SRDF as defined in \ref
+/// hpp_manipulation_urdf_srdf_syntax \param prefix prefix to insert before tags
+/// of the srdf file to get
+///        the corresponding object in the robot model
+/// \param srdfName name of the srdf file; may contain "package://" or
+///        "file://".
+void loadModelFromFile(const DevicePtr_t& robot, const std::string& prefix,
+                       const std::string& srdfName);
 
-      /// Reads the tags from SRDF as defined in \ref hpp_manipulation_urdf_srdf_syntax
-      void loadModelFromXML (const DevicePtr_t& robot,
-          const std::string& prefix,
-          const std::string& srdfString);
-    } // namespace srdf
-  } // namespace manipulation
-} // namespace hpp
-#endif // HPP_MANIPULATION_SRDF_UTIL_HH
+/// Reads the tags from SRDF as defined in \ref
+/// hpp_manipulation_urdf_srdf_syntax
+void loadModelFromXML(const DevicePtr_t& robot, const std::string& prefix,
+                      const std::string& srdfString);
+}  // namespace srdf
+}  // namespace manipulation
+}  // namespace hpp
+#endif  // HPP_MANIPULATION_SRDF_UTIL_HH

@@ -28,48 +28,40 @@
 
 #include "hpp/manipulation/srdf/util.hh"
 
-#include <hpp/util/exception-factory.hh>
-
-#include <hpp/pinocchio/urdf/util.hh>
 #include <hpp/manipulation/device.hh>
+#include <hpp/pinocchio/urdf/util.hh>
+#include <hpp/util/exception-factory.hh>
 
 #include "hpp/manipulation/parser/parser.hh"
 #include "hpp/manipulation/srdf/factories/position.hh"
 
 namespace hpp {
-  namespace manipulation {
-    namespace srdf {
-      void loadModelFromFile (const DevicePtr_t& robot,
-          const std::string& prefix,
-          const std::string& package,
-          const std::string& modelName,
-          const std::string& srdfSuffix)
-      {
-        std::string srdfName = "package://" + package + "/srdf/"
-          + modelName + srdfSuffix + ".srdf";
-        loadModelFromFile (robot, prefix, srdfName);
-      }
+namespace manipulation {
+namespace srdf {
+void loadModelFromFile(const DevicePtr_t& robot, const std::string& prefix,
+                       const std::string& package, const std::string& modelName,
+                       const std::string& srdfSuffix) {
+  std::string srdfName =
+      "package://" + package + "/srdf/" + modelName + srdfSuffix + ".srdf";
+  loadModelFromFile(robot, prefix, srdfName);
+}
 
-      void loadModelFromFile (const DevicePtr_t& robot,
-          const std::string& prefix,
-          const std::string& srdfName)
-      {
-        parser::Parser p;
+void loadModelFromFile(const DevicePtr_t& robot, const std::string& prefix,
+                       const std::string& srdfName) {
+  parser::Parser p;
 
-        p.prefix(prefix);
-        p.parseFile (srdfName, robot);
-        hppDout (notice, "Finished parsing semantic informations.");
-      }
+  p.prefix(prefix);
+  p.parseFile(srdfName, robot);
+  hppDout(notice, "Finished parsing semantic informations.");
+}
 
-      void loadModelFromXML (const DevicePtr_t& robot,
-          const std::string& prefix,
-          const std::string& srdfString)
-      {
-        parser::Parser p;
-        p.prefix(prefix);
-        p.parseString (srdfString, robot);
-        hppDout (notice, "Finished parsing semantic informations.");
-      }
-    } // namespace srdf
-  } // namespace manipulation
-} // namespace hpp
+void loadModelFromXML(const DevicePtr_t& robot, const std::string& prefix,
+                      const std::string& srdfString) {
+  parser::Parser p;
+  p.prefix(prefix);
+  p.parseString(srdfString, robot);
+  hppDout(notice, "Finished parsing semantic informations.");
+}
+}  // namespace srdf
+}  // namespace manipulation
+}  // namespace hpp

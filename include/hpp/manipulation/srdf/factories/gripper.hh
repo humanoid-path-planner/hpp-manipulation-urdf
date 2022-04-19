@@ -27,42 +27,41 @@
 // DAMAGE.
 
 #ifndef HPP_MANIPULATION_SRDF_FACTORIES_GRIPPER_HH
-# define HPP_MANIPULATION_SRDF_FACTORIES_GRIPPER_HH
+#define HPP_MANIPULATION_SRDF_FACTORIES_GRIPPER_HH
 
-# include <pinocchio/spatial/se3.hpp>
+#include <hpp/manipulation/fwd.hh>
+#include <pinocchio/spatial/se3.hpp>
 
-# include <hpp/manipulation/fwd.hh>
-
-# include "hpp/manipulation/parser/parser.hh"
+#include "hpp/manipulation/parser/parser.hh"
 
 namespace hpp {
-  namespace manipulation {
-    namespace srdf {
-      /// \addtogroup factories
-      /// \{
+namespace manipulation {
+namespace srdf {
+/// \addtogroup factories
+/// \{
 
-      /// \brief Build an object of type hpp::pinocchio::Gripper.
-      class GripperFactory : public parser::ObjectFactory {
-        public:
-          GripperFactory (ObjectFactory* parent, const parser::XMLElement* element) :
-            ObjectFactory (parent, element) {}
+/// \brief Build an object of type hpp::pinocchio::Gripper.
+class GripperFactory : public parser::ObjectFactory {
+ public:
+  GripperFactory(ObjectFactory* parent, const parser::XMLElement* element)
+      : ObjectFactory(parent, element) {}
 
-          virtual void finishTags ();
+  virtual void finishTags();
 
-          GripperPtr_t gripper () const;
+  GripperPtr_t gripper() const;
 
-        protected:
-          GripperPtr_t gripper_;
+ protected:
+  GripperPtr_t gripper_;
 
-          /// The element required to build the gripper.
-          Transform3f localPosition_;
-          std::string linkName_;
-          std::list <std::string> collisionLinks_;
-      };
+  /// The element required to build the gripper.
+  Transform3f localPosition_;
+  std::string linkName_;
+  std::list<std::string> collisionLinks_;
+};
 
-      /// \}
-    } // namespace srdf
-  } // namespace manipulation
-} // namespace hpp
+/// \}
+}  // namespace srdf
+}  // namespace manipulation
+}  // namespace hpp
 
-#endif // HPP_MANIPULATION_SRDF_FACTORIES_GRIPPER_HH
+#endif  // HPP_MANIPULATION_SRDF_FACTORIES_GRIPPER_HH

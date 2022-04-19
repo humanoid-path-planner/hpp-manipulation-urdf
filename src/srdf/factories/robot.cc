@@ -27,24 +27,24 @@
 // DAMAGE.
 
 #include "hpp/manipulation/srdf/factories/robot.hh"
+
 #include <hpp/manipulation/device.hh>
 
 namespace hpp {
-  namespace manipulation {
-    namespace srdf {
-      bool RobotFactory::finishAttributes ()
-      {
-        if (!root ()->device ()) {
-          hppDout (error, "There is no Device");
-          return false;
-        }
-        if (root ()->device ()->name ().compare (name ()) != 0) {
-          hppDout (warning, "Device (" << root ()->device ()->name ()
-		   << ") and XML robot tag (" << name ()
-		   << ") have different names.");
-        }
-        return true;
-      }
-    } // namespace srdf
-  } // namespace manipulation
-} // namespace hpp
+namespace manipulation {
+namespace srdf {
+bool RobotFactory::finishAttributes() {
+  if (!root()->device()) {
+    hppDout(error, "There is no Device");
+    return false;
+  }
+  if (root()->device()->name().compare(name()) != 0) {
+    hppDout(warning, "Device (" << root()->device()->name()
+                                << ") and XML robot tag (" << name()
+                                << ") have different names.");
+  }
+  return true;
+}
+}  // namespace srdf
+}  // namespace manipulation
+}  // namespace hpp

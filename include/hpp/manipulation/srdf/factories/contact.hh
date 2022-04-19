@@ -27,41 +27,42 @@
 // DAMAGE.
 
 #ifndef HPP_MANIPULATION_SRDF_FACTORIES_CONTACT_HH
-# define HPP_MANIPULATION_SRDF_FACTORIES_CONTACT_HH
+#define HPP_MANIPULATION_SRDF_FACTORIES_CONTACT_HH
 
-# include <hpp/manipulation/fwd.hh>
-# include <hpp/fcl/math/transform.h>
-# include <hpp/fcl/shape/geometric_shapes.h>
+#include <hpp/fcl/math/transform.h>
+#include <hpp/fcl/shape/geometric_shapes.h>
 
-# include "hpp/manipulation/parser/parser.hh"
-# include "hpp/manipulation/parser/factories/sequence.hh"
+#include <hpp/manipulation/fwd.hh>
+
+#include "hpp/manipulation/parser/factories/sequence.hh"
+#include "hpp/manipulation/parser/parser.hh"
 
 namespace hpp {
-  namespace manipulation {
-    namespace srdf {
-      /// \addtogroup factories
-      /// \{
+namespace manipulation {
+namespace srdf {
+/// \addtogroup factories
+/// \{
 
-      /// \brief  Factory building contact surfaces.
-      class ContactFactory : public parser::ObjectFactory {
-        public:
-          typedef parser::SequenceFactory <value_type> PointFactory;
-          typedef parser::SequenceFactory <unsigned int> TriangleFactory;
-          typedef parser::SequenceFactory <unsigned int> ShapeFactory;
+/// \brief  Factory building contact surfaces.
+class ContactFactory : public parser::ObjectFactory {
+ public:
+  typedef parser::SequenceFactory<value_type> PointFactory;
+  typedef parser::SequenceFactory<unsigned int> TriangleFactory;
+  typedef parser::SequenceFactory<unsigned int> ShapeFactory;
 
-          ContactFactory (ObjectFactory* parent, const parser::XMLElement* element) :
-            ObjectFactory (parent, element) {}
+  ContactFactory(ObjectFactory* parent, const parser::XMLElement* element)
+      : ObjectFactory(parent, element) {}
 
-          virtual void finishTags ();
+  virtual void finishTags();
 
-        private:
-          JointAndShapes_t shapes_;
-          std::string linkName_, objectName_;
-      };
+ private:
+  JointAndShapes_t shapes_;
+  std::string linkName_, objectName_;
+};
 
-      /// \}
-    } // namespace srdf
-  } // namespace manipulation
-} // namespace hpp
+/// \}
+}  // namespace srdf
+}  // namespace manipulation
+}  // namespace hpp
 
-#endif // HPP_MANIPULATION_SRDF_FACTORIES_CONTACT_HH
+#endif  // HPP_MANIPULATION_SRDF_FACTORIES_CONTACT_HH

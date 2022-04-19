@@ -27,33 +27,30 @@
 // DAMAGE.
 
 #ifndef HPP_MANIPULATION_PARSER_FACTORIES_IGNORETAG_HH
-# define HPP_MANIPULATION_PARSER_FACTORIES_IGNORETAG_HH
+#define HPP_MANIPULATION_PARSER_FACTORIES_IGNORETAG_HH
 
-# include "hpp/manipulation/parser/parser.hh"
+#include "hpp/manipulation/parser/parser.hh"
 
 namespace hpp {
-  namespace manipulation {
-    namespace parser {
-      /// \addtogroup factories
-      /// \{
+namespace manipulation {
+namespace parser {
+/// \addtogroup factories
+/// \{
 
-      /// Class used to ignore a tag.
-      /// If the parser knows it should ignore a tag, no warning will be
-      /// printed in the logs. Moreover, its children won't be parsed.
-      class IgnoreTagFactory : public ObjectFactory {
-        public:
-          IgnoreTagFactory (ObjectFactory* parent, const XMLElement* element) :
-            ObjectFactory (parent, element) {}
+/// Class used to ignore a tag.
+/// If the parser knows it should ignore a tag, no warning will be
+/// printed in the logs. Moreover, its children won't be parsed.
+class IgnoreTagFactory : public ObjectFactory {
+ public:
+  IgnoreTagFactory(ObjectFactory* parent, const XMLElement* element)
+      : ObjectFactory(parent, element) {}
 
-          bool init ()
-          {
-            return false;
-          }
-      };
+  bool init() { return false; }
+};
 
-      /// \}
-    } // namespace parser
-  } // namespace manipulation
-} // namespace hpp
+/// \}
+}  // namespace parser
+}  // namespace manipulation
+}  // namespace hpp
 
-#endif // HPP_MANIPULATION_PARSER_FACTORIES_IGNORETAG_HH
+#endif  // HPP_MANIPULATION_PARSER_FACTORIES_IGNORETAG_HH

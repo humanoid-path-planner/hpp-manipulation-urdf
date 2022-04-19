@@ -27,47 +27,44 @@
 // DAMAGE.
 
 #ifndef HPP_MANIPULATION_SRDF_FACTORIES_POSITION_HH
-# define HPP_MANIPULATION_SRDF_FACTORIES_POSITION_HH
+#define HPP_MANIPULATION_SRDF_FACTORIES_POSITION_HH
 
-# include <hpp/manipulation/fwd.hh>
+#include <hpp/manipulation/fwd.hh>
+#include <pinocchio/spatial/se3.hpp>
 
-# include <pinocchio/spatial/se3.hpp>
-# include "hpp/manipulation/parser/factories/sequence.hh"
+#include "hpp/manipulation/parser/factories/sequence.hh"
 
 namespace hpp {
-  namespace manipulation {
-    namespace srdf {
-      /// \addtogroup factories
-      /// \{
+namespace manipulation {
+namespace srdf {
+/// \addtogroup factories
+/// \{
 
-      /// \brief Build a fcl::Transform.
-      ///
-      /// The sequence of number in the XML text must:
-      /// \li be of length 7;
-      /// \li begin with the translation (3 coordinates);
-      /// \li end with a quaternion (4 coordinates).
-      class PositionFactory : public parser::SequenceFactory <float> {
-        public:
-          PositionFactory (ObjectFactory* parent, const parser::XMLElement* element) :
-            SequenceFactory <float> (parent, element, 7) {}
+/// \brief Build a fcl::Transform.
+///
+/// The sequence of number in the XML text must:
+/// \li be of length 7;
+/// \li begin with the translation (3 coordinates);
+/// \li end with a quaternion (4 coordinates).
+class PositionFactory : public parser::SequenceFactory<float> {
+ public:
+  PositionFactory(ObjectFactory* parent, const parser::XMLElement* element)
+      : SequenceFactory<float>(parent, element, 7) {}
 
-          virtual void finishTags ();
+  virtual void finishTags();
 
-          const Transform3f& position () const
-          {
-            return position_;
-          }
+  const Transform3f& position() const { return position_; }
 
-        private:
-          void computeTransformFromText ();
-          void computeTransformFromAttributes ();
+ private:
+  void computeTransformFromText();
+  void computeTransformFromAttributes();
 
-          Transform3f position_;
-      };
+  Transform3f position_;
+};
 
-      /// \}
-    } // namespace srdf
-  } // namespace manipulation
-} // namespace hpp
+/// \}
+}  // namespace srdf
+}  // namespace manipulation
+}  // namespace hpp
 
-#endif // HPP_MANIPULATION_SRDF_FACTORIES_POSITION_HH
+#endif  // HPP_MANIPULATION_SRDF_FACTORIES_POSITION_HH
