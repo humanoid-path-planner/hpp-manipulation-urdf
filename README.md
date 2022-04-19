@@ -1,14 +1,13 @@
 # hpp-manipulation-urdf
 
 [![Building Status](https://travis-ci.org/humanoid-path-planner/hpp-manipulation-urdf.svg?branch=master)](https://travis-ci.org/humanoid-path-planner/hpp-manipulation-urdf)
-[![Pipeline status](https://gepgitlab.laas.fr/humanoid-path-planner/hpp-manipulation-urdf/badges/master/pipeline.svg)](https://gepgitlab.laas.fr/humanoid-path-planner/hpp-manipulation-urdf/commits/master)
-[![Coverage report](https://gepgitlab.laas.fr/humanoid-path-planner/hpp-manipulation-urdf/badges/master/coverage.svg?job=doc-coverage)](http://projects.laas.fr/gepetto/doc/humanoid-path-planner/hpp-manipulation-urdf/master/coverage/)
+[![Pipeline status](https://gitlab.laas.fr/humanoid-path-planner/hpp-manipulation-urdf/badges/master/pipeline.svg)](https://gitlab.laas.fr/humanoid-path-planner/hpp-manipulation-urdf/commits/master)
+[![Coverage report](https://gitlab.laas.fr/humanoid-path-planner/hpp-manipulation-urdf/badges/master/coverage.svg?job=doc-coverage)](https://gepettoweb.laas.fr/doc/humanoid-path-planner/hpp-manipulation-urdf/master/coverage/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/humanoid-path-planner/hpp-manipulation-urdf/master.svg)](https://results.pre-commit.ci/latest/github/humanoid-path-planner/hpp-manipulation-urdf)
 
 This package is part of the [HPP] software and extends the functionalities of hpp-model-urdf.
 It implements a URDF/SRDF parser for the package hpp-manipulation.
-
-### Version
-1.1
 
 ### Dependencies
 
