@@ -34,6 +34,7 @@
 #
 # This macro will create a binary from `NAME.cc' and add it to the test suite.
 #
+find_library(RT_LIB rt)
 MACRO(ADD_TESTCASE NAME GENERATED)
   IF (${GENERATED} STREQUAL TRUE)
    ADD_UNIT_TEST(${NAME} ${CMAKE_CURRENT_BINARY_DIR}/${NAME}.cc)
@@ -43,6 +44,9 @@ MACRO(ADD_TESTCASE NAME GENERATED)
 
   PKG_CONFIG_USE_DEPENDENCY(${NAME} tinyxml)
   TARGET_LINK_LIBRARIES(${NAME} ${PROJECT_NAME})
+  if(RT_LIB)
+    TARGET_LINK_LIBRARIES(${NAME} ${RT_LIB})
+  endif()
 ENDMACRO(ADD_TESTCASE)
 
 CONFIG_FILES(srdfparser.cc)
