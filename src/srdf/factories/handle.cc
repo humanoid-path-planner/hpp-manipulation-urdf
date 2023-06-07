@@ -130,7 +130,8 @@ void HandleFactory::finishTags() {
   assert(d->model().existFrame(jointName));
   ::pinocchio::FrameIndex previousFrame(d->model().getFrameId(jointName));
   d->model().addFrame(::pinocchio::Frame(handle_->name(), index, previousFrame,
-      linkFrame.placement * localPosition_, ::pinocchio::OP_FRAME));
+                                         linkFrame.placement * localPosition_,
+                                         ::pinocchio::OP_FRAME));
   d->createData();
 }
 
