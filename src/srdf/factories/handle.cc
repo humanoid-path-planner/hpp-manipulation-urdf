@@ -112,7 +112,13 @@ void HandleFactory::finishTags() {
   const ::pinocchio::Frame& linkFrame =
       model.frames[model.getFrameId(linkName_)];
   assert(linkFrame.type == ::pinocchio::BODY);
+  pinocchio::JointIndex index(0);
+  std::string jointName("universe");
   JointPtr_t joint(Joint::create(d, linkFrame.parent));
+  if (joint) {
+    index = joint->index();
+    jointName = joint->name();
+  }
   // Handle position is expressed in link frame. We need to express it in
   // joint frame.
   handle_ = Handle::create(root()->prependPrefix(name()),
@@ -121,6 +127,11 @@ void HandleFactory::finishTags() {
   handle_->mask(mask);
   if (maskCompSpecified) handle_->maskComp(maskComp);
   d->handles.add(handle_->name(), handle_);
+  assert(d->model().existFrame(jointName));
+  ::pinocchio::FrameIndex previousFrame(d->model().getFrameId(jointName));
+  d->model().addFrame(::pinocchio::Frame(handle_->name(), index, previousFrame,
+      linkFrame.placement * localPosition_, ::pinocchio::OP_FRAME));
+  d->createData();
 }
 
 HandlePtr_t HandleFactory::handle() const { return handle_; }
