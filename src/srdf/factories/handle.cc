@@ -37,6 +37,10 @@
 
 #include "hpp/manipulation/srdf/factories/position.hh"
 
+#ifndef TIXML_SSCANF
+#define TIXML_SSCANF sscanf
+#endif
+
 namespace hpp {
 namespace manipulation {
 namespace srdf {

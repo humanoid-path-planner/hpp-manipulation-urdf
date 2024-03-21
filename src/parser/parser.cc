@@ -99,7 +99,7 @@ void Parser::parseFile(const std::string& filename, DevicePtr_t robot) {
 void Parser::loadFile(const char* filename) {
   doc_.LoadFile(filename);
   if (doc_.Error()) {
-    std::cerr << doc_.ErrorDesc() << std::endl;
+    std::cerr << doc_.ErrorStr() << std::endl;
     return;
   }
 }
@@ -107,7 +107,7 @@ void Parser::loadFile(const char* filename) {
 void Parser::loadString(const char* xmlstring) {
   doc_.Parse(xmlstring);
   if (doc_.Error()) {
-    std::cerr << doc_.ErrorDesc() << std::endl;
+    std::cerr << doc_.ErrorStr() << std::endl;
   }
 }
 
@@ -135,8 +135,7 @@ void Parser::parseElement(const XMLElement* element, ObjectFactory* parent) {
 
   ObjectFactory* o = NULL;
   /// Look for this element in the map
-  ObjectFactoryMap::const_iterator it =
-      objFactoryMap_.find(element->ValueStr());
+  ObjectFactoryMap::const_iterator it = objFactoryMap_.find(element->Value());
   if (it != objFactoryMap_.end()) {
     o = it->second(parent, element);
   } else {
@@ -209,7 +208,7 @@ void ObjectFactory::finishFile() {}
 void ObjectFactory::addTextChild(const XMLText* /* text */) {}
 
 std::string ObjectFactory::tagName() const {
-  if (element_ != NULL) return element_->ValueStr();
+  if (element_ != NULL) return element_->Value();
   return "No element";
 }
 
@@ -270,16 +269,16 @@ std::ostream& ObjectFactory::print(std::ostream& os) const {
 void ObjectFactory::setAttribute(const XMLAttribute* attr) {
   std::string n = std::string(attr->Name());
   if (n == "name")
-    name(attr->ValueStr());
+    name(attr->Value());
   else if (n == "id") {
     int v;
-    if (attr->QueryIntValue(&v) != TIXML_SUCCESS) {
+    if (attr->QueryIntValue(&v) != tinyxml2::XML_SUCCESS) {
       hppDout(error, "Attribute ID " << attr->Value() << " is incorrect.");
     } else {
       id_ = (int)v;
     }
   }
-  attrMap_[n] = attr->ValueStr();
+  attrMap_[n] = attr->Value();
   impl_setAttribute(attr);
 }
 

@@ -67,7 +67,7 @@ class TestFactory : public ObjectFactory {
     virtual void impl_setAttribute (const XMLAttribute* attr)
     {
       if (strcmp (attr->Name (), "othername") == 0)
-        obj_.name = attr->ValueStr ();
+        obj_.name = attr->Value ();
     }
 
     virtual void finishTags () {
