@@ -1,2 +1,20 @@
+[build-system]
+build-backend = "cmeel.build"
+requires = [
+  "cmeel-boost ~= 1.83.0",
+  "cmeel[build]",
+  "hpp-manipulation[build]"
+]
+
+[project]
+dependencies = [
+  "cmeel-boost ~= 1.83.0",
+  "hpp-manipulation"
+]
+description = "Implementation of a parser for hpp-manipulation."
+license = "BSD-2-Clause"
+name = "hpp-manipulation-urdf"
+version = "5.0.0"
+
 [tool.isort]
 profile = "black"
