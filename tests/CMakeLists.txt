@@ -38,7 +38,6 @@ macro(ADD_TESTCASE NAME GENERATED)
     add_unit_test(${NAME} ${NAME}.cc)
   endif()
 
-  pkg_config_use_dependency(${NAME} tinyxml)
   target_link_libraries(${NAME} ${PROJECT_NAME})
   if(RT_LIB)
     target_link_libraries(${NAME} ${RT_LIB})
