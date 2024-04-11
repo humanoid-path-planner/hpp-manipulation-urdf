@@ -96,7 +96,7 @@ void GripperFactory::finishTags() {
   assert(linkFrame.type == ::pinocchio::BODY);
   // Gripper position is expressed in link frame. We need to compute
   // the position in joint frame.
-  if (d->model().existFrame(gripperName, ::pinocchio::OP_FRAME))
+  if (model.existFrame(gripperName, ::pinocchio::OP_FRAME))
     throw std::runtime_error("Could not add gripper frame of gripper " +
                              gripperName);
   d->model().addFrame(::pinocchio::Frame(
@@ -108,7 +108,7 @@ void GripperFactory::finishTags() {
   d->grippers.add(gripper_->name(), gripper_);
   hppDout(info, "Add gripper "
                     << gripper_->name() << "\n\tattached to joint "
-                    << d->model().names[linkFrame.parent] << " with position "
+                    << model.names[model.frames[linkFrameId].parent] << " with position "
                     << gripper_->objectPositionInJoint() << "\n\tclearance "
                     << clearance);
 }
