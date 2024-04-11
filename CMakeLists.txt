@@ -71,6 +71,9 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/find-external/TinyXML)
 find_package(TinyXML2 REQUIRED)
 
 add_project_dependency("hpp-manipulation" REQUIRED)
+if(BUILD_TESTING)
+  add_project_dependency(example-robot-data REQUIRED)
+endif()
 
 # Declare Headers
 set(${PROJECT_NAME}_HEADERS
