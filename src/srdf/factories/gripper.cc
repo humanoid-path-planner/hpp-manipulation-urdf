@@ -106,11 +106,11 @@ void GripperFactory::finishTags() {
   gripper_ = pinocchio::Gripper::create(gripperName, root()->device());
   gripper_->clearance(clearance);
   d->grippers.add(gripper_->name(), gripper_);
-  hppDout(info, "Add gripper "
-                    << gripper_->name() << "\n\tattached to joint "
-                    << model.names[model.frames[linkFrameId].parent] << " with position "
-                    << gripper_->objectPositionInJoint() << "\n\tclearance "
-                    << clearance);
+  hppDout(info, "Add gripper " << gripper_->name() << "\n\tattached to joint "
+                               << model.names[model.frames[linkFrameId].parent]
+                               << " with position "
+                               << gripper_->objectPositionInJoint()
+                               << "\n\tclearance " << clearance);
 }
 
 GripperPtr_t GripperFactory::gripper() const { return gripper_; }
