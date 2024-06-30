@@ -2,6 +2,7 @@
   lib,
   stdenv,
   cmake,
+  example-robot-data,
   hpp-manipulation,
 }:
 
@@ -26,6 +27,10 @@ stdenv.mkDerivation {
   nativeBuildInputs = [ cmake ];
   propagatedBuildInputs = [ hpp-manipulation ];
   doCheck = true;
+
+  preCheck = ''
+    export ROS_PACKAGE_PATH=${example-robot-data}/share
+  '';
 
   meta = {
     description = "Implementation of a parser for hpp-manipulation";
