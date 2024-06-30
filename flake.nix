@@ -43,7 +43,10 @@
               hpp-manipulation = inputs.hpp-manipulation.packages.${system}.default;
             };
           };
-          devShells.default = pkgs.mkShell { inputsFrom = [ self'.packages.default ]; };
+          devShells.default = pkgs.mkShell {
+            inputsFrom = [ self'.packages.default ];
+            ROS_PACKAGE_PATH = "${pkgs.example-robot-data}/share";
+          };
         };
     };
 }
