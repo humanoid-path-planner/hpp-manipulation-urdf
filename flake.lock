@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1717285511,
-        "narHash": "sha256-iKzJcpdXih14qYVcZ9QC9XuZYnPc6T8YImb6dX166kw=",
+        "lastModified": 1719877454,
+        "narHash": "sha256-g5N1yyOSsPNiOlFfkuI/wcUjmtah+nxdImJqrSATjOU=",
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "2a55567fcf15b1b1c7ed712a2c6fadaec7412ea8",
+        "rev": "4e3583423212f9303aa1a6337f8dffb415920e4f",
         "type": "github"
       },
       "original": {
@@ -122,16 +122,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1719740235,
-        "narHash": "sha256-+Hh4mck3oz1Xr6JXe8yjDD0tvtVW2allIBl8I2LKm0w=",
+        "lastModified": 1719772310,
+        "narHash": "sha256-IAukCfmub9dn0OmwXib7WdUluGoacqJVbGADX/av3wg=",
         "owner": "humanoid-path-planner",
         "repo": "hpp-manipulation",
-        "rev": "770860668e3504dd8b039aa0518e6b50ac3936da",
+        "rev": "7d3bf681f5d64cc3786e0fd72ee2e61e14eba7fd",
         "type": "github"
       },
       "original": {
         "owner": "humanoid-path-planner",
-        "ref": "release/5.1.0",
         "repo": "hpp-manipulation",
         "type": "github"
       }
