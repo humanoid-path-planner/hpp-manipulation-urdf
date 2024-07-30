@@ -40,7 +40,7 @@ namespace hpp {
 namespace manipulation {
 namespace parser {
 namespace {
-struct StringIsEmpty : public std::unary_function<std::string, bool> {
+struct StringIsEmpty {
   bool operator()(std::string s) const { return s.empty(); }
 };
 
