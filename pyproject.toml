@@ -14,7 +14,7 @@ dependencies = [
 description = "Implementation of a parser for hpp-manipulation."
 license = "BSD-2-Clause"
 name = "hpp-manipulation-urdf"
-version = "5.1.0"
+version = "5.2.0"
 
 [tool.ruff]
 extend-exclude = ["cmake"]
