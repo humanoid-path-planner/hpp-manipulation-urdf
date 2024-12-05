@@ -29,8 +29,8 @@
 #ifndef HPP_MANIPULATION_SRDF_FACTORIES_ROBOT_HH
 #define HPP_MANIPULATION_SRDF_FACTORIES_ROBOT_HH
 
-#include <hpp/fcl/math/transform.h>
-#include <hpp/fcl/shape/geometric_shapes.h>
+#include <coal/math/transform.h>
+#include <coal/shape/geometric_shapes.h>
 
 #include <hpp/manipulation/fwd.hh>
 

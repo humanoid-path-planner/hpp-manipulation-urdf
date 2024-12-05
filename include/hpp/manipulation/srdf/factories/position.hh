@@ -40,7 +40,7 @@ namespace srdf {
 /// \addtogroup factories
 /// \{
 
-/// \brief Build a fcl::Transform.
+/// \brief Build a coal::Transform.
 ///
 /// The sequence of number in the XML text must:
 /// \li be of length 7;
