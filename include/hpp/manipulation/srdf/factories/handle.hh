@@ -61,7 +61,7 @@ class HandleFactory : public ObjectFactory {
   HandlePtr_t handle_;
 
   /// The element required to build the handle
-  Transform3f localPosition_;
+  Transform3s localPosition_;
   std::string linkName_;
 };
 

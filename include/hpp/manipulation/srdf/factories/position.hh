@@ -53,13 +53,13 @@ class PositionFactory : public parser::SequenceFactory<float> {
 
   virtual void finishTags();
 
-  const Transform3f& position() const { return position_; }
+  const Transform3s& position() const { return position_; }
 
  private:
   void computeTransformFromText();
   void computeTransformFromAttributes();
 
-  Transform3f position_;
+  Transform3s position_;
 };
 
 /// \}

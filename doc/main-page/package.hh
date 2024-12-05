@@ -94,7 +94,7 @@ factory to the parser: \code #include <hpp/manipulation/parser/parser.hh>
        // o is a pointer to the first one.
      }
      PositionFactory* pf = o->as <PositionFactory> ();
-     Transform3f position = pf->position ();
+     Transform3s position = pf->position ();
 
      if (!getChildOfType ("link", o)) {
        // There is more than one tag <link>

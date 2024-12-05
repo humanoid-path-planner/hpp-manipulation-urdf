@@ -54,7 +54,7 @@ class GripperFactory : public parser::ObjectFactory {
   GripperPtr_t gripper_;
 
   /// The element required to build the gripper.
-  Transform3f localPosition_;
+  Transform3s localPosition_;
   std::string linkName_;
   std::list<std::string> collisionLinks_;
 };

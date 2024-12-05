@@ -50,7 +50,7 @@ void PositionFactory::computeTransformFromText() {
     hppDout(warning, "Quaternion is not normalized.");
   }
   q.normalize();
-  position_ = Transform3f(q.matrix(), vector3_t(v[0], v[1], v[2]));
+  position_ = Transform3s(q.matrix(), vector3_t(v[0], v[1], v[2]));
 }
 
 void PositionFactory::computeTransformFromAttributes() {
@@ -96,7 +96,7 @@ void PositionFactory::computeTransformFromAttributes() {
     R = q.matrix();
   }
 
-  position_ = Transform3f(R, xyz);
+  position_ = Transform3s(R, xyz);
 }
 }  // namespace srdf
 }  // namespace manipulation

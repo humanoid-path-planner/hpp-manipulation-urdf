@@ -63,7 +63,7 @@ void ContactFactory::finishTags() {
   assert(linkFrame.type == ::pinocchio::BODY);
   JointPtr_t joint(Joint::create(device, linkFrame.parent));
 
-  Transform3f M;
+  Transform3s M;
   M.setIdentity();
   if (o->hasAttribute("index")) {
     throw std::invalid_argument("attribute index is unsupported yet");

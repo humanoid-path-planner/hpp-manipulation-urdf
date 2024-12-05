@@ -45,7 +45,7 @@
 
 using namespace hpp::manipulation::srdf;
 using namespace hpp::manipulation::parser;
-using hpp::pinocchio::Transform3f;
+using hpp::pinocchio::Transform3s;
 using hpp::pinocchio::value_type;
 using hpp::pinocchio::matrix3_t;
 using hpp::pinocchio::vector3_t;
@@ -137,7 +137,7 @@ BOOST_AUTO_TEST_CASE (testparser)
   BOOST_TEST_MESSAGE (p);
 }
 
-void checkPosition (const std::string xmlstring, const Transform3f& result)
+void checkPosition (const std::string xmlstring, const Transform3s& result)
 {
   Parser p (false);
   p.addObjectFactory ("position", create <PositionFactory>);
@@ -149,7 +149,7 @@ void checkPosition (const std::string xmlstring, const Transform3f& result)
   PositionFactory* positionFactory = objectFactory->as<PositionFactory>();
   BOOST_REQUIRE (positionFactory);
 
-  Transform3f M = positionFactory->position();
+  Transform3s M = positionFactory->position();
   BOOST_CHECK_MESSAGE (M.isApprox (result, 1e-5),
       "Different transforms:\n"
       << M << '\n'
@@ -162,7 +162,7 @@ BOOST_AUTO_TEST_CASE (position)
              x = 0.167518791246,
              y = 0.570941471358,
              z = 0.167518791246;
-  Transform3f result (Eigen::Quaternion<value_type>(w, x, y, z).matrix(), vector3_t (0,1,0));
+  Transform3s result (Eigen::Quaternion<value_type>(w, x, y, z).matrix(), vector3_t (0,1,0));
 
   std::ostringstream oss1,oss2;
   oss1 << w << ' ' << x << ' ' << y << ' ' << z;
@@ -176,7 +176,7 @@ BOOST_AUTO_TEST_CASE (position)
   checkPosition ("<position xyz='0 1 0' xyzw='" + xyzw + "' />", result);
   checkPosition ("<position xyz='0 1 0' rpy='1 1 1' />", result);
 
-  checkPosition ("<position xyz='0 1 0' />", Transform3f (matrix3_t::Identity(), vector3_t (0,1,0)));
+  checkPosition ("<position xyz='0 1 0' />", Transform3s (matrix3_t::Identity(), vector3_t (0,1,0)));
 }
 
 BOOST_AUTO_TEST_CASE (srdfparser)
@@ -280,12 +280,12 @@ BOOST_AUTO_TEST_CASE(append_model) {
   GripperPtr_t gripper(robot->grippers.get("r0/gripper"));
   BOOST_CHECK_EQUAL(gripper->name(), "r0/gripper");
   BOOST_CHECK(gripper);
-  Transform3f T(gripper->objectPositionInJoint());
+  Transform3s T(gripper->objectPositionInJoint());
   matrix3_t R1; R1 << 0, 1, 0,
                       1, 0, 0,
                       0, 0,-1;
   vector3_t t1; t1 << 0, 0.1373, 0;
-  Transform3f Texp(R1, t1);
+  Transform3s Texp(R1, t1);
   std::cout << "T=" << T << std::endl;
   std::cout << "Texp=" << Texp << std::endl;
   BOOST_CHECK_SMALL(log6(Texp.inverse() * T).toVector().norm(), 1e-8);
