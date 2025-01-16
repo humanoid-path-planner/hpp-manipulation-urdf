@@ -100,7 +100,7 @@ void GripperFactory::finishTags() {
     throw std::runtime_error("Could not add gripper frame of gripper " +
                              gripperName);
   d->model().addFrame(::pinocchio::Frame(
-      gripperName, linkFrame.parent, linkFrameId,
+      gripperName, linkFrame.parentJoint, linkFrameId,
       linkFrame.placement * localPosition_, ::pinocchio::OP_FRAME));
   d->createData();
   gripper_ = pinocchio::Gripper::create(gripperName, root()->device());
