@@ -302,13 +302,13 @@ BOOST_AUTO_TEST_CASE(append_model) {
   FrameIndex frameId = robot->model().getFrameId("r0/gripper");
   std::cout << "Frame id of \"r0/gripper\"=" << frameId << std::endl;
   const ::pinocchio::Frame& frame0 = robot->model().frames[frameId];
-  std::cout << "Parent of \"r0/gripper\" is " << robot->model().names[frame0.parent]
+  std::cout << "Parent of \"r0/gripper\" is " << robot->model().names[frame0.parentJoint]
 	    << std::endl;
   std::cout << "Pose of \"r0/gripper\" in parent joint = " << frame0.placement << std::endl;
   frameId = robot->model().getFrameId("r1/gripper");
   std::cout << "Frame id of \"r1/gripper\"=" << frameId << std::endl;
   const ::pinocchio::Frame& frame1 = robot->model().frames[frameId];
-  std::cout << "Parent of \"r1/gripper\" is " << robot->model().names[frame1.parent]
+  std::cout << "Parent of \"r1/gripper\" is " << robot->model().names[frame1.parentJoint]
 	    << std::endl;
   std::cout << "Pose of \"r1/gripper\" in parent joint = " << frame1.placement << std::endl;
 }

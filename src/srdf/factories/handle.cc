@@ -118,7 +118,7 @@ void HandleFactory::finishTags() {
   assert(linkFrame.type == ::pinocchio::BODY);
   pinocchio::JointIndex index(0);
   std::string jointName("universe");
-  JointPtr_t joint(Joint::create(d, linkFrame.parent));
+  JointPtr_t joint(Joint::create(d, linkFrame.parentJoint));
   if (joint) {
     index = joint->index();
     jointName = joint->name();
