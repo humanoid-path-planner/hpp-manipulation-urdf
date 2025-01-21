@@ -103,7 +103,7 @@ void GripperFactory::finishTags() {
       gripperName, linkFrame.parentJoint, linkFrameId,
       linkFrame.placement * localPosition_, ::pinocchio::OP_FRAME));
   d->createData();
-  gripper_ = pinocchio::Gripper::create(gripperName, root()->device());
+  gripper_ = pinocchio::Gripper::create(gripperName, root()->device()->shared_from_this());
   gripper_->clearance(clearance);
   d->grippers.add(gripper_->name(), gripper_);
   hppDout(info, "Add gripper " << gripper_->name() << "\n\tattached to joint "
