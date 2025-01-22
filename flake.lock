@@ -20,6 +20,30 @@
         "type": "github"
       }
     },
+    "hpp-manipulation": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1737531688,
+        "narHash": "sha256-04iogdE5WbDF1CfPiHaMlyBTbrXj2wu9DDNv8TaGweA=",
+        "owner": "florent-lamiraux",
+        "repo": "hpp-manipulation",
+        "rev": "986fadec01ce889605842b3a7f8c126302872bdf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "florent-lamiraux",
+        "ref": "devel",
+        "repo": "hpp-manipulation",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1734714690,
@@ -39,6 +63,7 @@
     "root": {
       "inputs": {
         "flake-parts": "flake-parts",
+        "hpp-manipulation": "hpp-manipulation",
         "nixpkgs": "nixpkgs"
       }
     }

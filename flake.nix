@@ -7,6 +7,12 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
+    # requires https://github.com/humanoid-path-planner/hpp-manipulation/pull/191
+    hpp-manipulation = {
+      url = "github:florent-lamiraux/hpp-manipulation/devel";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+    };
   };
 
   outputs =
@@ -19,7 +25,7 @@
         "x86_64-darwin"
       ];
       perSystem =
-        { pkgs, self', ... }:
+        { pkgs, self', system, ... }:
         {
           devShells.default = pkgs.mkShell {
             inputsFrom = [ self'.packages.default ];
@@ -27,7 +33,9 @@
           };
           packages = {
             default = self'.packages.hpp-manipulation-urdf;
-            hpp-manipulation-urdf = pkgs.hpp-manipulation-urdf.overrideAttrs (_: {
+            hpp-manipulation-urdf = (pkgs.hpp-manipulation-urdf.override {
+              inherit (inputs.hpp-manipulation.packages.${system}) hpp-manipulation;
+            }).overrideAttrs (_: {
               # TODO: remove this after next release
               patches = [];
               src = pkgs.lib.fileset.toSource {
