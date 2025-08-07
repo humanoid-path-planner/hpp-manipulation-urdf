@@ -59,8 +59,7 @@ include("${JRL_CMAKE_MODULES}/hpp.cmake")
 compute_project_args(PROJECT_ARGS LANGUAGES CXX)
 project(${PROJECT_NAME} ${PROJECT_ARGS})
 
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/find-external/TinyXML)
-find_package(TinyXML2 REQUIRED)
+add_project_dependency(TinyXML2 REQUIRED FIND_EXTERNAL TinyXML)
 
 add_project_dependency("hpp-manipulation" REQUIRED)
 if(BUILD_TESTING)
