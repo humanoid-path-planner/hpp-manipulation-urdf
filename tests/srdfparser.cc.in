@@ -206,11 +206,11 @@ BOOST_AUTO_TEST_CASE(append_model) {
   ::pinocchio::SE3 wMr(R, t), Id;
   Id.setIdentity();
   std::string urdfPath(
-      "package://example-robot-data/robots/ur_description/urdf/"
-      "ur5_gripper.urdf");
+          EXAMPLE_ROBOT_DATA_MODEL_DIR
+      "/ur_description/urdf/ur5_gripper.urdf");
   std::string srdfPath(
-      "package://example-robot-data/robots/ur_description/srdf/"
-      "ur5_gripper.srdf");
+          EXAMPLE_ROBOT_DATA_MODEL_DIR
+      "/ur_description/srdf/ur5_gripper.srdf");
   std::string boxUrdf(
       "<robot name='box'>"
       "  <link name='base_link'>"

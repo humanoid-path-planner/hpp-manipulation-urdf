@@ -46,3 +46,9 @@ endmacro(ADD_TESTCASE)
 
 config_files(srdfparser.cc)
 add_testcase(srdfparser TRUE)
+target_link_libraries(srdfparser example-robot-data::example-robot-data)
+get_target_property(_erd example-robot-data::example-robot-data
+                    INTERFACE_INCLUDE_DIRECTORIES)
+set_tests_properties(
+  srdfparser PROPERTIES ENVIRONMENT_MODIFICATION
+                        "ROS_PACKAGE_PATH=path_list_prepend:${_erd}/../share")
