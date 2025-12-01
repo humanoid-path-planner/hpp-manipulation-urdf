@@ -74,6 +74,18 @@ void HandleFactory::finishTags() {
             "Missing attribute clearance of tag " << name() << ". Assuming 0");
   }
 
+  /// Get the approaching direction (default: x-axis)
+  vector3_t approachingDirection(1, 0, 0);
+  if (hasAttribute("approaching_direction")) {
+    if (TIXML_SSCANF(getAttribute("approaching_direction").c_str(),
+                     "%lf %lf %lf", &approachingDirection[0],
+                     &approachingDirection[1], &approachingDirection[2]) != 3) {
+      hppDout(error, "Could not parse approaching_direction of tag "
+                         << name() << ". Using default (1 0 0)");
+      approachingDirection = vector3_t(1, 0, 0);
+    }
+  }
+
   /// Get the mask
   factories = getChildrenOfType("mask");
   std::vector<bool> mask(6, true);
@@ -130,6 +142,7 @@ void HandleFactory::finishTags() {
   handle_->clearance(clearance);
   handle_->mask(mask);
   if (maskCompSpecified) handle_->maskComp(maskComp);
+  handle_->approachingDirection(approachingDirection);
   d->handles.add(handle_->name(), handle_);
   assert(d->model().existFrame(jointName));
   ::pinocchio::FrameIndex previousFrame(d->model().getFrameId(jointName));
