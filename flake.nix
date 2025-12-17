@@ -8,6 +8,10 @@
     nix-ros-overlay.follows = "gepetto/nix-ros-overlay";
     systems.follows = "gepetto/systems";
     treefmt-nix.follows = "gepetto/treefmt-nix";
+
+    # TODO: #239 required for now, remove this after next release
+    hpp-manipulation.url = "github:humanoid-path-planner/hpp-manipulation";
+    hpp-manipulation.inputs.gepetto.follows = "gepetto";
   };
 
   outputs =
@@ -18,7 +22,12 @@
         systems = import inputs.systems;
         imports = [
           inputs.gepetto.flakeModule
-          { gepetto-pkgs.overlays = [ self.overlays.default ]; }
+          {
+            gepetto-pkgs.overlays = [
+              inputs.hpp-manipulation.overlays.default
+              self.overlays.default
+            ];
+          }
         ];
         flake.overlays.default = _final: prev: {
           hpp-manipulation-urdf = prev.hpp-manipulation-urdf.overrideAttrs {
