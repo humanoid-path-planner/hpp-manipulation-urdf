@@ -1,5 +1,5 @@
-<handle name="name" clearance="value">
-  <!-- Exactly 1 -->
+<handle name="name" clearance="value" approaching_direction="0 0 1">
+  <!-- name and clearance are required, approaching_direction is optional -->
     <!-- One of the following position tag. Attributes are optional and read only if the tag has no text. -->
     <position>0 0 0 1 0 0 0</position>
     <position xyz="0 0 0" rpy="0 0 0"/>
