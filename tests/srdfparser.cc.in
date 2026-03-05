@@ -36,7 +36,6 @@
 #include <hpp/util/debug.hh>
 #include <hpp/pinocchio/gripper.hh>
 #include <hpp/pinocchio/joint.hh>
-#include <hpp/pinocchio/joint-collection.hh>
 #include <hpp/pinocchio/urdf/util.hh>
 #include "hpp/manipulation/device.hh"
 #include "hpp/manipulation/parser/parser.hh"
