@@ -33,8 +33,9 @@
 
  \section intro_sec Basic use
 
- The library contains parser for SRDF describing robot \ref hpp::pinocchio::Gripper "grippers",
- object \ref hpp::manipulation::Handle "handles", object and environment
+ The library contains parser for SRDF describing robot \ref
+hpp::pinocchio::Gripper "grippers", object \ref hpp::manipulation::Handle
+"handles", object and environment
  \ref hpp::constraints::ConvexShapeContact "contact surfaces".
 
  In order to load HRP2 from a pair of URDF and SRDF
