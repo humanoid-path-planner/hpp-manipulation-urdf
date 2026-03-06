@@ -3,55 +3,38 @@
 
   inputs = {
     gepetto.url = "github:gepetto/nix";
+    gazebros2nix.follows = "gepetto/gazebros2nix";
     flake-parts.follows = "gepetto/flake-parts";
     nixpkgs.follows = "gepetto/nixpkgs";
     nix-ros-overlay.follows = "gepetto/nix-ros-overlay";
     systems.follows = "gepetto/systems";
     treefmt-nix.follows = "gepetto/treefmt-nix";
-
-    # TODO: #239 required for now, remove this after next release
-    hpp-manipulation.url = "github:humanoid-path-planner/hpp-manipulation";
-    hpp-manipulation.inputs.gepetto.follows = "gepetto";
   };
 
   outputs =
     inputs:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } (
-      { lib, self, ... }:
+      { lib, ... }:
       {
         systems = import inputs.systems;
         imports = [
           inputs.gepetto.flakeModule
           {
-            gepetto-pkgs.overlays = [
-              inputs.hpp-manipulation.overlays.default
-              self.overlays.default
-            ];
+            gazebros2nix.overrides.hpp-manipulation-urdf = _final: {
+              src = lib.fileset.toSource {
+                root = ./.;
+                fileset = lib.fileset.unions [
+                  ./CMakeLists.txt
+                  ./doc
+                  ./include
+                  ./package.xml
+                  ./src
+                  ./tests
+                ];
+              };
+            };
           }
         ];
-        flake.overlays.default = _final: prev: {
-          hpp-manipulation-urdf = prev.hpp-manipulation-urdf.overrideAttrs {
-            src = lib.fileset.toSource {
-              root = ./.;
-              fileset = lib.fileset.unions [
-                ./CMakeLists.txt
-                ./doc
-                ./include
-                ./package.xml
-                ./src
-                ./tests
-              ];
-            };
-          };
-        };
-        perSystem =
-          { pkgs, self', ... }:
-          {
-            packages = {
-              default = self'.packages.hpp-manipulation-urdf;
-              hpp-manipulation-urdf = pkgs.hpp-manipulation-urdf;
-            };
-          };
       }
     );
 }
