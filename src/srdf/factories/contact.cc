@@ -61,7 +61,7 @@ void ContactFactory::finishTags() {
   const ::pinocchio::Frame& linkFrame =
       model.frames[model.getFrameId(linkName_)];
   assert(linkFrame.type == ::pinocchio::BODY);
-  JointPtr_t joint(Joint::create(device, linkFrame.parent));
+  JointPtr_t joint(Joint::create(device, linkFrame.parentJoint));
 
   Transform3s M;
   M.setIdentity();
