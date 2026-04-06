@@ -32,23 +32,29 @@
 #
 find_library(RT_LIB rt)
 macro(ADD_TESTCASE NAME GENERATED)
-  if(${GENERATED} STREQUAL TRUE)
-    add_unit_test(${NAME} ${CMAKE_CURRENT_BINARY_DIR}/${NAME}.cc)
-  else()
-    add_unit_test(${NAME} ${NAME}.cc)
-  endif()
+    if(${GENERATED} STREQUAL TRUE)
+        add_unit_test(${NAME} ${CMAKE_CURRENT_BINARY_DIR}/${NAME}.cc)
+    else()
+        add_unit_test(${NAME} ${NAME}.cc)
+    endif()
 
-  target_link_libraries(${NAME} ${PROJECT_NAME})
-  if(RT_LIB)
-    target_link_libraries(${NAME} ${RT_LIB})
-  endif()
+    target_link_libraries(${NAME} ${PROJECT_NAME})
+    if(RT_LIB)
+        target_link_libraries(${NAME} ${RT_LIB})
+    endif()
 endmacro(ADD_TESTCASE)
 
 config_files(srdfparser.cc)
 add_testcase(srdfparser TRUE)
 target_link_libraries(srdfparser example-robot-data::example-robot-data)
-get_target_property(_erd example-robot-data::example-robot-data
-                    INTERFACE_INCLUDE_DIRECTORIES)
+get_target_property(
+    _erd
+    example-robot-data::example-robot-data
+    INTERFACE_INCLUDE_DIRECTORIES
+)
 set_tests_properties(
-  srdfparser PROPERTIES ENVIRONMENT_MODIFICATION
-                        "ROS_PACKAGE_PATH=path_list_prepend:${_erd}/../share")
+    srdfparser
+    PROPERTIES
+        ENVIRONMENT_MODIFICATION
+            "ROS_PACKAGE_PATH=path_list_prepend:${_erd}/../share"
+)
