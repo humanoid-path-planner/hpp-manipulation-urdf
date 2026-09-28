@@ -18,7 +18,7 @@
   <depend>urdfdom</depend>
   <depend>tinyxml2</depend>
 
-  <test_depend>example_robot_data</test_depend>
+  <test_depend>example_robot_descriptions</test_depend>
 
   <buildtool_depend>cmake</buildtool_depend>
   <build_depend>doxygen</build_depend>
