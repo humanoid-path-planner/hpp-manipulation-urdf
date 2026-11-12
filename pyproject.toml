@@ -7,14 +7,26 @@ requires = [
 ]
 
 [project]
+authors = [
+  { name = "Florent Lamiraux" },
+  { name = "Joseph Mirabel" }
+]
 dependencies = [
   "cmeel-boost ~= 1.90.0",
   "hpp-manipulation"
 ]
 description = "Implementation of a parser for hpp-manipulation"
 license = "BSD-2-Clause"
+maintainers = [
+  { email = "guilhem.saurel@laas.fr", name = "Guilhem Saurel" }
+]
 name = "hpp-manipulation-urdf"
 version = "9.0.2"
+
+[project.urls]
+homepage = "https://github.com/humanoid-path-planner/hpp-manipulation-urdf"
+issues = "https://github.com/humanoid-path-planner/hpp-manipulation-urdf/issues"
+repository = "https://github.com/humanoid-path-planner/hpp-manipulation-urdf"
 
 [tool.cmeel]
 has-sitelib = false
